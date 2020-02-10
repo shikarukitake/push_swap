@@ -1,0 +1,3 @@
+C:/Users/shika/.babun/cygwin/home/shika/Push_swap/cmake-build-debug/CMakeFiles/cmake_testall.dir
+C:/Users/shika/.babun/cygwin/home/shika/Push_swap/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/shika/.babun/cygwin/home/shika/Push_swap/cmake-build-debug/CMakeFiles/rebuild_cache.dir
