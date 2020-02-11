@@ -18,6 +18,8 @@ add_executable(Main general/srcs/main.c)
 target_link_libraries(Main ${PROJECT_BINARY_DIR}/libft.a)
 add_dependencies(Main ft)
 
-add_executable(cmake_testall general/srcs/checker.c)
+add_executable(checker general/srcs/checker.c general/includes/checker.h)
+target_link_libraries(checker ${PROJECT_BINARY_DIR}/libft.a)
+add_dependencies(checker ft)
 
 add_executable(main general/srcs/main.c)
