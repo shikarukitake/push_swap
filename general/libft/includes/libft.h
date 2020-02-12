@@ -100,6 +100,6 @@ char			*ft_strjoin_free(char const *s1, char const *s2, int n);
 int				ft_strchrn(const char *s, int c);
 t_list			*ft_lstfind(t_list *lst,
 				int (*finder)(void *, void *), void *to_find);
-int				get_next_line(const int fd, char **line);
+int				ft_get_next_line(const int fd, char **line);
 
 #endif

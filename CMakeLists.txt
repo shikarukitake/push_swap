@@ -18,7 +18,7 @@ add_executable(Main general/srcs/main.c)
 target_link_libraries(Main ${PROJECT_BINARY_DIR}/libft.a)
 add_dependencies(Main ft)
 
-add_executable(checker general/srcs/checker.c general/includes/checker.h)
+add_executable(checker general/srcs/checker.c general/includes/checker.h general/srcs/stack.c general/srcs/dynamicArray.c)
 target_link_libraries(checker ${PROJECT_BINARY_DIR}/libft.a)
 add_dependencies(checker ft)
 

@@ -35,7 +35,7 @@ static int		line_make(const int fd, char **all, char **line)
 	return (1);
 }
 
-int				get_next_line(const int fd, char **line)
+int				ft_get_next_line(const int fd, char **line)
 {
 	static char		*all[OPEN_MAX];
 	char			buff[BUFF_SIZE + 1];
