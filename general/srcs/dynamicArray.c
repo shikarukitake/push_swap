@@ -20,6 +20,24 @@ void        cpyIntArray(int *dest, int *src, int freeOrNot, int len)
         free(src);
 }
 
+t_dynamicArr *initDArrFromInt(int *array, int len)
+{
+    t_dynamicArr    *new;
+    int             i;
+
+    new = NULL;
+    if (len > 0)
+    {
+        i = 0;
+        while (i != len)
+        {
+            addDArr(&new, array[i]);
+            i++;
+        }
+    }
+    return (new);
+}
+
 void        initDArr(t_dynamicArr **arr)
 {
     int *swap;

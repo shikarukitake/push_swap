@@ -146,5 +146,5 @@ void        printTwoStacks(t_stack *stackA, t_stack *stackB)
             printf("\n");
     }
     printf("%-5s%5s\n","_", "_");
-    printf("%-5s%5s\n","a", "b");
+    printf("%-5s%5s\n\n","a", "b");
 }
