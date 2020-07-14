@@ -29,9 +29,9 @@ int         stackIsSorted(t_stack *stackA)
 void        checkSorted(t_stack *stackA, t_stack *stackB)
 {
     if (stackIsSorted(stackA) AND !stackB)
-        printf("OK!");
+        printf("OK!\n");
     else
-        printf("KO!");
+        printf("KO!\n");
 }
 
 int         isOnlyDigits(char *s)

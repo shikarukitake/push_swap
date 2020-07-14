@@ -1,6 +1,10 @@
 //
 // Created by shika on 10.02.2020.
 //
+/*
+ * dArr - variable for commands from user input (like ra, sa)
+ * flag - variable for option -v that can display the stack’s status after each operation
+ */
 #include "checker.h"
 
 int         main(int argc, char **argv)
@@ -39,7 +43,11 @@ int         main(int argc, char **argv)
     readingFromSTDIN(&dArr);
     if (flag)
         printTwoStacks(stackA, stackB);
-    execCommands(dArr, &stackA, &stackB, flag);
+    /*
+     * dArr may be empty (NULL)
+     */
+    if (dArr)
+        execCommands(dArr, &stackA, &stackB, flag);
     checkSorted(stackA, stackB);
     return (0);
 }

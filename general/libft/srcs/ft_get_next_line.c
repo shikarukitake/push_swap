@@ -12,6 +12,7 @@
 
 #include "libft.h"
 #include <limits.h>
+#define OPEN_MAX 1 //delete
 
 static int		line_make(const int fd, char **all, char **line)
 {

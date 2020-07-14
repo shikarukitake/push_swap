@@ -13,14 +13,14 @@ char        *getStrCommands3(int *minMeanMax, int *swap)
     if (swap[0] == minMeanMax[2])
     {
         if (swap[1] == minMeanMax[1])
-            return ft_strdup("ra sa ");
-        return ft_strdup("ra ");
+            return ft_strdup("ra\nsa\n");
+        return ft_strdup("ra\n");
     }
     else if (swap[2] == minMeanMax[0])
-        return ft_strdup("rra ");
+        return ft_strdup("rra\n");
     if (swap[1] == minMeanMax[2])
-        return ft_strdup("sa ra ");
-    return ft_strdup("sa ");
+        return ft_strdup("sa\nra\n");
+    return ft_strdup("sa\n");
 }
 
 t_dynamicArr    *getDArrCommands3(char *commands)
@@ -32,12 +32,12 @@ t_dynamicArr    *getDArrCommands3(char *commands)
 
     dArr = NULL;
     swap = commands;
-    while(ft_strcmp(commands, " "))
+    while(ft_strcmp(commands, ""))
     {
         n = ft_strchrn(commands, ' ');
         command = ft_strsub(commands, 0, n);
         addDArr(&dArr, checkCommand(command));
-        commands = ft_strsub(commands, n, ft_strlen(commands));
+        commands = ft_strsub(commands, n + 1, ft_strlen(commands));
         free(command);
     }
     free(swap);
@@ -68,8 +68,9 @@ void        sortThreeElements(t_stack **stackA)
     if (minMeanMax[1] > minMeanMax[2])
         ft_swap(&minMeanMax[1], &minMeanMax[2]);
 
-    dArr = getDArrCommands3(getStrCommands3(minMeanMax, swap));
-    execCommands(dArr, stackA, NULL, 0);
+    printf("%s", getStrCommands3(minMeanMax, swap));
+//    dArr = getDArrCommands3(getStrCommands3(minMeanMax, swap));
+//    execCommands(dArr, stackA, NULL, 0);
 }
 
 void        sortFiveElements(t_stack **stackA, t_stack **stackB)
@@ -128,6 +129,5 @@ int         main(int argc, char **argv)
 
     if (stackIsSorted(stackA) == FALSE)
         sortStack(&stackA, &stackB);
-    printTwoStacks(stackA, stackB);
     return (0);
 }
