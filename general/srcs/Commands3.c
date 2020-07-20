@@ -33,12 +33,14 @@ void        execCommands(t_dynamicArr *dArr, t_stack **stackA, t_stack **stackB,
     int             i;
 
     i = 0;
-    initFTable((void**)func_table);
+    if (!(*func_table))
+        initFTable((void**)func_table); //maybe need free
     while (i != dArr->len)
     {
         func_table[dArr->array[i]](stackA, stackB, flag);
         if (flag)
-            printTwoStacks(*stackA, *stackB);
+            printTwoStacks(*stackA, stackB ? *stackB : NULL);
         i++;
     }
+
 }

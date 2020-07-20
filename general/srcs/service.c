@@ -10,6 +10,13 @@ void        error(void)
     exit(1);
 }
 
+void        errorText(char const *text)
+{
+    write(2, "Error ", 6);
+    write(2, text, ft_strlen(text));
+    exit(1);
+}
+
 int         stackIsSorted(t_stack *stackA)
 {
     int previous;

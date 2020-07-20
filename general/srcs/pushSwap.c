@@ -5,7 +5,21 @@
 //
 // Created by shika on 10.02.2020.
 //
-#include "checker.h"
+#include <includes/push_swap.h>
+#include "push_swap.h"
+
+void        changeChr(char *string, char f, char c)
+{
+    int i;
+
+    i = 0;
+    while (string[i])
+    {
+        if (string[i] == f)
+            string[i] = c;
+        i++;
+    }
+}
 
 char        *getStrCommands3(int *minMeanMax, int *swap)
 {
@@ -13,15 +27,19 @@ char        *getStrCommands3(int *minMeanMax, int *swap)
     if (swap[0] == minMeanMax[2])
     {
         if (swap[1] == minMeanMax[1])
-            return ft_strdup("ra\nsa\n");
-        return ft_strdup("ra\n");
+            return ft_strdup("ra sa ");
+        return ft_strdup("ra ");
     }
     else if (swap[2] == minMeanMax[0])
-        return ft_strdup("rra\n");
+        return ft_strdup("rra ");
     if (swap[1] == minMeanMax[2])
-        return ft_strdup("sa\nra\n");
-    return ft_strdup("sa\n");
+        return ft_strdup("sa ra ");
+    return ft_strdup("sa ");
 }
+
+/*
+ * Transform str commands into dArr where command have int value
+ */
 
 t_dynamicArr    *getDArrCommands3(char *commands)
 {
@@ -31,7 +49,7 @@ t_dynamicArr    *getDArrCommands3(char *commands)
     char            *command;
 
     dArr = NULL;
-    swap = commands;
+    swap = ft_strdup(commands);
     while(ft_strcmp(commands, ""))
     {
         n = ft_strchrn(commands, ' ');
@@ -44,7 +62,7 @@ t_dynamicArr    *getDArrCommands3(char *commands)
     return (dArr);
 }
 
-void        sortThreeElements(t_stack **stackA)
+char        *sortThreeElements(t_stack **stackA, char *some, int flag)
 {
     int minMeanMax[3];
     int i;
@@ -67,31 +85,315 @@ void        sortThreeElements(t_stack **stackA)
         ft_swap(&minMeanMax[0], &minMeanMax[1]);
     if (minMeanMax[1] > minMeanMax[2])
         ft_swap(&minMeanMax[1], &minMeanMax[2]);
+    some = getStrCommands3(minMeanMax, swap);
+    dArr = getDArrCommands3(some);
+    execCommands(dArr, stackA, NULL, 0);
+    if (flag == 0)
+        changeChr(some, ' ', '\n');
+    return some; //change to ft_printf
 
-    printf("%s", getStrCommands3(minMeanMax, swap));
-//    dArr = getDArrCommands3(getStrCommands3(minMeanMax, swap));
-//    execCommands(dArr, stackA, NULL, 0);
 }
 
-void        sortFiveElements(t_stack **stackA, t_stack **stackB)
+char        *sortTwoElements(t_stack **stackA)
 {
-    return ;
+    return (ft_strdup("sa\n"));
 }
 
-void        sortElements(t_stack **stackA, t_stack **stackB)
+t_command   *ra_or_rra(t_stack *stackA, int value)
+{
+    int         lenOfStackA;
+    t_command   *comm;
+    int         i;
+
+    i = 0;
+    lenOfStackA = stackA->len;
+    if ((comm = (t_command*)malloc(sizeof(t_command))))
+        errorText("ra_or_rra malloc error");
+
+    while (stackA)
+    {
+        if (value < stackA->value)
+            break;
+        stackA = stackA->previous;
+        i++;
+    }
+    comm->command = i <= lenOfStackA - i ? "ra " : "rra ";
+    comm->commandRev = i <= lenOfStackA - i ? "rra " : "ra ";
+    comm->count = i <= lenOfStackA - i ? i : lenOfStackA - i;
+
+    return comm;
+}
+
+char   *commandsFromTComm(t_command *comm)
+{
+    char    *commands;
+    int     count;
+
+    commands = ft_strnew(1);
+    if (!ft_strcmp(comm->commandRev, "ra "))
+        count = comm->count + 1;
+    else
+        count = comm->count;
+    while (comm->count)
+    {
+        commands = ft_strjoin_free(commands, comm->command, 1); //maybe n should be 0
+        comm->count--;
+    }
+    commands = ft_strjoin_free(commands, "pa ", 1);
+    while (comm->count != count)
+    {
+        commands = ft_strjoin_free(commands, comm->commandRev, 1); //maybe n should be 0
+        comm->count++;
+    }
+    free(comm);
+    return commands;
+}
+
+void    doRaOrRra(t_stack **stackA, t_stack **stackB, char **commands)
+{
+    t_dynamicArr *dArr;
+    t_command   *comm;
+    char        *commas;
+
+    comm = ra_or_rra(*stackA, (*stackB)->value);
+    commas = commandsFromTComm(comm);
+
+    dArr = getDArrCommands3(commas);
+    execCommands(dArr, stackA, stackB, 0);
+    free(dArr->array);
+    free(dArr);
+    *commands = ft_strjoin_free(*commands, commas, 0);
+}
+
+/*
+ * Returns 1 if value greater than all in given stack
+ * 0 if not greater or smaller
+ * -1 if smaller
+ */
+int         smallerOrGreater(t_stack *stack, int value)
+{
+    int min;
+    int max;
+
+    min = stack->value;
+    max = stack->value;
+
+    while (stack)
+    {
+        if (stack->value > max)
+            max = stack->value;
+        if (stack->value < min)
+            min = stack->value;
+        stack = stack->previous;
+    }
+
+    if (value > max)
+        return (1);
+    else if (value < min)
+        return (-1);
+    else
+        return (0);
+}
+
+void        doIfSmallerOrGreater(char **commands, t_stack **stackA, t_stack **stackB, int smallOrBig)
+{
+    t_dynamicArr *dArr;
+
+
+    if (smallOrBig == 1)
+    {
+        *commands = ft_strjoin_free(*commands, "pa ra ", 1);
+        dArr = getDArrCommands3("pa ra ");
+        execCommands(dArr, stackA, stackB, 0); // remove flag
+    }
+    else
+    {
+        *commands = ft_strjoin_free(*commands, "pa ", 1);
+        dArr = getDArrCommands3("pa ");
+        execCommands(dArr, stackA, stackB, 0); // remove flag
+    }
+    free(dArr->array);
+    free(dArr);
+}
+
+
+
+char        *sortFiveElements(t_stack **stackA, t_stack **stackB)
+{
+    char            *commands;
+    t_dynamicArr    *dArr;
+    t_command       *comm;
+    int             smallerOrGreat;
+
+    /*
+     * First commands always be "pb pb"
+     */
+    commands = (*stackA)->len == 4 ? ft_strdup("pb ") : ft_strdup("pb pb ");
+
+    dArr = getDArrCommands3(commands);
+    execCommands(dArr, stackA, stackB, 0);
+    if (stackIsSorted(*stackA) == FALSE)
+        commands = ft_strjoin_free(commands, sortThreeElements(stackA, NULL, 1), 0);
+    while (*stackB)
+    {
+        /*
+         * There is we check number from stack B. If he greater or smaller than all numbers in stackA
+         * We do "doIfSmallerOrGreater"
+         * Else we should insert number from stack B between some numbers in stackA
+         */
+        if ((smallerOrGreat = smallerOrGreater(*stackA, (*stackB)->value)))
+            doIfSmallerOrGreater(&commands, stackA, stackB, smallerOrGreat);
+        else
+            doRaOrRra(stackA, stackB, &commands);
+    }
+    changeChr(commands, ' ', '\n');
+    return (commands);
+}
+
+char        *sortElements(t_stack **stackA, t_stack **stackB)
 {
 
+}
 
+t_chunks    *init_chunks(int len)
+{
+    t_chunks *chunks;
+
+    if (!(chunks = malloc(sizeof(t_chunks))))
+        error();
+    if (!(chunks->array = malloc(sizeof(int) * len)))
+        error();
+    if (!(chunks->chunk = malloc(sizeof(int) * len)))
+        error();
+    chunks->current_c = 0;
+
+    return chunks;
+}
+
+void        createChunksArray(t_chunks *chunks, int howManyChunks)
+{
+    int first;
+    int other;
+    int i;
+    int chunkNumber;
+
+    first = chunks->len % howManyChunks + chunks->len / howManyChunks;
+    other = chunks->len / howManyChunks;
+    i = 0;
+    while (first)
+    {
+        chunks->chunk[i++] = 0;
+        first--;
+    }
+    chunkNumber = 1;
+    howManyChunks--;
+    while (howManyChunks)
+    {
+        first = 0;
+        while (first != other)
+        {
+            chunks->chunk[i] = chunkNumber;
+            first++;
+            i++;
+        }
+        chunkNumber++;
+        howManyChunks--;
+    }
+}
+
+t_chunks    *fill_chunks(t_stack *stack, int howManyChunks)
+{
+    t_chunks *chunks;
+    int i;
+
+    chunks = init_chunks(stack->len);
+
+    i = 0;
+    chunks->len = stack->len;
+    while (stack)
+    {
+        chunks->array[i] = stack->value;
+        stack = stack->previous;
+        i++;
+    }
+    createChunksArray(chunks, howManyChunks);
+    return (chunks);
+}
+int existsInChunk(t_stack *stack, t_chunks *chunks, int current_c)
+{
+    int i;
+
+    while (stack)
+    {
+        i = 0;
+        while (chunks->chunk[i] != current_c)
+            i++;
+        while (chunks->chunk[i] == current_c)
+        {
+            if (stack->value == chunks->array[i])
+                return (TRUE);
+            i++;
+        }
+        stack = stack->previous;
+    }
+    return FALSE;
+}
+
+t_sts        *initSts(t_stack **stackA, t_stack **stackB, int howManyChunks)
+{
+    t_sts       *sts;
+
+    if (!(sts = malloc(sizeof(t_sts))))
+        errorText("sts (sortOneHundred) malloc error");
+    else
+    {
+        sts->stackA = stackA;
+        sts->stackB = stackB;
+        sts->chunks = fill_chunks(*stackA, 5);
+        return sts;
+    }
+    return NULL;
+}
+
+void        pushToStackB(t_sts *sts)
+{
+    execCommands(dArr, )
+}
+
+char        *sortOneHundred(t_stack **stackA, t_stack **stackB)
+{
+    t_sts       *sts;
+
+
+    sts = initSts(stackA, stackB, 5);
+    while (sts->chunks->current_c != 5)
+    {
+        if (existsInChunk(*stackA, sts->chunks, sts->chunks->current_c) == FALSE)
+            sts->chunks->current_c++;
+        pushToStackB(sts)
+
+    }
+
+
+    return sts->commands;
 }
 
 void        sortStack(t_stack **stackA, t_stack **stackB)
 {
-    if ((*stackA)->len == 3)
-        sortThreeElements(stackA);
+    char *commands;
+
+    if ((*stackA)->len == 2)
+        commands = sortTwoElements(stackA);
+    else if ((*stackA)->len == 3)
+        commands = sortThreeElements(stackA, NULL, 0);
     else if ((*stackA)->len <= 5)
-        sortFiveElements(stackA, stackB);
-    else
-        sortElements(stackA, stackB);
+        commands = sortFiveElements(stackA, stackB);
+    else if ((*stackA)->len <= 100)
+        commands = sortOneHundred(stackA, stackB);
+
+    printf("%s", commands);
+    free(commands);
+
 }
 
 int         main(int argc, char **argv)
@@ -110,13 +412,16 @@ int         main(int argc, char **argv)
         /*
          *  Filling stackA from program arguments
          */
+        i = argc == 2 ? (int)ft_w_count(argv[1], ' ') -1 : argc - 1;
+        argv = argc == 2 ? ft_strsplit(argv[1], ' ') : argv;
+        argc = argc == 2 ? -1 : 0;
         flag = 0;
-        if (!ft_strcmp(argv[1], "-v"))
-            flag = 1;
-        i = argc - 1;
-        while (i != flag)
+
+        while (i != argc)
         {
-            if (isOnlyDigits(argv[i]) == FALSE)
+            if (!ft_strcmp(argv[i], "-v"))
+                flag = 1;
+            else if (isOnlyDigits(argv[i]) == FALSE)
             {
                 printf("Error\n");
                 return (0);

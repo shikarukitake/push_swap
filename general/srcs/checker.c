@@ -24,13 +24,17 @@ int         main(int argc, char **argv)
         /*
          *  Filling stackA from program arguments
          */
+        i = argc == 2 ? (int)ft_w_count(argv[1], ' ') -1 : argc - 1;
+        argv = argc == 2 ? ft_strsplit(argv[1], ' ') : argv;
+        argc = argc == 2 ? -1 : 0;
         flag = 0;
-        if (!ft_strcmp(argv[1], "-v"))
-            flag = 1;
-        i = argc - 1;
-        while (i != flag)
+
+
+        while (i != argc)
         {
-            if (isOnlyDigits(argv[i]) == FALSE)
+            if (!ft_strcmp(argv[i], "-v"))
+                flag = 1;
+            else if (isOnlyDigits(argv[i]) == FALSE)
             {
                 printf("Error\n");
                 return (0);
@@ -41,6 +45,7 @@ int         main(int argc, char **argv)
         }
     }
     readingFromSTDIN(&dArr);
+
     if (flag)
         printTwoStacks(stackA, stackB);
     /*

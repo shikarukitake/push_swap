@@ -4,8 +4,12 @@
 
 //#include "../libft/includes/libft.h"
 
-int main(void)
+#include <unistd.h>
+
+
+
+
+int main(int argc, char **argv)
 {
-    printf("%s", "hello World");
-    return (0);
+    printf("%d", 9 / 5);
 }

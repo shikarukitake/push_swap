@@ -19,13 +19,13 @@ target_link_libraries(Main ${PROJECT_BINARY_DIR}/libft.a)
 add_dependencies(Main ft)
 
 # Checker
-add_executable(checker general/srcs/checker.c general/includes/checker.h general/srcs/stack.c general/srcs/dynamicArray.c general/srcs/service.c general/srcs/reading.c general/srcs/Commands.c general/srcs/Commands2.c general/srcs/Commands3.c)
+add_executable(checker general/srcs/checker.c general/includes/checker.h general/srcs/stack.c general/srcs/dynamicArray.c general/srcs/service.c general/srcs/reading.c general/srcs/Commands.c general/srcs/Commands2.c general/srcs/Commands3.c general/srcs/ft_strsplit.c)
 target_link_libraries(checker ${PROJECT_BINARY_DIR}/libft.a)
 add_dependencies(checker ft)
 
 # PushSwap
-add_executable(pushSwap general/srcs/pushSwap.c general/includes/checker.h general/srcs/stack.c general/srcs/dynamicArray.c general/srcs/service.c general/srcs/reading.c general/srcs/Commands.c general/srcs/Commands2.c general/srcs/Commands3.c)
-target_link_libraries(pushSwap ${PROJECT_BINARY_DIR}/libft.a)
-add_dependencies(pushSwap ft)
+add_executable(push_swap general/srcs/pushSwap.c general/includes/checker.h general/srcs/stack.c general/srcs/dynamicArray.c general/srcs/service.c general/srcs/reading.c general/srcs/Commands.c general/srcs/Commands2.c general/srcs/Commands3.c general/srcs/ft_strsplit.c general/includes/push_swap.h)
+target_link_libraries(push_swap ${PROJECT_BINARY_DIR}/libft.a)
+add_dependencies(push_swap ft)
 
 add_executable(main general/srcs/main.c)

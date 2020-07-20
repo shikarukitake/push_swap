@@ -20,12 +20,23 @@ typedef struct  s_stack
     int     len;
 }               t_stack;
 
-typedef struct s_dynamicArr
+typedef struct  s_dynamicArr
 {
     int     *array;
     int     len;
     int     freeSpace;
-}              t_dynamicArr;
+}               t_dynamicArr;
+
+/*
+ *  Struct for doing command ra or rra
+ */
+
+typedef struct  s_command
+{
+    int     count;
+    char    *command;
+    char    *commandRev;
+}               t_command;
 
 /*
  *  STACK
@@ -49,14 +60,18 @@ void            cpyIntArray(int *dest, int *src, int freeOrNot, int len);
 void            addDArr(t_dynamicArr **arr, int value);
 void            printDArr(t_dynamicArr *arr);
 t_dynamicArr    *initDArrFromInt(int *array, int len);
+
 /*
  * Service
  */
 
 void            error(void);
+void            errorText(char const *text);
 int             stackIsSorted(t_stack *stackA);
 void            checkSorted(t_stack *stackA, t_stack *stackB);
 int             isOnlyDigits(char *s);
+char            **ft_strsplit(char const *s, char c);
+size_t          ft_w_count(char const *s, char c);
 
 /*
  * Reading

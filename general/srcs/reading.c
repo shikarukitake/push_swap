@@ -36,22 +36,37 @@ int         checkCommand(char *command)
 
 void        readingFromSTDIN(t_dynamicArr    **dArr)
 {
-    char			buff[BUFF_SIZE + 1];
-    char            *all;
-    int             ret;
-    int             command;
+//    char			buff[BUFF_SIZE + 1];
+//    char            *all;
+//    int             ret;
+//    int             command;
+//
+//    all = ft_strnew(1);
+//    while ((ret = read(0, buff, BUFF_SIZE)) > 0)
+//    {
+//        buff[ret] = 0;
+//        //Needing to be freed!
+//        command = checkCommand(ft_strsub(buff, 0, ft_strchrn(buff, '\n')));
+//        if (command == -1)
+//            error();
+//        else
+//            addDArr(dArr, command);
+//        if (!(all = ft_strjoin_free(all, buff, 1)))
+//            exit(1);
+//        printf("%d", ret);
+//    }
+    char *line;
+    int size;
+    int command;
 
-    all = ft_strnew(1);
-    while ((ret = read(0, buff, BUFF_SIZE)) > 0)
+    while ((size = ft_get_next_line(0, &line)) > 0)
     {
-        buff[ret] = 0;
-        //Needing to be freed!
-        command = checkCommand(ft_strsub(buff, 0, ft_strchrn(buff, '\n')));
+        command = checkCommand(line);
         if (command == -1)
             error();
         else
             addDArr(dArr, command);
-        if (!(all = ft_strjoin_free(all, buff, 1)))
-            exit(1);
+        free(line);
     }
+
 }
