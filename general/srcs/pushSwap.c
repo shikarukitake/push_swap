@@ -255,6 +255,45 @@ char        *sortElements(t_stack **stackA, t_stack **stackB)
 
 }
 
+int partition (int *arr, int low, int high)
+{
+    int pivot;
+    int i;
+    int j;
+
+    pivot = arr[high];
+    i = (low - 1);
+    j = low;
+    while (j <= high - 1)
+    {
+        // If current element is smaller than the pivot
+        if (arr[j] < pivot)
+        {
+            i++;    // increment index of smaller element
+            ft_swap(&arr[i], &arr[j]);
+        }
+        j++;
+    }
+    ft_swap(&arr[i + 1], &arr[high]);
+    return (i + 1);
+}
+
+void quickSort(int *arr, int low, int high)
+{
+    int pi;
+    if (low < high)
+    {
+        /* pi is partitioning index, arr[p] is now
+           at right place */
+        pi = partition(arr, low, high);
+
+        // Separately sort elements before
+        // partition and after partition
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
 t_chunks    *init_chunks(int len)
 {
     t_chunks *chunks;
@@ -316,10 +355,12 @@ t_chunks    *fill_chunks(t_stack *stack, int howManyChunks)
         stack = stack->previous;
         i++;
     }
+    quickSort(chunks->array, 0, chunks->len - 1);
     createChunksArray(chunks, howManyChunks);
     return (chunks);
 }
-int existsInChunk(t_stack *stack, t_chunks *chunks, int current_c)
+
+int         existsInChunk(t_stack *stack, t_chunks *chunks, int current_c)
 {
     int i;
 
@@ -350,14 +391,108 @@ t_sts        *initSts(t_stack **stackA, t_stack **stackB, int howManyChunks)
         sts->stackA = stackA;
         sts->stackB = stackB;
         sts->chunks = fill_chunks(*stackA, 5);
+        if ((sts->comm = (t_command*)malloc(sizeof(t_command))))
+            errorText("initSts malloc error");
         return sts;
     }
     return NULL;
 }
 
+int         findIndex(int *array, int len, int value)
+{
+    int i;
+
+    i = len / 2;
+
+}
+int binarySearch(int *array, int len, int value)
+{
+    int l;
+    int r;
+    int m;
+
+    l = 0;
+    r = len - 1;
+
+    while (l <= r)
+    {
+        m = l + (r - l) / 2;
+
+        if (array[m] == value)
+            return (m);
+        if (array[m] < value)
+            l = m + 1;
+        else
+            r = m - 1;
+    }
+
+    return (-1);
+}
+
+int        currentValueInChunk(t_chunks *chunks, int value)
+{
+    int index;
+
+    index = binarySearch(chunks->array, chunks->len, value);
+    if (chunks->chunk[index] == chunks->current_c)
+        return (index);
+    else
+        return (-1);
+}
+
+void        findHolds(t_sts *sts)
+{
+    t_stack     *stack;
+    int         i;
+
+
+    stack = *(sts->stackA);
+    sts->firstHoldI = -1;
+    while (stack)
+    {
+        if (sts->firstHoldI != -1)
+            break;
+        sts->firstHoldI = currentValueInChunk(sts->chunks, stack->value);
+        stack = stack->previous;
+    }
+
+    i = -1;
+    stack = *(sts->stackA);
+    sts->secondHoldI = -1;
+    while (stack)
+    {
+        if ((i = currentValueInChunk(sts->chunks, stack->value)) != -1)
+            sts->secondHoldI = i;
+        stack = stack->previous;
+    }
+}
+
+
+
+void        findComm(t_sts *sts)
+{
+    if (sts->firstHoldI == -1)
+    {
+        sts->comm->command = sts->secondHoldI <= (*(sts->stackA))->len / 2 ? "ra " : "rra ";
+        sts->comm->count = 0;
+    }
+
+    else if (sts->secondHoldI == -1)
+        sts->comm->command = sts->firstHoldI <= (*(sts->stackA))->len / 2 ? "ra " : "rra ";
+    else
+    {
+
+    }
+}
+
 void        pushToStackB(t_sts *sts)
 {
-    execCommands(dArr, )
+    t_dynamicArr *dArr;
+
+    findHolds(sts);
+    findComm(sts);
+
+//    execCommands(dArr, )
 }
 
 char        *sortOneHundred(t_stack **stackA, t_stack **stackB)
@@ -370,7 +505,7 @@ char        *sortOneHundred(t_stack **stackA, t_stack **stackB)
     {
         if (existsInChunk(*stackA, sts->chunks, sts->chunks->current_c) == FALSE)
             sts->chunks->current_c++;
-        pushToStackB(sts)
+        pushToStackB(sts);
 
     }
 
@@ -390,6 +525,8 @@ void        sortStack(t_stack **stackA, t_stack **stackB)
         commands = sortFiveElements(stackA, stackB);
     else if ((*stackA)->len <= 100)
         commands = sortOneHundred(stackA, stackB);
+    else
+        errorText("Unknown sort case");
 
     printf("%s", commands);
     free(commands);

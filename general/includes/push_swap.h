@@ -25,8 +25,8 @@ typedef struct  s_sts
     t_chunks    *chunks;
     t_stack     **stackA;
     t_stack     **stackB;
-    size_t      firstHoldI;
-    size_t      secondHoldI;
+    int         firstHoldI;
+    int         secondHoldI;
     char        *commands;
 }               t_sts;
 
