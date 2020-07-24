@@ -99,29 +99,62 @@ char        *sortTwoElements(t_stack **stackA)
     return (ft_strdup("sa\n"));
 }
 
-t_command   *ra_or_rra(t_stack *stackA, int value)
+int         existInStack(t_stack *stack, int value)
+{
+    while (stack)
+    {
+        if (stack->value == value)
+            return TRUE;
+        stack = stack->previous;
+    }
+    return FALSE;
+}
+
+int         findNext(t_sts *sts, int value, int stackAorStackB)
+{
+    int index;
+    t_stack *stack;
+    int     i;
+
+    stack = stackAorStackB == 1 ? *(sts->stackA) : *(sts->stackB);
+
+    index = binarySearch(sts->chunks->array, sts->chunks->len, value) + 1;
+    if (smallerOrGreater(stack, value))
+        index = 0;
+    while (index != sts->chunks->len)
+    {
+        if (existInStack(stack, sts->chunks->array[index]) == TRUE)
+            break;
+        index++;
+    }
+
+    i = 0;
+    while (stack)
+    {
+        if (stack->value == sts->chunks->array[index])
+            return (i);
+        i++;
+        stack = stack->previous;
+    }
+    errorText("Cant find the next number in findNext function\n");
+}
+
+t_command   *ra_or_rra(t_sts *sts, int value)
 {
     int         lenOfStackA;
     t_command   *comm;
     int         i;
 
     i = 0;
-    lenOfStackA = stackA->len;
-    if ((comm = (t_command*)malloc(sizeof(t_command))))
+    lenOfStackA = (*(sts->stackA))->len;
+    if (!(comm = (t_command*)malloc(sizeof(t_command))))
         errorText("ra_or_rra malloc error");
 
     /*
      * Change to another
      */
-    while (stackA)
-    {
-        if (value < stackA->value)
-            break;
-        stackA = stackA->previous;
-        i++;
-    }
+    i = findNext(sts, value, 1);
     comm->command = i <= lenOfStackA - i ? "ra " : "rra ";
-    comm->commandRev = i <= lenOfStackA - i ? "rra " : "ra ";
     comm->count = i <= lenOfStackA - i ? i : lenOfStackA - i;
 
     return comm;
@@ -133,39 +166,32 @@ char   *commandsFromTComm(t_command *comm, char const *paOrPb)
     int     count;
 
     commands = ft_strnew(1);
-    if (!ft_strcmp(comm->commandRev, "ra "))
-        count = comm->count + 1;
-    else
-        count = comm->count;
     while (comm->count)
     {
         commands = ft_strjoin_free(commands, comm->command, 1); //maybe n should be 0
         comm->count--;
     }
-    commands = ft_strjoin_free(commands, paOrPb, 1);
-    while (comm->count != count)
-    {
-        commands = ft_strjoin_free(commands, comm->commandRev, 1); //maybe n should be 0
-        comm->count++;
-    }
+    if (paOrPb != NULL)
+        commands = ft_strjoin_free(commands, paOrPb, 1);
+
     free(comm);
     return commands;
 }
 
-void    doRaOrRra(t_stack **stackA, t_stack **stackB, char **commands, char const paOrPb)
+void    doRaOrRra(t_sts *sts, int value, char *paOrPb)
 {
     t_dynamicArr *dArr;
     t_command   *comm;
     char        *commas;
 
-    comm = ra_or_rra(*stackA, (*stackB)->value);
+    comm = ra_or_rra(sts, value);
     commas = commandsFromTComm(comm, paOrPb);
 
-    dArr = getDArrCommands3(commas);
-    execCommands(dArr, stackA, stackB, 0);
-    free(dArr->array);
-    free(dArr);
-    *commands = ft_strjoin_free(*commands, commas, 0);
+    sts->dArr = getDArrCommands3(commas);
+    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
+//    free(sts->dArr->array);
+//    free(sts->dArr);
+    sts->commands = ft_strjoin_free(sts->commands, commas, 0);
 }
 
 /*
@@ -198,59 +224,97 @@ int         smallerOrGreater(t_stack *stack, int value)
         return (0);
 }
 
-void        doIfSmallerOrGreater(char **commands, t_stack **stackA, t_stack **stackB, int smallOrBig)
+void        doIfSmallerOrGreater(t_sts *sts, int smallOrBig, int paOrPb)
 {
     t_dynamicArr *dArr;
+    char          *commands;
 
 
     if (smallOrBig == 1)
     {
-        *commands = ft_strjoin_free(*commands, "pa ra ", 1);
-        dArr = getDArrCommands3("pa ra ");
-        execCommands(dArr, stackA, stackB, 0); // remove flag
+        if (paOrPb == 1)
+            commands = ft_strdup("pa ra ");
+        else
+            commands = ft_strdup("pb rb ");
+        sts->commands = ft_strjoin_free(sts->commands, commands, 1);
+        dArr = getDArrCommands3(commands);
+        execCommands(dArr, sts->stackA, sts->stackB, 0); // remove flag
     }
     else
     {
-        *commands = ft_strjoin_free(*commands, "pa ", 1);
-        dArr = getDArrCommands3("pa ");
-        execCommands(dArr, stackA, stackB, 0); // remove flag
+        if (paOrPb == 1)
+            commands = ft_strdup("pa ");
+        else
+            commands = ft_strdup("pb ");
+        sts->commands = ft_strjoin_free(sts->commands, commands, 1);
+        dArr = getDArrCommands3(commands);
+        execCommands(dArr, sts->stackA, sts->stackB, 0); // remove flag
     }
-    free(dArr->array);
-    free(dArr);
+    free(commands);
+
 }
 
+void        sortInEnd(t_sts *sts)
+{
+    int i;
+    t_stack *stack;
+    char        *commas;
+    int         lenOfStackA;
 
+    stack = *(sts->stackA);
+    i = 0;
+    lenOfStackA = sts->chunks->len;
+    while (stack)
+    {
+        if (stack->value == sts->chunks->array[0])
+            break;
+        stack = stack->previous;
+        i++;
+    }
+
+    if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
+        errorText("sortInEnd malloc error\n");
+    sts->comm->command = i <= lenOfStackA - i ? "ra " : "rra ";
+    sts->comm->count = i <= lenOfStackA - i ? i : lenOfStackA - i;
+
+
+    commas = commandsFromTComm(sts->comm, NULL);
+    sts->dArr = getDArrCommands3(commas);
+    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
+    sts->commands = ft_strjoin_free(sts->commands, commas, 0);
+}
 
 char        *sortFiveElements(t_stack **stackA, t_stack **stackB)
 {
-    char            *commands;
-    t_dynamicArr    *dArr;
-    t_command       *comm;
+    t_sts           *sts;
     int             smallerOrGreat;
 
     /*
      * First commands always be "pb pb"
      */
-    commands = (*stackA)->len == 4 ? ft_strdup("pb ") : ft_strdup("pb pb ");
+    sts = initSts(stackA, stackB, 1);
+    sts->commands = (*stackA)->len == 4 ? ft_strdup("pb ") : ft_strdup("pb pb ");
 
-    dArr = getDArrCommands3(commands);
-    execCommands(dArr, stackA, stackB, 0);
+    sts->dArr = getDArrCommands3(sts->commands);
+    execCommands(sts->dArr, stackA, stackB, 0);
     if (stackIsSorted(*stackA) == FALSE)
-        commands = ft_strjoin_free(commands, sortThreeElements(stackA, NULL, 1), 0);
-    while (*stackB)
+        sts->commands = ft_strjoin_free(sts->commands, sortThreeElements(sts->stackA, NULL, 1), 0);
+    while (*(sts->stackB))
     {
         /*
          * There is we check number from stack B. If he greater or smaller than all numbers in stackA
          * We do "doIfSmallerOrGreater"
          * Else we should insert number from stack B between some numbers in stackA
          */
-        if ((smallerOrGreat = smallerOrGreater(*stackA, (*stackB)->value)))
-            doIfSmallerOrGreater(&commands, stackA, stackB, smallerOrGreat);
-        else
-            doRaOrRra(stackA, stackB, &commands);
+//        if ((smallerOrGreat = smallerOrGreater(*(sts->stackA), (*(sts->stackB))->value)))
+//            doIfSmallerOrGreater(sts, smallerOrGreat, 1);
+//        else
+        doRaOrRra(sts, (*(sts->stackB))->value, "pa ");
     }
-    changeChr(commands, ' ', '\n');
-    return (commands);
+    if (stackIsSorted(*(sts->stackA)) == FALSE)
+        sortInEnd(sts);
+    changeChr(sts->commands, ' ', '\n');
+    return (sts->commands);
 }
 
 char        *sortElements(t_stack **stackA, t_stack **stackB)
@@ -394,8 +458,8 @@ t_sts        *initSts(t_stack **stackA, t_stack **stackB, int howManyChunks)
         sts->stackA = stackA;
         sts->stackB = stackB;
         if (howManyChunks != FALSE)
-            sts->chunks = fill_chunks(*stackA, 5);
-        if ((sts->comm = (t_command*)malloc(sizeof(t_command))))
+            sts->chunks = fill_chunks(*stackA, howManyChunks);
+        if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
             errorText("initSts malloc error");
         return sts;
     }
@@ -490,6 +554,7 @@ void        findComm(t_sts *sts, int lenOfStack)
         sts->comm->commandRev = i <= lenOfStack - i ? "rra " : "ra ";
         sts->comm->count = i <= lenOfStack - i ? i : lenOfStack - i;
     }
+    else if(sts-)
 }
 
 void        pushToStackB(t_sts *sts)
@@ -522,7 +587,8 @@ char        *sortOneHundred(t_stack **stackA, t_stack **stackB)
 
 void        sortStack(t_stack **stackA, t_stack **stackB)
 {
-    char *commands;
+    char    *commands;
+    t_sts   *sts;
 
     if ((*stackA)->len == 2)
         commands = sortTwoElements(stackA);

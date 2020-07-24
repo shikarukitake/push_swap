@@ -42,5 +42,6 @@ void        execCommands(t_dynamicArr *dArr, t_stack **stackA, t_stack **stackB,
             printTwoStacks(*stackA, stackB ? *stackB : NULL);
         i++;
     }
-
+    free(dArr->array);
+    free(dArr);
 }
