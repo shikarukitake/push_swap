@@ -25,6 +25,7 @@ typedef struct  s_sts
     t_chunks    *chunks;
     t_stack     **stackA;
     t_stack     **stackB;
+    t_dynamicArr *dArr;
     int         firstHoldI;
     int         secondHoldI;
     char        *commands;

@@ -110,6 +110,9 @@ t_command   *ra_or_rra(t_stack *stackA, int value)
     if ((comm = (t_command*)malloc(sizeof(t_command))))
         errorText("ra_or_rra malloc error");
 
+    /*
+     * Change to another
+     */
     while (stackA)
     {
         if (value < stackA->value)
@@ -124,7 +127,7 @@ t_command   *ra_or_rra(t_stack *stackA, int value)
     return comm;
 }
 
-char   *commandsFromTComm(t_command *comm)
+char   *commandsFromTComm(t_command *comm, char const *paOrPb)
 {
     char    *commands;
     int     count;
@@ -139,7 +142,7 @@ char   *commandsFromTComm(t_command *comm)
         commands = ft_strjoin_free(commands, comm->command, 1); //maybe n should be 0
         comm->count--;
     }
-    commands = ft_strjoin_free(commands, "pa ", 1);
+    commands = ft_strjoin_free(commands, paOrPb, 1);
     while (comm->count != count)
     {
         commands = ft_strjoin_free(commands, comm->commandRev, 1); //maybe n should be 0
@@ -149,14 +152,14 @@ char   *commandsFromTComm(t_command *comm)
     return commands;
 }
 
-void    doRaOrRra(t_stack **stackA, t_stack **stackB, char **commands)
+void    doRaOrRra(t_stack **stackA, t_stack **stackB, char **commands, char const paOrPb)
 {
     t_dynamicArr *dArr;
     t_command   *comm;
     char        *commas;
 
     comm = ra_or_rra(*stackA, (*stackB)->value);
-    commas = commandsFromTComm(comm);
+    commas = commandsFromTComm(comm, paOrPb);
 
     dArr = getDArrCommands3(commas);
     execCommands(dArr, stackA, stackB, 0);
@@ -390,7 +393,8 @@ t_sts        *initSts(t_stack **stackA, t_stack **stackB, int howManyChunks)
     {
         sts->stackA = stackA;
         sts->stackB = stackB;
-        sts->chunks = fill_chunks(*stackA, 5);
+        if (howManyChunks != FALSE)
+            sts->chunks = fill_chunks(*stackA, 5);
         if ((sts->comm = (t_command*)malloc(sizeof(t_command))))
             errorText("initSts malloc error");
         return sts;
@@ -440,6 +444,12 @@ int        currentValueInChunk(t_chunks *chunks, int value)
         return (-1);
 }
 
+/*
+ * Find numbers from current chunk
+ * first hold - first number from top of the stack
+ * second hold - first number from bottom of the stack
+ * first hold
+ */
 void        findHolds(t_sts *sts)
 {
     t_stack     *stack;
@@ -469,19 +479,16 @@ void        findHolds(t_sts *sts)
 
 
 
-void        findComm(t_sts *sts)
+void        findComm(t_sts *sts, int lenOfStack)
 {
-    if (sts->firstHoldI == -1)
-    {
-        sts->comm->command = sts->secondHoldI <= (*(sts->stackA))->len / 2 ? "ra " : "rra ";
-        sts->comm->count = 0;
-    }
+    int i;
 
-    else if (sts->secondHoldI == -1)
-        sts->comm->command = sts->firstHoldI <= (*(sts->stackA))->len / 2 ? "ra " : "rra ";
-    else
+    if (sts->firstHoldI == sts->secondHoldI)
     {
-
+        i = sts->firstHoldI;
+        sts->comm->command = i <= lenOfStack - i ? "ra " : "rra ";
+        sts->comm->commandRev = i <= lenOfStack - i ? "rra " : "ra ";
+        sts->comm->count = i <= lenOfStack - i ? i : lenOfStack - i;
     }
 }
 
@@ -490,7 +497,7 @@ void        pushToStackB(t_sts *sts)
     t_dynamicArr *dArr;
 
     findHolds(sts);
-    findComm(sts);
+    findComm(sts, (*(sts->stackA))->len);
 
 //    execCommands(dArr, )
 }
