@@ -16,7 +16,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-# define BUFF_SIZE 16
+# include "macro.h"
+# define BUFF_SIZE 64
 
 int				ft_atoi(const char *str);
 char			*ft_strncpy(char *dest, const char *src, size_t n);
@@ -101,5 +102,8 @@ int				ft_strchrn(const char *s, int c);
 t_list			*ft_lstfind(t_list *lst,
 				int (*finder)(void *, void *), void *to_find);
 int				ft_get_next_line(const int fd, char **line);
+char	        *ft_strsub_free(char const *s,
+                   unsigned int start, size_t len, short freeOrNot);
+void            ft_quicksort(int *arr, int low, int high);
 
 #endif

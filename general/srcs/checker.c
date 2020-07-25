@@ -44,6 +44,7 @@ int         main(int argc, char **argv)
             i--;
         }
     }
+//    write(2,"\n\n\n\nMETKA1!\n\n\n", 13);
     readingFromSTDIN(&dArr);
 
     if (flag)

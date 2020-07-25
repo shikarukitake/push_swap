@@ -47,15 +47,15 @@ void        initDArr(t_dynamicArr **arr)
         if (*arr)
         {
             swap = (*arr)->array;
-            (*arr)->array = (int*)malloc(sizeof(int) * ((*arr)->len * 2)); //protect
+            (*arr)->array = (int*)malloc(sizeof(int) * (((*arr)->len * 2) + 2)); //protect
             cpyIntArray((*arr)->array, swap, 1, (*arr)->len);
-            (*arr)->freeSpace = (*arr)->freeSpace * 2;
-            free(swap);
+            (*arr)->freeSpace = (*arr)->len;
+
         }
         else
         {
             (*arr) = (t_dynamicArr*)malloc(sizeof(t_dynamicArr));
-            (*arr)->array = (int*)malloc(sizeof(int)*100); //protect
+            (*arr)->array = (int*)malloc(sizeof(int)*102); //protect
             (*arr)->len = 0;
             (*arr)->freeSpace = 100;
         }

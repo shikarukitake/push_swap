@@ -88,6 +88,10 @@ void        rotate(t_stack **stack)
         while (i >= 0)
             pushStack(stack, temp->array[i--]);
     }
+    if (temp->array)
+        free(temp->array);
+    if (temp)
+        free(temp);
 }
 
 void        reverseRotate(t_stack **stack)

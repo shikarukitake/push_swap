@@ -5,73 +5,118 @@
 //#include "../libft/includes/libft.h"
 
 #include <unistd.h>
+#include "libft.h"
 
-void ft_swap(int* a, int* b)
-{
-    int t = *a;
-    *a = *b;
-    *b = t;
-}
 
-int partition (int *arr, int low, int high)
+
+typedef struct  s_dynamicArr
 {
-    int pivot;
+    int     *array;
+    int     len;
+    int     freeSpace;
+}               t_dynamicArr;
+
+void            initDArr(t_dynamicArr **arr);
+void            cpyIntArray(int *dest, int *src, int freeOrNot, int len);
+void            addDArr(t_dynamicArr **arr, int value);
+void            printDArr(t_dynamicArr *arr);
+t_dynamicArr    *initDArrFromInt(int *array, int len);
+
+
+void        cpyIntArray(int *dest, int *src, int freeOrNot, int len)
+{
     int i;
-    int j;
 
-    pivot = arr[high];
-    i = (low - 1);
-    j = low;
-    while (j <= high - 1)
-    {
-        // If current element is smaller than the pivot
-        if (arr[j] < pivot)
+    i = 0;
+    if (dest )
+        while (i != len)
         {
-            i++;    // increment index of smaller element
-            ft_swap(&arr[i], &arr[j]);
+            dest[i] = src[i];
+            i++;
         }
-        j++;
-    }
-    ft_swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
+    if (freeOrNot)
+        free(src);
 }
 
-void quickSort(int *arr, int low, int high)
+t_dynamicArr *initDArrFromInt(int *array, int len)
 {
-    int pi;
-    if (low < high)
-    {
-        /* pi is partitioning index, arr[p] is now
-           at right place */
-        pi = partition(arr, low, high);
+    t_dynamicArr    *new;
+    int             i;
 
-        // Separately sort elements before
-        // partition and after partition
-        quickSort(arr, low, pi - 1);
-        quickSort(arr, pi + 1, high);
+    new = NULL;
+    if (len > 0)
+    {
+        i = 0;
+        while (i != len)
+        {
+            addDArr(&new, array[i]);
+            i++;
+        }
+    }
+    return (new);
+}
+
+void        initDArr(t_dynamicArr **arr)
+{
+    int *swap;
+
+    if (arr)
+    {
+        if (*arr)
+        {
+            swap = (*arr)->array;
+            (*arr)->array = (int*)malloc(sizeof(int) * (((*arr)->len * 2) + 2)); //protect
+            cpyIntArray((*arr)->array, swap, 1, (*arr)->len);
+            (*arr)->freeSpace = (*arr)->len;
+        }
+        else
+        {
+            (*arr) = (t_dynamicArr*)malloc(sizeof(t_dynamicArr));
+            (*arr)->array = (int*)malloc(sizeof(int)*102); //protect
+            (*arr)->len = 0;
+            (*arr)->freeSpace = 100;
+        }
+    }
+
+}
+
+void        addDArr(t_dynamicArr **arr, int value)
+{
+    if (arr)
+    {
+        if (!(*arr))
+            initDArr(arr);
+        if (!(*arr)->freeSpace)
+            initDArr(arr);
+        (*arr)->array[(*arr)->len] = value;
+        (*arr)->len += 1;
+        (*arr)->freeSpace -= 1;
     }
 }
 
-void printArray(int arr[], int size)
+void        printDArr(t_dynamicArr *arr)
 {
     int i;
-    for (i=0; i < size; i++)
-        printf("%d ", arr[i]);
-    printf("n");
+
+    i = 0;
+    while (i != arr->len)
+        printf("%d ", arr->array[i++]);
+    printf("\n");
 }
 
 int main(int argc, char **argv)
 {
-    int *hello;
+    char *string;
+    t_dynamicArr *dArr;
 
-    hello = malloc(sizeof(int) * 10);
-
-    int j = 10;
-    for (int i = 0; i < 10; i++)
+    dArr = NULL;
+    int i = 0;
+    while (i != 10000)
     {
-        hello[i] = j;
-        j--;
+        addDArr(&dArr, i);
+        i++;
     }
-    quickSort(hello, 0, 9);
-    printArray(hello, 10);
+    printf("OK!\n");
+    free(dArr->array);
+    free(dArr);
 }

@@ -59,6 +59,7 @@ void        readingFromSTDIN(t_dynamicArr    **dArr)
     int size;
     int command;
 
+    *dArr = NULL;
     while ((size = ft_get_next_line(0, &line)) > 0)
     {
         command = checkCommand(line);
