@@ -152,3 +152,21 @@ void        printTwoStacks(t_stack *stackA, t_stack *stackB)
     printf("%-5s%5s\n","_", "_");
     printf("%-5s%5s\n\n","a", "b");
 }
+
+void        stackHaveDublicates(t_stack *stack)
+{
+    int *array;
+    int i;
+
+    if (!(array = malloc(sizeof(int) * (stack->len + 1))))
+        errorText("stackHaveDublicates malloc error");
+    i = 0;
+    while (stack)
+    {
+        array[i] = stack->value;
+        stack = stack->previous;
+        i++;
+    }
+    ft_quicksort(array, 0, stack->len - 1);
+    
+}

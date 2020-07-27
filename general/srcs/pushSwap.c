@@ -344,23 +344,78 @@ void        sortInEnd(t_sts *sts)
     sts->commands = ft_strjoin_free(sts->commands, commas, 0);
 }
 
-void        sortInEndStackB(t_sts *sts)
+//void        sortInEndStackB(t_sts *sts)
+//{
+//    int i;
+//    t_stack *stack;
+//    char        *commas;
+//    int         lenOfStack;
+//
+//    stack = *(sts->stackB);
+//    i = 0;
+//    lenOfStack = sts->chunks->len;
+//    while (stack)
+//    {
+//        if (stack->value == sts->chunks->array[sts->chunks->len - 1])
+//            break;
+//        stack = stack->previous;
+//        i++;
+//    }
+//    if (i == 0)
+//        return ;
+//    if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
+//        errorText("sortInEnd malloc error\n");
+//    sts->comm->command = i <= lenOfStack - i ? "rb " : "rrb ";
+//    sts->comm->count = i <= lenOfStack - i ? i : lenOfStack - i;
+//
+//
+//    commas = commandsFromTComm(sts->comm, NULL);
+//    sts->dArr = getDArrCommands3(commas);
+//    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
+//    sts->commands = ft_strjoin_free(sts->commands, commas, 0);
+//}
+
+int         findMaxInStack(t_stack *stack)
 {
     int i;
-    t_stack *stack;
+    int max;
+    int maxId;
+
+    i = 0;
+    max = stack->value;
+    maxId = 0;
+    while (stack)
+    {
+        if (stack->value > max)
+        {
+            max = stack->value;
+            maxId = i;
+        }
+        i++;
+        stack = stack->previous;
+    }
+
+    return (maxId);
+}
+
+void        sortInEndStackB(t_sts *sts)
+{
+    int         i;
+//    t_stack     *stack;
     char        *commas;
     int         lenOfStack;
 
-    stack = *(sts->stackB);
-    i = 0;
+//    stack = *(sts->stackB);
+    i = findMaxInStack(*(sts->stackB));
     lenOfStack = sts->chunks->len;
-    while (stack)
-    {
-        if (stack->value == sts->chunks->array[sts->chunks->len - 1])
-            break;
-        stack = stack->previous;
-        i++;
-    }
+//    while (stack)
+//    {
+//        if (stack->value == sts->chunks->array[sts->chunks->len - 1])
+//            break;
+//        stack = stack->previous;
+//        i++;
+//    }
+
     if (i == 0)
         return ;
     if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
@@ -642,6 +697,21 @@ void        pushToStackB(t_sts *sts)
     doRaOrRra(sts, (*(sts->stackA))->value, "pb ");
 }
 
+
+void        pushToStackA(t_sts *sts)
+{
+    char    *commas;
+
+    sortInEndStackB(sts);
+    sts->comm->command = "pa ";
+    sts->comm->count = (*(sts->stackB))->len;
+    commas = commandsFromTComm(sts->comm, NULL);
+    sts->dArr = getDArrCommands3(commas);
+    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
+    sts->commands = ft_strjoin_free(sts->commands, commas, 0);
+    sts->chunks->current_c++;
+}
+
 char        *sortOneHundred(t_stack **stackA, t_stack **stackB, int howManyChunks)
 {
     t_sts       *sts;
@@ -653,6 +723,7 @@ char        *sortOneHundred(t_stack **stackA, t_stack **stackB, int howManyChunk
     {
         if (existsInChunk(*stackA, sts->chunks, sts->chunks->current_c) == FALSE)
             sts->chunks->current_c++;
+//            pushToStackA(sts);
         if (sts->chunks->current_c != howManyChunks)
             pushToStackB(sts);
     }
@@ -660,7 +731,7 @@ char        *sortOneHundred(t_stack **stackA, t_stack **stackB, int howManyChunk
     if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
         errorText("sortOneHundred malloc error\n");
     sts->comm->command = "pa ";
-    sts->comm->count = sts->chunks->len;
+    sts->comm->count = (*(sts->stackB))->len;
     commas = commandsFromTComm(sts->comm, NULL);
     sts->dArr = getDArrCommands3(commas);
     execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
@@ -727,7 +798,7 @@ int         main(int argc, char **argv)
             i--;
         }
     }
-
+    
     if (stackIsSorted(stackA) == FALSE)
         sortStack(&stackA, &stackB);
     return (0);
