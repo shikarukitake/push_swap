@@ -48,7 +48,7 @@ void        readingFromSTDIN(t_dynamicArr    **dArr)
 //        //Needing to be freed!
 //        command = checkCommand(ft_strsub(buff, 0, ft_strchrn(buff, '\n')));
 //        if (command == -1)
-//            error();
+//            ft_error();
 //        else
 //            addDArr(dArr, command);
 //        if (!(all = ft_strjoin_free(all, buff, 1)))
@@ -64,7 +64,7 @@ void        readingFromSTDIN(t_dynamicArr    **dArr)
     {
         command = checkCommand(line);
         if (command == -1)
-            error();
+            ft_error();
         else
             addDArr(dArr, command);
         free(line);

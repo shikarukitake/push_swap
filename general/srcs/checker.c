@@ -7,6 +7,48 @@
  */
 #include "checker.h"
 
+
+
+int *fillArrayFromStack(t_stack *stack, int sortOrNot)
+{
+    int *array;
+    int i;
+
+    i = 0;
+    if (!(array = malloc(sizeof(int) * stack->len)))
+        ft_errorText("malloc fillArrayFromStack err!\n");
+    while (stack)
+    {
+        array[i] = stack->value;
+        stack = stack->previous;
+        i++;
+    }
+
+    if (sortOrNot)
+        ft_quicksort(array, 0, i - 1);
+    return (array);
+}
+
+int checkDublicates(t_stack *stack)
+{
+    int *array;
+    int i;
+    int previous;
+
+    i = 1;
+    array = fillArrayFromStack(stack, TRUE);
+    previous = array[0];
+    while (i != stack->len)
+    {
+        if (array[i] == previous)
+            return (TRUE);
+        previous = array[i];
+        i++;
+    }
+    free(array);
+    return (FALSE);
+}
+
 int         main(int argc, char **argv)
 {
     t_stack         *stackA;
@@ -35,16 +77,14 @@ int         main(int argc, char **argv)
             if (!ft_strcmp(argv[i], "-v"))
                 flag = 1;
             else if (isOnlyDigits(argv[i]) == FALSE)
-            {
-                printf("Error\n");
-                return (0);
-            }
+                ft_errorText("There is non numeric parametr\n");
             else
                 pushStack(&stackA, ft_atoi(argv[i]));
             i--;
         }
     }
-//    write(2,"\n\n\n\nMETKA1!\n\n\n", 13);
+
+    IF_TRUE(checkDublicates(stackA), ft_errorText("There are dublicates"));
     readingFromSTDIN(&dArr);
 
     if (flag)

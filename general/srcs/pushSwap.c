@@ -136,7 +136,7 @@ int         findNext(t_sts *sts, int value)
         i++;
         stack = stack->previous;
     }
-    errorText("Cant find the next number in findNext function\n");
+    ft_errorText("Cant find the next number in findNext function\n");
 }
 
 int         findNextStackB(t_sts *sts, int value)
@@ -165,7 +165,7 @@ int         findNextStackB(t_sts *sts, int value)
         i++;
         stack = stack->previous;
     }
-    errorText("Cant find the next number in findNext function\n");
+    ft_errorText("Cant find the next number in findNext function\n");
 }
 
 t_command   *ra_or_rra(t_sts *sts, int value)
@@ -177,7 +177,7 @@ t_command   *ra_or_rra(t_sts *sts, int value)
     i = 0;
     lenOfStackA = (*(sts->stackA))->len;
     if (!(comm = (t_command*)malloc(sizeof(t_command))))
-        errorText("ra_or_rra malloc error");
+        ft_errorText("ra_or_rra malloc ft_error");
 
     /*
      * Change to another
@@ -198,7 +198,7 @@ t_command   *rb_or_rrb(t_sts *sts, int value)
     i = 0;
 
     if (!(comm = (t_command*)malloc(sizeof(t_command))))
-        errorText("rb_or_rrb malloc error\n");
+        ft_errorText("rb_or_rrb malloc ft_error\n");
     if ((*(sts->stackB)) == NULL)
     {
         comm->count = 0;
@@ -333,7 +333,7 @@ void        sortInEnd(t_sts *sts)
     }
 
     if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-        errorText("sortInEnd malloc error\n");
+        ft_errorText("sortInEnd malloc ft_error\n");
     sts->comm->command = i <= lenOfStackA - i ? "ra " : "rra ";
     sts->comm->count = i <= lenOfStackA - i ? i : lenOfStackA - i;
 
@@ -364,7 +364,7 @@ void        sortInEnd(t_sts *sts)
 //    if (i == 0)
 //        return ;
 //    if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-//        errorText("sortInEnd malloc error\n");
+//        ft_errorText("sortInEnd malloc ft_error\n");
 //    sts->comm->command = i <= lenOfStack - i ? "rb " : "rrb ";
 //    sts->comm->count = i <= lenOfStack - i ? i : lenOfStack - i;
 //
@@ -419,7 +419,7 @@ void        sortInEndStackB(t_sts *sts)
     if (i == 0)
         return ;
     if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-        errorText("sortInEnd malloc error\n");
+        ft_errorText("sortInEnd malloc ft_error\n");
     sts->comm->command = i <= lenOfStack - i ? "rb " : "rrb ";
     sts->comm->count = i <= lenOfStack - i ? i : lenOfStack - i;
 
@@ -463,23 +463,16 @@ char        *sortFiveElements(t_stack **stackA, t_stack **stackB)
     return (sts->commands);
 }
 
-char        *sortElements(t_stack **stackA, t_stack **stackB)
-{
-
-}
-
-
-
 t_chunks    *init_chunks(int len)
 {
     t_chunks *chunks;
 
     if (!(chunks = malloc(sizeof(t_chunks))))
-        error();
+        ft_error();
     if (!(chunks->array = malloc(sizeof(int) * len)))
-        error();
+        ft_error();
     if (!(chunks->chunk = malloc(sizeof(int) * len)))
-        error();
+        ft_error();
     chunks->current_c = 0;
 
     return chunks;
@@ -561,7 +554,7 @@ t_sts        *initSts(t_stack **stackA, t_stack **stackB, int howManyChunks)
     t_sts       *sts;
 
     if (!(sts = malloc(sizeof(t_sts))))
-        errorText("sts (sortOneHundred) malloc error");
+        ft_errorText("sts (sortOneHundred) malloc ft_error");
     else
     {
         sts->stackA = stackA;
@@ -569,19 +562,12 @@ t_sts        *initSts(t_stack **stackA, t_stack **stackB, int howManyChunks)
         if (howManyChunks != FALSE)
             sts->chunks = fill_chunks(*stackA, howManyChunks);
         if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-            errorText("initSts malloc error");
+            ft_errorText("initSts malloc ft_error");
         return sts;
     }
     return NULL;
 }
 
-int         findIndex(int *array, int len, int value)
-{
-    int i;
-
-    i = len / 2;
-
-}
 int binarySearch(int *array, int len, int value)
 {
     int l;
@@ -729,7 +715,7 @@ char        *sortOneHundred(t_stack **stackA, t_stack **stackB, int howManyChunk
     }
     sortInEndStackB(sts);
     if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-        errorText("sortOneHundred malloc error\n");
+        ft_errorText("sortOneHundred malloc ft_error\n");
     sts->comm->command = "pa ";
     sts->comm->count = (*(sts->stackB))->len;
     commas = commandsFromTComm(sts->comm, NULL);
@@ -756,12 +742,54 @@ void        sortStack(t_stack **stackA, t_stack **stackB)
     else if ((*stackA)->len <= 500)
         commands = sortOneHundred(stackA, stackB, 11);
     else
-        errorText("Unknown sort case");
+        ft_errorText("Unknown sort case");
 
     printf("%s", commands);
     free(commands);
 
 }
+
+int         *fillArrayFromStack(t_stack *stack, int sortOrNot)
+{
+    int *array;
+    int i;
+
+    i = 0;
+    if (!(array = malloc(sizeof(int) * stack->len)))
+        ft_errorText("malloc fillArrayFromStack err!\n");
+    while (stack)
+    {
+        array[i] = stack->value;
+        stack = stack->previous;
+        i++;
+    }
+
+    if (sortOrNot)
+        ft_quicksort(array, 0, i - 1);
+    return (array);
+}
+
+int         checkDublicates(t_stack *stack)
+{
+    int *array;
+    int i;
+    int previous;
+
+    i = 1;
+    array = fillArrayFromStack(stack, TRUE);
+    previous = array[0];
+    while (i != stack->len)
+    {
+        if (array[i] == previous)
+            return (TRUE);
+        previous = array[i];
+        i++;
+    }
+    free(array);
+    return (FALSE);
+}
+
+
 
 int         main(int argc, char **argv)
 {
@@ -772,8 +800,7 @@ int         main(int argc, char **argv)
 
     stackA = NULL;
     stackB = NULL;
-    if (argc == 1)
-        return (0);
+    ZERO_CHECK(argc == 1);
     else
     {
         /*
@@ -798,8 +825,9 @@ int         main(int argc, char **argv)
             i--;
         }
     }
-    
-    if (stackIsSorted(stackA) == FALSE)
-        sortStack(&stackA, &stackB);
+
+    IF_TRUE(checkDublicates(stackA), ft_errorText("There are dublicates\n"));
+    IF_FALSE(stackIsSorted(stackA), sortStack(&stackA, &stackB));
+    freeStack(stackA);
     return (0);
 }

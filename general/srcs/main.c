@@ -106,17 +106,5 @@ void        printDArr(t_dynamicArr *arr)
 
 int main(int argc, char **argv)
 {
-    char *string;
-    t_dynamicArr *dArr;
-
-    dArr = NULL;
-    int i = 0;
-    while (i != 10000)
-    {
-        addDArr(&dArr, i);
-        i++;
-    }
-    printf("OK!\n");
-    free(dArr->array);
-    free(dArr);
+    int i = ft_atoi("30");
 }

@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
 static int			check_tab(char c)
 {
 	return (c == '\n' || c == '\t' || c == ' '
@@ -32,6 +34,17 @@ static long int		make_int(const char *str, long long q, int i, int neg)
 	return (q);
 }
 
+static void         errorsCheck(long long q, const char *str)
+{
+    int maxLen;
+
+    if (q > 2147483647 OR q < -2147483648)
+        ft_errorText("ft_atoi(int) overflow");
+    maxLen = *str == '-' ? 11 : 10;
+    if (ft_strlen(str) > maxLen)
+        ft_errorText("ft_atoi(int) overflow");
+}
+
 int					ft_atoi(const char *str)
 {
 	long long	q;
@@ -50,5 +63,6 @@ int					ft_atoi(const char *str)
 	}
 	else
 		q = make_int(str, q, i, 1);
+    errorsCheck(q, str);
 	return (q);
 }

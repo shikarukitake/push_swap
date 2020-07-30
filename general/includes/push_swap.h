@@ -36,4 +36,4 @@ typedef struct  s_sts
 t_sts        *initSts(t_stack **stackA, t_stack **stackB, int howManyChunks);
 
 
-#endif PUSH_SWAP_H
+#endif //PUSH_SWAP_H

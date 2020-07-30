@@ -18,6 +18,11 @@
 # include <unistd.h>
 # include "macro.h"
 # define BUFF_SIZE 64
+# define FALSE 0
+# define TRUE 1
+# define AND &&
+# define OR ||
+
 
 int				ft_atoi(const char *str);
 char			*ft_strncpy(char *dest, const char *src, size_t n);
@@ -105,5 +110,7 @@ int				ft_get_next_line(const int fd, char **line);
 char	        *ft_strsub_free(char const *s,
                    unsigned int start, size_t len, short freeOrNot);
 void            ft_quicksort(int *arr, int low, int high);
+void            ft_error(void);
+void            ft_errorText(char const *text);
 
 #endif

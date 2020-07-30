@@ -7,10 +7,7 @@
 # include "../libft/includes/libft.h"
 # include <stdio.h>
 # include <stdlib.h>
-# define FALSE 0
-# define TRUE 1
-# define AND &&
-# define OR ||
+# include "libft.h"
 
 
 typedef struct  s_stack
@@ -50,6 +47,7 @@ void            reverseRotate(t_stack **stack);
 void            printTwoStacks(t_stack *stackA, t_stack *stackB);
 void            printStack(t_stack *stack);
 t_stack         *init_stack(t_stack *previous, int value);
+void            freeStack(t_stack *stack);
 
 /*
  * Dynamic Array
@@ -65,13 +63,14 @@ t_dynamicArr    *initDArrFromInt(int *array, int len);
  * Service
  */
 
-void            error(void);
-void            errorText(char const *text);
+void            ft_error(void);
+void            ft_errorText(char const *text);
 int             stackIsSorted(t_stack *stackA);
 void            checkSorted(t_stack *stackA, t_stack *stackB);
 int             isOnlyDigits(char *s);
 char            **ft_strsplit(char const *s, char c);
 size_t          ft_w_count(char const *s, char c);
+int             *fillArrayFromStack(t_stack *stack, int sortOrNot);
 
 /*
  * Reading
@@ -79,6 +78,7 @@ size_t          ft_w_count(char const *s, char c);
 
 int             checkCommand(char *command);
 void            readingFromSTDIN(t_dynamicArr    **dArr);
+int             checkDublicates(t_stack *stack);
 
 /*
  * Push Swap commands

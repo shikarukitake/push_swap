@@ -2,10 +2,10 @@
 // Created by positivedespair on 7/25/20.
 //
 
+
 #ifndef MACRO_H
 # define MACRO_H
 
-# define BUFF_SIZE 42
 /*
 ** Exit Checks
 */
