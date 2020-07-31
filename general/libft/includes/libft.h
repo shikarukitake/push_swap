@@ -111,6 +111,6 @@ char	        *ft_strsub_free(char const *s,
                    unsigned int start, size_t len, short freeOrNot);
 void            ft_quicksort(int *arr, int low, int high);
 void            ft_error(void);
-void            ft_errorText(char const *text);
+void            ft_error_t(char const *text);
 
 #endif

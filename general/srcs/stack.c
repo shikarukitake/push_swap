@@ -10,7 +10,7 @@ t_stack     *init_stack(t_stack *previous, int value)
 
     new = (t_stack*)malloc(sizeof(t_stack));
     if (new == NULL)
-        exit(1);
+        ft_error_t("init stack malloc error");
     new->value = value;
     new->previous = previous;
     if (new->previous != NULL)

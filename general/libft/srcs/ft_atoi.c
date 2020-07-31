@@ -39,10 +39,10 @@ static void         errorsCheck(long long q, const char *str)
     int maxLen;
 
     if (q > 2147483647 OR q < -2147483648)
-        ft_errorText("ft_atoi(int) overflow");
+        ft_error_t("ft_atoi(int) overflow");
     maxLen = *str == '-' ? 11 : 10;
     if (ft_strlen(str) > maxLen)
-        ft_errorText("ft_atoi(int) overflow");
+        ft_error_t("ft_atoi(int) overflow");
 }
 
 int					ft_atoi(const char *str)

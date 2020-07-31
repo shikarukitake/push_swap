@@ -10,7 +10,7 @@
 //    exit(1);
 //}
 //
-//void        ft_errorText(char const *text)
+//void        ft_error_t(char const *text)
 //{
 //    write(2, "Error: ", 7);
 //    write(2, text, ft_strlen(text));

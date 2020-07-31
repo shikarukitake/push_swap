@@ -16,7 +16,7 @@ int *fillArrayFromStack(t_stack *stack, int sortOrNot)
 
     i = 0;
     if (!(array = malloc(sizeof(int) * stack->len)))
-        ft_errorText("malloc fillArrayFromStack err!\n");
+        ft_error_t("malloc fillArrayFromStack err!\n");
     while (stack)
     {
         array[i] = stack->value;
@@ -77,14 +77,14 @@ int         main(int argc, char **argv)
             if (!ft_strcmp(argv[i], "-v"))
                 flag = 1;
             else if (isOnlyDigits(argv[i]) == FALSE)
-                ft_errorText("There is non numeric parametr\n");
+                ft_error_t("There is non numeric parametr\n");
             else
                 pushStack(&stackA, ft_atoi(argv[i]));
             i--;
         }
     }
 
-    IF_TRUE(checkDublicates(stackA), ft_errorText("There are dublicates"));
+    IF_TRUE(checkDublicates(stackA), ft_error_t("There are dublicates"));
     readingFromSTDIN(&dArr);
 
     if (flag)

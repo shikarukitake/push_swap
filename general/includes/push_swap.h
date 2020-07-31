@@ -30,6 +30,7 @@ typedef struct  s_sts
     int         secondHoldI;
     char        *commands;
     int         flag;//change to another type
+    int         errors;//change to a.t.
 }               t_sts;
 
 

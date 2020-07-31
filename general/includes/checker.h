@@ -64,7 +64,7 @@ t_dynamicArr    *initDArrFromInt(int *array, int len);
  */
 
 void            ft_error(void);
-void            ft_errorText(char const *text);
+void            ft_error_t(char const *text);
 int             stackIsSorted(t_stack *stackA);
 void            checkSorted(t_stack *stackA, t_stack *stackB);
 int             isOnlyDigits(char *s);
