@@ -36,6 +36,32 @@ typedef struct  s_command
 }               t_command;
 
 /*
+ * There is sorted array with chunk number
+ */
+typedef struct  s_chunks
+{
+    int     len;
+    int     *array;
+    int    *chunk;
+    int     current_c;
+
+}               t_chunks;
+
+typedef struct  s_sts
+{
+    t_command   *comm;
+    t_chunks    *chunks;
+    t_stack     **stackA;
+    t_stack     **stackB;
+    t_dynamicArr *dArr;
+    int         firstHoldI;
+    int         secondHoldI;
+    char        *commands;
+    int         flag;//change to another type
+    int         errors;//change to a.t.
+}               t_sts;
+
+/*
  *  STACK
  */
 
@@ -47,15 +73,15 @@ void            reverseRotate(t_stack **stack);
 void            printTwoStacks(t_stack *stackA, t_stack *stackB);
 void            printStack(t_stack *stack);
 t_stack         *init_stack(t_stack *previous, int value);
-void            freeStack(t_stack *stack);
+void            free_stack(t_stack *stack);
 
 /*
  * Dynamic Array
  */
 
-void            initDArr(t_dynamicArr **arr);
+int             initDArr(t_dynamicArr **arr);
 void            cpyIntArray(int *dest, int *src, int freeOrNot, int len);
-void            addDArr(t_dynamicArr **arr, int value);
+int             addDArr(t_dynamicArr **arr, int value);
 void            printDArr(t_dynamicArr *arr);
 t_dynamicArr    *initDArrFromInt(int *array, int len);
 
@@ -65,6 +91,7 @@ t_dynamicArr    *initDArrFromInt(int *array, int len);
 
 void            ft_error(void);
 void            ft_error_t(char const *text);
+t_sts           *error_tf(char const *text, int init);
 int             stackIsSorted(t_stack *stackA);
 void            checkSorted(t_stack *stackA, t_stack *stackB);
 int             isOnlyDigits(char *s);

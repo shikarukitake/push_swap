@@ -10,7 +10,7 @@ t_stack     *init_stack(t_stack *previous, int value)
 
     new = (t_stack*)malloc(sizeof(t_stack));
     if (new == NULL)
-        ft_error_t("init stack malloc error");
+        error_tf("init stack malloc error", FALSE);
     new->value = value;
     new->previous = previous;
     if (new->previous != NULL)
@@ -69,31 +69,31 @@ void        swap(t_stack **stack)
     pushStack(stack, overTop);
 }
 
-void        rotate(t_stack **stack)
-{
-    t_dynamicArr    *temp;
-    int             first;
-    int             i;
-
-    temp = NULL;
-    i = 0;
-    initDArr(&temp);
-    if (*stack AND (*stack)->previous)
-    {
-        first = popStack(stack);
-        while (*stack)
-            addDArr(&temp, popStack(stack));
-        pushStack(stack, first);
-        i = temp->len - 1;
-        while (i >= 0)
-            pushStack(stack, temp->array[i--]);
-    }
-    if (temp->array)
-        free(temp->array);
-    if (temp)
-        free(temp);
-}
-
+//void        rotate(t_stack **stack)
+//{
+//    t_dynamicArr    *temp;
+//    int             first;
+//    int             i;
+//
+//    temp = NULL;
+//    i = 0;
+//    initDArr(&temp);
+//    if (*stack AND (*stack)->previous)
+//    {
+//        first = popStack(stack);
+//        while (*stack)
+//            addDArr(&temp, popStack(stack));
+//        pushStack(stack, first);
+//        i = temp->len - 1;
+//        while (i >= 0)
+//            pushStack(stack, temp->array[i--]);
+//    }
+//    if (temp->array)
+//        free(temp->array);
+//    if (temp)
+//        free(temp);
+//}
+//
 void        reverseRotate(t_stack **stack)
 {
     t_dynamicArr    *temp;
@@ -116,6 +116,31 @@ void        reverseRotate(t_stack **stack)
         free(temp->array);
         free(temp);
     }
+}
+
+void        rotate(t_stack **stackbig)
+{
+    t_stack *swap;
+    t_stack *stack;
+    t_stack *temp;
+    int     len;
+
+    stack = *stackbig;
+    len = stack->len;
+    swap = stack;
+    stack = stack->previous;
+    swap->previous = NULL;
+    temp = stack;
+    while (stack->previous)
+    {
+        stack->len = len;
+        stack = stack->previous;
+        len--;
+    }
+    stack->len = 2;
+    stack->previous = swap;
+    stack->previous->len = 1;
+    *stackbig = temp;
 }
 
 void        printStack(t_stack *stack)
@@ -153,7 +178,7 @@ void        printTwoStacks(t_stack *stackA, t_stack *stackB)
     printf("%-5s%5s\n\n","a", "b");
 }
 
-void        freeStack(t_stack *stack)
+void        free_stack(t_stack *stack)
 {
     t_stack *to_free;
 

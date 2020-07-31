@@ -38,7 +38,7 @@ t_dynamicArr *initDArrFromInt(int *array, int len)
     return (new);
 }
 
-void        initDArr(t_dynamicArr **arr)
+int        initDArr(t_dynamicArr **arr)
 {
     int *swap;
 
@@ -47,7 +47,8 @@ void        initDArr(t_dynamicArr **arr)
         if (*arr)
         {
             swap = (*arr)->array;
-            (*arr)->array = (int*)malloc(sizeof(int) * (((*arr)->len * 2) + 2)); //protect
+            if (!((*arr)->array = (int*)malloc(sizeof(int) * (((*arr)->len * 2) + 2))))
+                return (0);//protect
             cpyIntArray((*arr)->array, swap, 1, (*arr)->len);
             (*arr)->freeSpace = (*arr)->len;
 
@@ -56,25 +57,30 @@ void        initDArr(t_dynamicArr **arr)
         {
             (*arr) = (t_dynamicArr*)malloc(sizeof(t_dynamicArr));
             (*arr)->array = (int*)malloc(sizeof(int)*102); //protect
+            if (!(*arr)->array)
+                return (0);
             (*arr)->len = 0;
             (*arr)->freeSpace = 100;
         }
     }
-
+    return (1);
 }
 
-void        addDArr(t_dynamicArr **arr, int value)
+int        addDArr(t_dynamicArr **arr, int value)
 {
     if (arr)
     {
         if (!(*arr))
-            initDArr(arr);
+            if (!initDArr(arr))
+                return (0);
         if (!(*arr)->freeSpace)
-            initDArr(arr);
+            if (!initDArr(arr))
+                return (0);
         (*arr)->array[(*arr)->len] = value;
         (*arr)->len += 1;
         (*arr)->freeSpace -= 1;
     }
+    return (1);
 }
 
 void        printDArr(t_dynamicArr *arr)

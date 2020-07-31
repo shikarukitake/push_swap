@@ -7,104 +7,99 @@
 #include <unistd.h>
 #include "libft.h"
 
-
-
-typedef struct  s_dynamicArr
+typedef struct  s_stack
 {
-    int     *array;
+    struct s_stack *previous;
+    int     value;
     int     len;
-    int     freeSpace;
-}               t_dynamicArr;
+}               t_stack;
 
-void            initDArr(t_dynamicArr **arr);
-void            cpyIntArray(int *dest, int *src, int freeOrNot, int len);
-void            addDArr(t_dynamicArr **arr, int value);
-void            printDArr(t_dynamicArr *arr);
-t_dynamicArr    *initDArrFromInt(int *array, int len);
-
-
-void        cpyIntArray(int *dest, int *src, int freeOrNot, int len)
+t_stack     *init_stack(t_stack *previous, int value)
 {
-    int i;
+    t_stack *new;
 
-    i = 0;
-    if (dest )
-        while (i != len)
-        {
-            dest[i] = src[i];
-            i++;
-        }
-    if (freeOrNot)
-        free(src);
+    new = (t_stack*)malloc(sizeof(t_stack));
+    if (new == NULL)
+        exit(1);
+    new->value = value;
+    new->previous = previous;
+    if (new->previous != NULL)
+        new->len = (new->previous)->len + 1;
+    else
+        new->len = 1;
+    return (new);
 }
 
-t_dynamicArr *initDArrFromInt(int *array, int len)
+void        pushStack(t_stack **stack, int value)
 {
-    t_dynamicArr    *new;
-    int             i;
+    *stack = init_stack(*stack, value);
+}
 
-    new = NULL;
-    if (len > 0)
+t_stack     *newStack(int *values, int len)
+{
+    t_stack *new;
+    int     i;
+
+    new = init_stack(NULL, values[0]);
+    i = 1;
+    while (i != len)
     {
-        i = 0;
-        while (i != len)
-        {
-            addDArr(&new, array[i]);
-            i++;
-        }
+        pushStack(&new, values[i]);
+        i++;
     }
     return (new);
 }
 
-void        initDArr(t_dynamicArr **arr)
+void        rotate(t_stack **stackbig)
 {
-    int *swap;
+    t_stack *swap;
+    t_stack *stack;
+    t_stack *temp;
+    int     len;
 
-    if (arr)
+    stack = *stackbig;
+    len = stack->len;
+    swap = stack;
+    stack = stack->previous;
+    swap->previous = NULL;
+    temp = stack;
+    while (stack->previous)
     {
-        if (*arr)
-        {
-            swap = (*arr)->array;
-            (*arr)->array = (int*)malloc(sizeof(int) * (((*arr)->len * 2) + 2)); //protect
-            cpyIntArray((*arr)->array, swap, 1, (*arr)->len);
-            (*arr)->freeSpace = (*arr)->len;
-        }
-        else
-        {
-            (*arr) = (t_dynamicArr*)malloc(sizeof(t_dynamicArr));
-            (*arr)->array = (int*)malloc(sizeof(int)*102); //protect
-            (*arr)->len = 0;
-            (*arr)->freeSpace = 100;
-        }
+        stack->len = len;
+        stack = stack->previous;
+        len--;
     }
-
+    stack->len = 2;
+    stack->previous = swap;
+    stack->previous->len = 1;
+    *stackbig = temp;
 }
 
-void        addDArr(t_dynamicArr **arr, int value)
-{
-    if (arr)
-    {
-        if (!(*arr))
-            initDArr(arr);
-        if (!(*arr)->freeSpace)
-            initDArr(arr);
-        (*arr)->array[(*arr)->len] = value;
-        (*arr)->len += 1;
-        (*arr)->freeSpace -= 1;
-    }
-}
-
-void        printDArr(t_dynamicArr *arr)
-{
-    int i;
-
-    i = 0;
-    while (i != arr->len)
-        printf("%d ", arr->array[i++]);
-    printf("\n");
-}
+void        reverse_rotate(t_stack **stack)
 
 int main(int argc, char **argv)
 {
-    int i = ft_atoi("30");
+    t_stack *stack;
+    t_stack *swap;
+    t_stack *temp;
+    int i = 0;
+
+    int array[] = {1, 2};
+    stack = newStack(array, 2);
+//    swap = stack;
+//    stack = stack->previous;
+//    swap->previous = NULL;
+//    temp = stack;
+//    while (stack->previous)
+//    {
+//        stack = stack->previous;
+//    }
+//    stack->previous = swap;
+    rotate(&stack);
+    while (stack)
+    {
+        printf("%d %d\n", stack->value, stack->len);
+        stack = stack->previous;
+    }
+    return (0);
 }
