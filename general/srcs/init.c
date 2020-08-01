@@ -18,6 +18,7 @@ t_chunks    *init_chunks(int len)
 
     return chunks;
 }
+
 void        init_chunks_comm(t_sts *sts, int how_many_chunks)
 {
     if (how_many_chunks != FALSE)
