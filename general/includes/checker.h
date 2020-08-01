@@ -98,7 +98,7 @@ int             isOnlyDigits(char *s);
 char            **ft_strsplit(char const *s, char c);
 size_t          ft_w_count(char const *s, char c);
 int             *arr_from_stack(t_stack *stack, int sortOrNot);
-
+void            free_sts(t_sts *sts);
 /*
  * Reading
  */

@@ -7,8 +7,6 @@
  */
 #include "checker.h"
 
-
-
 int *arr_from_stack(t_stack *stack, int sortOrNot)
 {
     int *array;

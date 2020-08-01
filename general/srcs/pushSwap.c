@@ -1,17 +1,10 @@
-//
-// Created by Sole Dagger on 13/02/2020.
-//
+#include "../includes/push_swap.h"
 
-//
-// Created by shika on 10.02.2020.
-//
-#include <includes/push_swap.h>
-#include "push_swap.h"
+void            free_sts_stacks(const t_sts *sts);
+void            init_chunks_comm(t_sts *sts, int how_many_chunks);
+int             smaller_or_greater(t_stack *stack, int value);
+int             binary_search(int *array, int len, int value);
 
-void free_sts_stacks(const t_sts *sts);
-void           init_chunks_comm(t_sts *sts, int how_many_chunks);
-
-t_sts *get_sts(void);
 
 char *get_string(t_stack *stackSwap);
 
@@ -74,7 +67,6 @@ t_dynamicArr    *get_darr_commands(char *commandz)
     free(commands);
     return (dArr);
 }
-
 
 char *sort_three(t_sts *sts, int flag)
 {
@@ -167,6 +159,7 @@ int         find_next_stacka(t_sts *sts, int value)
         stack = stack->previous;
     }
     error_tf("Cant find the next number in find_next_stacka function", FALSE);
+    return (0);
 }
 
 /*
@@ -200,6 +193,7 @@ int         find_next_stackb(t_sts *sts, int value)
         stack = stack->previous;
     }
     error_tf("Cant find the next number in find_next_stacka function\n", FALSE);
+    return (0);
 }
 
 t_command   *ra_or_rra(t_sts *sts, int value)
@@ -316,36 +310,6 @@ int         smaller_or_greater(t_stack *stack, int value)
         return (-1);
     else
         return (0);
-}
-
-void        doIfSmallerOrGreater(t_sts *sts, int smallOrBig, int paOrPb)
-{
-    t_dynamicArr *dArr;
-    char          *commands;
-
-
-    if (smallOrBig == 1)
-    {
-        if (paOrPb == 1)
-            commands = ft_strdup("pa ra ");
-        else
-            commands = ft_strdup("pb rb ");
-        sts->commands = ft_strjoin_free(sts->commands, commands, 1);
-        dArr = get_darr_commands(commands);
-        exec_commands(dArr, sts->stackA, sts->stackB, 0); // remove flag
-    }
-    else
-    {
-        if (paOrPb == 1)
-            commands = ft_strdup("pa ");
-        else
-            commands = ft_strdup("pb ");
-        sts->commands = ft_strjoin_free(sts->commands, commands, 1);
-        dArr = get_darr_commands(commands);
-        exec_commands(dArr, sts->stackA, sts->stackB, 0); // remove flag
-    }
-    free(commands);
-
 }
 
 void        sort_end(t_sts *sts)
@@ -659,21 +623,6 @@ void        push_to_stackb(t_sts *sts)
     do_r_or_rr(sts, (*(sts->stackA))->value, "pb ");
 }
 
-
-void        pushToStackA(t_sts *sts)
-{
-    char    *commas;
-
-    sort_end_stackb(sts);
-    sts->comm->command = "pa ";
-    sts->comm->count = (*(sts->stackB))->len;
-    commas = commands_from_tcomm(sts->comm, NULL);
-    sts->dArr = get_darr_commands(commas);
-    exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
-    sts->commands = ft_strjoin_free(sts->commands, commas, 0);
-    sts->chunks->current_c++;
-}
-
 char *sort_all(int how_many_chunks, t_sts *sts)
 {
     char        *commas;
@@ -697,8 +646,9 @@ char *sort_all(int how_many_chunks, t_sts *sts)
     if (!(sts->commands = ft_strjoin_free(sts->commands, commas, 0)))
         error_tf("sort_all ft_strjoin_free malloc error", FALSE);
     change_chr(sts->commands, ' ', '\n');
-    return sts->commands;
+    return (sts->commands);
 }
+
 
 void        sort_stack(t_sts *sts)
 {
@@ -762,8 +712,6 @@ int         check_dublicates(t_stack *stack)
     free(array);
     return (FALSE);
 }
-
-
 
 int         main(int argc, char **argv)
 {
