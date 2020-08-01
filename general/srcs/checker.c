@@ -9,14 +9,14 @@
 
 
 
-int *fillArrayFromStack(t_stack *stack, int sortOrNot)
+int *arr_from_stack(t_stack *stack, int sortOrNot)
 {
     int *array;
     int i;
 
     i = 0;
     if (!(array = malloc(sizeof(int) * stack->len)))
-        ft_error_t("malloc fillArrayFromStack err!\n");
+        ft_error_t("malloc arr_from_stack err!\n");
     while (stack)
     {
         array[i] = stack->value;
@@ -29,14 +29,14 @@ int *fillArrayFromStack(t_stack *stack, int sortOrNot)
     return (array);
 }
 
-int checkDublicates(t_stack *stack)
+int check_dublicates(t_stack *stack)
 {
     int *array;
     int i;
     int previous;
 
     i = 1;
-    array = fillArrayFromStack(stack, TRUE);
+    array = arr_from_stack(stack, TRUE);
     previous = array[0];
     while (i != stack->len)
     {
@@ -79,12 +79,12 @@ int         main(int argc, char **argv)
             else if (isOnlyDigits(argv[i]) == FALSE)
                 ft_error_t("There is non numeric parametr\n");
             else
-                pushStack(&stackA, ft_atoi(argv[i]));
+                push_stack(&stackA, ft_atoi(argv[i]));
             i--;
         }
     }
 
-    IF_TRUE(checkDublicates(stackA), ft_error_t("There are dublicates"));
+    IF_TRUE(check_dublicates(stackA), ft_error_t("There are dublicates"));
     readingFromSTDIN(&dArr);
 
     if (flag)
@@ -93,7 +93,7 @@ int         main(int argc, char **argv)
      * dArr may be empty (NULL)
      */
     if (dArr)
-        execCommands(dArr, &stackA, &stackB, flag);
+        exec_commands(dArr, &stackA, &stackB, flag);
     checkSorted(stackA, stackB);
     return (0);
 }

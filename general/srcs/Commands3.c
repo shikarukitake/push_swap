@@ -27,7 +27,7 @@ void        initFTable(void **func_table)
     func_table[10] = ft_rrr;
 }
 
-void        execCommands(t_dynamicArr *dArr, t_stack **stackA, t_stack **stackB, int flag)
+void        exec_commands(t_dynamicArr *dArr, t_stack **stackA, t_stack **stackB, int flag)
 {
     static void     (*func_table[11])(t_stack **stackA, t_stack **stackB, int flag);
     int             i;

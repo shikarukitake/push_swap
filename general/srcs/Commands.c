@@ -31,7 +31,7 @@ void        ft_pa(t_stack **stackA, t_stack **stackB, int flag)
     if (flag)
         printf("pa:\n");
     if (*stackB)
-        pushStack(stackA, popStack(stackB));
+        push_stack(stackA, popStack(stackB));
 }
 
 void        ft_pb(t_stack **stackA, t_stack **stackB, int flag)
@@ -39,5 +39,5 @@ void        ft_pb(t_stack **stackA, t_stack **stackB, int flag)
     if (flag)
         printf("pb:\n");
     if (*stackA)
-        pushStack(stackB, popStack(stackA));
+        push_stack(stackB, popStack(stackA));
 }

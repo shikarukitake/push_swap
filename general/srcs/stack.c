@@ -20,7 +20,7 @@ t_stack     *init_stack(t_stack *previous, int value)
     return (new);
 }
 
-void        pushStack(t_stack **stack, int value)
+void        push_stack(t_stack **stack, int value)
 {
     *stack = init_stack(*stack, value);
 }
@@ -47,7 +47,7 @@ t_stack     *newStack(int *values, int len)
     i = 1;
     while (i != len)
     {
-        pushStack(&new, values[i]);
+        push_stack(&new, values[i]);
         i++;
     }
     return (new);
@@ -65,8 +65,8 @@ void        swap(t_stack **stack)
     }
     else
         return ;
-    pushStack(stack, top);
-    pushStack(stack, overTop);
+    push_stack(stack, top);
+    push_stack(stack, overTop);
 }
 
 //void        rotate(t_stack **stack)
@@ -83,10 +83,10 @@ void        swap(t_stack **stack)
 //        first = popStack(stack);
 //        while (*stack)
 //            addDArr(&temp, popStack(stack));
-//        pushStack(stack, first);
+//        push_stack(stack, first);
 //        i = temp->len - 1;
 //        while (i >= 0)
-//            pushStack(stack, temp->array[i--]);
+//            push_stack(stack, temp->array[i--]);
 //    }
 //    if (temp->array)
 //        free(temp->array);
@@ -111,8 +111,8 @@ void        reverseRotate(t_stack **stack)
         temp->len -= 1;
         i = temp->len - 1;
         while (i >= 0)
-            pushStack(stack, temp->array[i--]);
-        pushStack(stack, first);
+            push_stack(stack, temp->array[i--]);
+        push_stack(stack, first);
         free(temp->array);
         free(temp);
     }

@@ -17,7 +17,7 @@
 //    exit(1);
 //}
 
-int         stackIsSorted(t_stack *stackA)
+int         stack_is_sorted(t_stack *stackA)
 {
     int previous;
 
@@ -35,7 +35,7 @@ int         stackIsSorted(t_stack *stackA)
 
 void        checkSorted(t_stack *stackA, t_stack *stackB)
 {
-    if (stackIsSorted(stackA) AND !stackB)
+    if (stack_is_sorted(stackA) AND !stackB)
         printf("OK!\n");
     else
         printf("KO!\n");

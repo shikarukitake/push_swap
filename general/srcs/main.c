@@ -30,7 +30,7 @@ t_stack     *init_stack(t_stack *previous, int value)
     return (new);
 }
 
-void        pushStack(t_stack **stack, int value)
+void        push_stack(t_stack **stack, int value)
 {
     *stack = init_stack(*stack, value);
 }
@@ -44,7 +44,7 @@ t_stack     *newStack(int *values, int len)
     i = 1;
     while (i != len)
     {
-        pushStack(&new, values[i]);
+        push_stack(&new, values[i]);
         i++;
     }
     return (new);

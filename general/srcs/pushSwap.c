@@ -13,9 +13,9 @@ void           init_chunks_comm(t_sts *sts, int how_many_chunks);
 
 t_sts *get_sts(void);
 
-char *getString(t_stack *stack);
+char *get_string(t_stack *stackSwap);
 
-void        changeChr(char *string, char f, char c)
+void        change_chr(char *string, char f, char c)
 {
     int i;
 
@@ -31,7 +31,7 @@ void        changeChr(char *string, char f, char c)
 /*
  * Additional function to sort three elements
  */
-char        *getStrCommands3(int *minMeanMax, int *swap)
+char        *get_str_commands3(int *minMeanMax, int *swap)
 {
 
     if (swap[0] == minMeanMax[2])
@@ -63,10 +63,12 @@ t_dynamicArr    *get_darr_commands(char *commandz)
     while(commands AND ft_strcmp(commands, ""))
     {
         n = ft_strchrn(commands, ' ');
-        command = ft_strsub_free(commands, 0, n, 0);
+        if (!(command = ft_strsub_free(commands, 0, n, 0)))
+            return (NULL);//protect
         if (!addDArr(&dArr, checkCommand(command)))
             return (NULL);
-        commands = ft_strsub_free(commands, n + 1, ft_strlen(commands) - (n + 1), 1);
+        if (!(commands = ft_strsub_free(commands, n + 1, ft_strlen(commands) - (n + 1), 1)))
+            return (NULL);//protect
         free(command);
     }
     free(commands);
@@ -76,23 +78,21 @@ t_dynamicArr    *get_darr_commands(char *commandz)
 
 char *sort_three(t_sts *sts, int flag)
 {
-    char *some;
-
-    some = getString(*(sts->stackA));
-    if (!some)
+    sts->commands = get_string(*(sts->stackA));
+    if (!sts->commands)
         error_tf("sort_three_elements strdup malloc", FALSE);
-    if (!(sts->dArr = get_darr_commands(some)))
+    if (!(sts->dArr = get_darr_commands(sts->commands)))
         error_tf("sort_three_elements darr error", FALSE);
-    execCommands(sts->dArr, sts->stackA, NULL, 0);
+    exec_commands(sts->dArr, sts->stackA, NULL, 0);
     if (flag == 0)
-        changeChr(some, ' ', '\n');
-    return some;
+        change_chr(sts->commands, ' ', '\n');
+    return (sts->commands);
 }
 
 /*
  * Additional function to sort three items
  */
-char *getString(t_stack *stackSwap)
+char *get_string(t_stack *stackSwap)
 {
     int minMeanMax[3];
     int i;
@@ -112,7 +112,7 @@ char *getString(t_stack *stackSwap)
         ft_swap(&minMeanMax[0], &minMeanMax[1]);
     if (minMeanMax[1] > minMeanMax[2])
         ft_swap(&minMeanMax[1], &minMeanMax[2]);
-    return (getStrCommands3(minMeanMax, swap));
+    return (get_str_commands3(minMeanMax, swap));
 }
 
 void       *sort_two(t_sts *sts)
@@ -125,7 +125,7 @@ void       *sort_two(t_sts *sts)
 /*
  * Function to check if value in stack
  */
-int         existInStack(t_stack *stack, int value)
+int         exist_in_stack(t_stack *stack, int value)
 {
     while (stack)
     {
@@ -140,7 +140,7 @@ int         existInStack(t_stack *stack, int value)
  * The function find next number for current value in stackA
  * The next number is the element before which you need to put a value
  */
-int         findNext(t_sts *sts, int value)
+int         find_next_stacka(t_sts *sts, int value)
 {
     int index;
     t_stack *stack;
@@ -148,12 +148,12 @@ int         findNext(t_sts *sts, int value)
 
     stack = *(sts->stackA);
 
-    index = binarySearch(sts->chunks->array, sts->chunks->len, value) + 1;
-    if (smallerOrGreater(stack, value))
+    index = binary_search(sts->chunks->array, sts->chunks->len, value) + 1;
+    if (smaller_or_greater(stack, value))
         index = 0;
     while (index != sts->chunks->len)
     {
-        if (existInStack(stack, sts->chunks->array[index]) == TRUE)
+        if (exist_in_stack(stack, sts->chunks->array[index]) == TRUE)
             break;
         index++;
     }
@@ -166,14 +166,14 @@ int         findNext(t_sts *sts, int value)
         i++;
         stack = stack->previous;
     }
-    error_tf("Cant find the next number in findNext function", FALSE);
+    error_tf("Cant find the next number in find_next_stacka function", FALSE);
 }
 
 /*
  * The function find next number for current value in stackB
  * The next number is the element before which you need to put a value
  */
-int         findNextStackB(t_sts *sts, int value)
+int         find_next_stackb(t_sts *sts, int value)
 {
     int index;
     t_stack *stack;
@@ -181,12 +181,12 @@ int         findNextStackB(t_sts *sts, int value)
 
     stack = *(sts->stackB);
 
-    index = binarySearch(sts->chunks->array, sts->chunks->len, value) - 1;
-    if (smallerOrGreater(stack, value))
+    index = binary_search(sts->chunks->array, sts->chunks->len, value) - 1;
+    if (smaller_or_greater(stack, value))
         index = sts->chunks->len - 1;
     while (index >= 0)
     {
-        if (existInStack(stack, sts->chunks->array[index]) == TRUE)
+        if (exist_in_stack(stack, sts->chunks->array[index]) == TRUE)
             break;
         index--;
     }
@@ -199,7 +199,7 @@ int         findNextStackB(t_sts *sts, int value)
         i++;
         stack = stack->previous;
     }
-    error_tf("Cant find the next number in findNext function\n", FALSE);
+    error_tf("Cant find the next number in find_next_stacka function\n", FALSE);
 }
 
 t_command   *ra_or_rra(t_sts *sts, int value)
@@ -216,7 +216,7 @@ t_command   *ra_or_rra(t_sts *sts, int value)
     /*
      * Change to another
      */
-    i = findNext(sts, value);
+    i = find_next_stacka(sts, value);
     comm->command = i <= lenOfStackA - i ? "ra " : "rra ";
     comm->count = i <= lenOfStackA - i ? i : lenOfStackA - i;
 
@@ -242,14 +242,14 @@ t_command   *rb_or_rrb(t_sts *sts, int value)
     /*
      * Change to another
      */
-    i = findNextStackB(sts, value);
+    i = find_next_stackb(sts, value);
     comm->command = i <= lenOfStackA - i ? "rb " : "rrb ";
     comm->count = i <= lenOfStackA - i ? i : lenOfStackA - i;
 
     return comm;
 }
 
-char   *commandsFromTComm(t_command *comm, char const *paOrPb)
+char   *commands_from_tcomm(t_command *comm, char const *paOrPb)
 {
     char    *commands;
     int     count;
@@ -279,11 +279,11 @@ void    do_r_or_rr(t_sts *sts, int value, char *paOrPb)
         comm = ra_or_rra(sts, value);
     else
         comm = rb_or_rrb(sts, value);
-    commas = commandsFromTComm(comm, paOrPb);
+    commas = commands_from_tcomm(comm, paOrPb);
     free(comm);
     if (!(sts->dArr = get_darr_commands(commas)))
         error_tf("do_r_or_rr getdarrcommands error", FALSE);
-    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
+    exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
     if (!(sts->commands = ft_strjoin_free(sts->commands, commas, 0)))
         error_tf("do_r_or_rr ft_strjoin free error", FALSE);
 }
@@ -293,7 +293,7 @@ void    do_r_or_rr(t_sts *sts, int value, char *paOrPb)
  * 0 if not greater or smaller
  * -1 if smaller
  */
-int         smallerOrGreater(t_stack *stack, int value)
+int         smaller_or_greater(t_stack *stack, int value)
 {
     int min;
     int max;
@@ -332,7 +332,7 @@ void        doIfSmallerOrGreater(t_sts *sts, int smallOrBig, int paOrPb)
             commands = ft_strdup("pb rb ");
         sts->commands = ft_strjoin_free(sts->commands, commands, 1);
         dArr = get_darr_commands(commands);
-        execCommands(dArr, sts->stackA, sts->stackB, 0); // remove flag
+        exec_commands(dArr, sts->stackA, sts->stackB, 0); // remove flag
     }
     else
     {
@@ -342,7 +342,7 @@ void        doIfSmallerOrGreater(t_sts *sts, int smallOrBig, int paOrPb)
             commands = ft_strdup("pb ");
         sts->commands = ft_strjoin_free(sts->commands, commands, 1);
         dArr = get_darr_commands(commands);
-        execCommands(dArr, sts->stackA, sts->stackB, 0); // remove flag
+        exec_commands(dArr, sts->stackA, sts->stackB, 0); // remove flag
     }
     free(commands);
 
@@ -367,48 +367,15 @@ void        sort_end(t_sts *sts)
         i++;
     }
 
-//    if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-//        ft_error_t("sort_end malloc ft_error\n");
     sts->comm->command = i <= lenOfStackA - i ? "ra " : "rra ";
     sts->comm->count = i <= lenOfStackA - i ? i : lenOfStackA - i;
-    commas = commandsFromTComm(sts->comm, NULL);
+    commas = commands_from_tcomm(sts->comm, NULL);
     sts->dArr = get_darr_commands(commas);
-    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
+    exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
     sts->commands = ft_strjoin_free(sts->commands, commas, 0);
 }
 
-//void        sort_end_stackb(t_sts *sts)
-//{
-//    int i;
-//    t_stack *stack;
-//    char        *commas;
-//    int         lenOfStack;
-//
-//    stack = *(sts->stackB);
-//    i = 0;
-//    lenOfStack = sts->chunks->len;
-//    while (stack)
-//    {
-//        if (stack->value == sts->chunks->array[sts->chunks->len - 1])
-//            break;
-//        stack = stack->previous;
-//        i++;
-//    }
-//    if (i == 0)
-//        return ;
-//    if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-//        ft_error_t("sort_end malloc ft_error\n");
-//    sts->comm->command = i <= lenOfStack - i ? "rb " : "rrb ";
-//    sts->comm->count = i <= lenOfStack - i ? i : lenOfStack - i;
-//
-//
-//    commas = commandsFromTComm(sts->comm, NULL);
-//    sts->dArr = get_darr_commands(commas);
-//    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
-//    sts->commands = ft_strjoin_free(sts->commands, commas, 0);
-//}
-
-int         findMaxInStack(t_stack *stack)
+int         find_id_max_in_stack(t_stack *stack)
 {
     int i;
     int max;
@@ -434,31 +401,21 @@ int         findMaxInStack(t_stack *stack)
 void        sort_end_stackb(t_sts *sts)
 {
     int         i;
-//    t_stack     *stack;
     char        *commas;
     int         lenOfStack;
 
-//    stack = *(sts->stackB);
-    i = findMaxInStack(*(sts->stackB));
+    i = find_id_max_in_stack(*(sts->stackB));
     lenOfStack = sts->chunks->len;
-//    while (stack)
-//    {
-//        if (stack->value == sts->chunks->array[sts->chunks->len - 1])
-//            break;
-//        stack = stack->previous;
-//        i++;
-//    }
-
     if (i == 0)
         return ;
-    if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-        ft_error_t("sort_end malloc ft_error\n");
     sts->comm->command = i <= lenOfStack - i ? "rb " : "rrb ";
     sts->comm->count = i <= lenOfStack - i ? i : lenOfStack - i;
-    commas = commandsFromTComm(sts->comm, NULL);
-    sts->dArr = get_darr_commands(commas);
-    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
-    sts->commands = ft_strjoin_free(sts->commands, commas, 0);
+    commas = commands_from_tcomm(sts->comm, NULL);
+    if (!(sts->dArr = get_darr_commands(commas)))
+        error_tf("sort_end_stackb get_darr_commands malloc error", FALSE);
+    exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
+    if (!(sts->commands = ft_strjoin_free(sts->commands, commas, 0)))
+        error_tf("sort_end_stackb ft_strjoin_free malloc error", FALSE);
 }
 
 char        *sort_five(t_sts *sts)
@@ -469,13 +426,15 @@ char        *sort_five(t_sts *sts)
      * First commands always be "pb pb"
      */
     init_chunks_comm(sts, 1);
-    sts->commands = (*(sts->stackA))->len == 4 ? "pb " : "pb pb ";
+    sts->commands = (*(sts->stackA))->len == 4 ? ft_strdup("pb ") : ft_strdup("pb pb ");
+    if (!sts->commands)
+        error_tf("sort_five ft_strdup malloc error", FALSE);
 
     if (!(sts->dArr = get_darr_commands(sts->commands)))
         error_tf("sort_five darr error", FALSE);
-    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
-    if (stackIsSorted(*(sts->stackA)) == FALSE)
-        if (!(sts->commands = ft_strjoin_free(sts->commands, sort_three(sts, 1), 2)))
+    exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
+    if (stack_is_sorted(*(sts->stackA)) == FALSE)
+        if (!(sts->commands = ft_strjoin_free(sts->commands, sort_three(sts, 1), 0)))
             error_tf("sort_five ft_strjoin_free error", FALSE);
     while (*(sts->stackB))
     {
@@ -486,9 +445,9 @@ char        *sort_five(t_sts *sts)
          */
         do_r_or_rr(sts, (*(sts->stackB))->value, "pa ");
     }
-    if (stackIsSorted(*(sts->stackA)) == FALSE)
+    if (stack_is_sorted(*(sts->stackA)) == FALSE)
         sort_end(sts);
-    changeChr(sts->commands, ' ', '\n');
+    change_chr(sts->commands, ' ', '\n');
     return (sts->commands);
 }
 
@@ -507,7 +466,7 @@ t_chunks    *init_chunks(int len)
     return chunks;
 }
 
-void        createChunksArray(t_chunks *chunks, int howManyChunks)
+void        create_chunks_arr(t_chunks *chunks, int howManyChunks)
 {
     int first;
     int other;
@@ -554,11 +513,11 @@ t_chunks    *fill_chunks(t_stack *stack, int howManyChunks)
         i++;
     }
     ft_quicksort(chunks->array, 0, chunks->len - 1);
-    createChunksArray(chunks, howManyChunks);
+    create_chunks_arr(chunks, howManyChunks);
     return (chunks);
 }
 
-int         existsInChunk(t_stack *stack, t_chunks *chunks, int current_c)
+int         exists_in_chunk(t_stack *stack, t_chunks *chunks, int current_c)
 {
     int i;
 
@@ -578,25 +537,6 @@ int         existsInChunk(t_stack *stack, t_chunks *chunks, int current_c)
     return FALSE;
 }
 
-t_sts        *initSts(t_stack **stackA, t_stack **stackB, int howManyChunks)
-{
-    t_sts       *sts;
-
-    if (!(sts = malloc(sizeof(t_sts))))
-        ft_error_t("sts (sort_all) malloc ft_error");
-    else
-    {
-        sts->stackA = stackA;
-        sts->stackB = stackB;
-        if (howManyChunks != FALSE)
-            sts->chunks = fill_chunks(*stackA, howManyChunks);
-        if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-            ft_error_t("initSts malloc ft_error");
-        return sts;
-    }
-    return NULL;
-}
-
 void           init_chunks_comm(t_sts *sts, int how_many_chunks)
 {
     if (how_many_chunks != FALSE)
@@ -605,7 +545,7 @@ void           init_chunks_comm(t_sts *sts, int how_many_chunks)
         error_tf("initSts malloc ft_error", FALSE);
 }
 
-int binarySearch(int *array, int len, int value)
+int binary_search(int *array, int len, int value)
 {
     int l;
     int r;
@@ -629,11 +569,11 @@ int binarySearch(int *array, int len, int value)
     return (-1);
 }
 
-int        currentValueInChunk(t_chunks *chunks, int value)
+int        value_in_chunk(t_chunks *chunks, int value)
 {
     int index;
 
-    index = binarySearch(chunks->array, chunks->len, value);
+    index = binary_search(chunks->array, chunks->len, value);
     if (chunks->chunk[index] == chunks->current_c)
         return (index);
     else
@@ -646,7 +586,7 @@ int        currentValueInChunk(t_chunks *chunks, int value)
  * second hold - first number from bottom of the stack
  * first hold
  */
-void        findHolds(t_sts *sts)
+void        find_holds(t_sts *sts)
 {
     t_stack     *stack;
     int         i;
@@ -657,7 +597,7 @@ void        findHolds(t_sts *sts)
     sts->firstHoldI = -1;
     while (stack)
     {
-        if (currentValueInChunk(sts->chunks, stack->value) != -1)
+        if (value_in_chunk(sts->chunks, stack->value) != -1)
         {
             sts->firstHoldI = j;
             break;
@@ -665,14 +605,13 @@ void        findHolds(t_sts *sts)
         stack = stack->previous;
         j++;
     }
-
     j = 0;
     i = -1;
     stack = *(sts->stackA);
     sts->secondHoldI = -1;
     while (stack)
     {
-        if ((i = currentValueInChunk(sts->chunks, stack->value)) != -1)
+        if ((i = value_in_chunk(sts->chunks, stack->value)) != -1)
             sts->secondHoldI = j;
         stack = stack->previous;
         j++;
@@ -681,7 +620,7 @@ void        findHolds(t_sts *sts)
 
 
 
-void        findComm(t_sts *sts, int lenOfStack)
+void        find_comm(t_sts *sts, int lenOfStack)
 {
     int ind;
     int i;
@@ -704,17 +643,17 @@ void        findComm(t_sts *sts, int lenOfStack)
     sts->comm->count = i <= j ? i : j;
 }
 
-void        pushToStackB(t_sts *sts)
+void        push_to_stackb(t_sts *sts)
 {
     char *commas;
 
-    findHolds(sts);
+    find_holds(sts);
     if (sts->firstHoldI != 0 AND sts->secondHoldI != 0)
     {
-        findComm(sts, (*(sts->stackA))->len);
-        commas = commandsFromTComm(sts->comm, NULL);
+        find_comm(sts, (*(sts->stackA))->len);
+        commas = commands_from_tcomm(sts->comm, NULL);
         sts->dArr = get_darr_commands(commas);
-        execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
+        exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
         sts->commands = ft_strjoin_free(sts->commands, commas, 0);
     }
     do_r_or_rr(sts, (*(sts->stackA))->value, "pb ");
@@ -728,39 +667,36 @@ void        pushToStackA(t_sts *sts)
     sort_end_stackb(sts);
     sts->comm->command = "pa ";
     sts->comm->count = (*(sts->stackB))->len;
-    commas = commandsFromTComm(sts->comm, NULL);
+    commas = commands_from_tcomm(sts->comm, NULL);
     sts->dArr = get_darr_commands(commas);
-    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
+    exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
     sts->commands = ft_strjoin_free(sts->commands, commas, 0);
     sts->chunks->current_c++;
 }
 
-char        *sort_all(t_stack **stackA, t_stack **stackB, int how_many_chunks)
+char *sort_all(int how_many_chunks, t_sts *sts)
 {
-    t_sts       *sts;
     char        *commas;
 
     init_chunks_comm(sts, how_many_chunks);
-
-    sts->commands = ft_strdup("");
-    while (sts->chunks->current_c != how_many_chunks)
-    {
-        if (existsInChunk(*stackA, sts->chunks, sts->chunks->current_c) == FALSE)
+    if (!(sts->commands = ft_strdup("")))
+        error_tf("sort_all ft_strdup malloc error", FALSE);
+    while (sts->chunks->current_c != how_many_chunks) {
+        if (exists_in_chunk(*(sts->stackA), sts->chunks, sts->chunks->current_c) == FALSE)
             sts->chunks->current_c++;
-//            pushToStackA(sts);
         if (sts->chunks->current_c != how_many_chunks)
-            pushToStackB(sts);
+            push_to_stackb(sts);
     }
     sort_end_stackb(sts);
-//    if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
-//        ft_error_t("sort_all malloc ft_error\n");
     sts->comm->command = "pa ";
     sts->comm->count = (*(sts->stackB))->len;
-    commas = commandsFromTComm(sts->comm, NULL);
-    sts->dArr = get_darr_commands(commas);
-    execCommands(sts->dArr, sts->stackA, sts->stackB, 0);
-    sts->commands = ft_strjoin_free(sts->commands, commas, 0);
-    changeChr(sts->commands, ' ', '\n');
+    commas = commands_from_tcomm(sts->comm, NULL);
+    if (!(sts->dArr = get_darr_commands(commas)))
+        error_tf("sort_all get_darr_commands malloc error", FALSE);
+    exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
+    if (!(sts->commands = ft_strjoin_free(sts->commands, commas, 0)))
+        error_tf("sort_all ft_strjoin_free malloc error", FALSE);
+    change_chr(sts->commands, ' ', '\n');
     return sts->commands;
 }
 
@@ -779,23 +715,23 @@ void        sort_stack(t_sts *sts)
     else if ((*stackA)->len <= 5)
         commands = sort_five(sts);
     else if ((*stackA)->len <= 100)
-        commands = sort_all(stackA, stackB, 5);
+        commands = sort_all(5, sts);
     else if ((*stackA)->len <= 500)
-        commands = sort_all(stackA, stackB, 11);
+        commands = sort_all(11, sts);
     else
-        ft_error_t("Unknown sort case");
+        commands = sort_all(30, sts);
 
     printf("%s", commands);
 }
 
-int         *fillArrayFromStack(t_stack *stack, int sortOrNot)
+int         *arr_from_stack(t_stack *stack, int sortOrNot)
 {
     int *array;
     int i;
 
     i = 0;
     if (!(array = malloc(sizeof(int) * stack->len)))
-        error_tf("malloc fillArrayFromStack err!\n", FALSE);
+        error_tf("malloc arr_from_stack err!\n", FALSE);
     while (stack)
     {
         array[i] = stack->value;
@@ -807,14 +743,14 @@ int         *fillArrayFromStack(t_stack *stack, int sortOrNot)
     return (array);
 }
 
-int         checkDublicates(t_stack *stack)
+int         check_dublicates(t_stack *stack)
 {
     int *array;
     int i;
     int previous;
 
     i = 1;
-    array = fillArrayFromStack(stack, TRUE);
+    array = arr_from_stack(stack, TRUE);
     previous = array[0];
     while (i != stack->len)
     {
@@ -859,14 +795,14 @@ int         main(int argc, char **argv)
             else if (isOnlyDigits(argv[i]) == FALSE)
                 ft_error_t("There is non numeric param!");
             else
-                pushStack(sts->stackA, ft_atoi(argv[i]));
+                push_stack(sts->stackA, ft_atoi(argv[i]));
             i--;
         }
     }
 
-    if (checkDublicates(*(sts->stackA)))
+    if (check_dublicates(*(sts->stackA)))
         error_tf("There are dublicates\n", FALSE);
-    if (!stackIsSorted(*(sts->stackA)))
+    if (!stack_is_sorted(*(sts->stackA)))
         sort_stack(sts);
     free_sts(sts);
     return (0);

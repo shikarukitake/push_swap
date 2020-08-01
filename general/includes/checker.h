@@ -65,7 +65,7 @@ typedef struct  s_sts
  *  STACK
  */
 
-void            pushStack(t_stack **stack, int value);
+void            push_stack(t_stack **stack, int value);
 int             popStack(t_stack **stack);
 void            swap(t_stack **stack);
 void            rotate(t_stack **stack);
@@ -92,12 +92,12 @@ t_dynamicArr    *initDArrFromInt(int *array, int len);
 void            ft_error(void);
 void            ft_error_t(char const *text);
 t_sts           *error_tf(char const *text, int init);
-int             stackIsSorted(t_stack *stackA);
+int             stack_is_sorted(t_stack *stackA);
 void            checkSorted(t_stack *stackA, t_stack *stackB);
 int             isOnlyDigits(char *s);
 char            **ft_strsplit(char const *s, char c);
 size_t          ft_w_count(char const *s, char c);
-int             *fillArrayFromStack(t_stack *stack, int sortOrNot);
+int             *arr_from_stack(t_stack *stack, int sortOrNot);
 
 /*
  * Reading
@@ -105,7 +105,7 @@ int             *fillArrayFromStack(t_stack *stack, int sortOrNot);
 
 int             checkCommand(char *command);
 void            readingFromSTDIN(t_dynamicArr    **dArr);
-int             checkDublicates(t_stack *stack);
+int             check_dublicates(t_stack *stack);
 
 /*
  * Push Swap commands
@@ -123,6 +123,6 @@ void            ft_rra(t_stack **stackA, t_stack **stackB, int flag);
 void            ft_rrb(t_stack **stackA, t_stack **stackB, int flag);
 void            ft_rrr(t_stack **stackA, t_stack **stackB, int flag);
 void            initFTable(void **func_table);
-void            execCommands(t_dynamicArr *dArr, t_stack **stackA, t_stack **stackB, int flag);
+void            exec_commands(t_dynamicArr *dArr, t_stack **stackA, t_stack **stackB, int flag);
 
 #endif //CHECKER_H

@@ -16,8 +16,10 @@ static void		free_str(char const *s1, char const *s2, int n)
 {
 	if (n == 0)
 	{
-		free((void*)s1);
-		free((void*)s2);
+	    if (s1)
+            free((void*)s1);
+	    if (s2)
+		    free((void*)s2);
 	}
 	else if (n == 1)
 		free((void*)s1);
