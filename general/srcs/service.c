@@ -4,19 +4,6 @@
 
 #include "checker.h"
 
-//void        ft_error(void)
-//{
-//    write(2, "Error\n", 6);
-//    exit(1);
-//}
-//
-//void        ft_error_t(char const *text)
-//{
-//    write(2, "Error: ", 7);
-//    write(2, text, ft_strlen(text));
-//    exit(1);
-//}
-
 int         stack_is_sorted(t_stack *stackA)
 {
     int previous;
@@ -61,9 +48,8 @@ int         isOnlyDigits(char *s)
     return (TRUE);
 }
 
-void free_sts_stacks(const t_sts *sts)
+void        free_sts_stacks(const t_sts *sts)
 {
-    t_stack *stack;
     if (sts->stackA)
         if (*(sts->stackA))
             free_stack(*(sts->stackA));
@@ -93,11 +79,10 @@ void        free_sts(t_sts *sts)
 //        free(sts->dArr);
 //    }
     free_sts_stacks(sts);
-    if (sts)
-        free(sts);
+    free(sts);
 }
 
-t_sts *get_sts(void)
+t_sts       *get_sts(void)
 {
     t_sts *sts;
     static t_stack *stackA;
@@ -117,7 +102,27 @@ t_sts *get_sts(void)
     return (sts);
 }
 
-t_sts *error_tf(char const *text, int init)
+int         check_dublicates(t_stack *stack)
+{
+    int *array;
+    int i;
+    int previous;
+
+    i = 1;
+    array = arr_from_stack(stack, TRUE);
+    previous = array[0];
+    while (i != stack->len)
+    {
+        if (array[i] == previous)
+            return (TRUE);
+        previous = array[i];
+        i++;
+    }
+    free(array);
+    return (FALSE);
+}
+
+t_sts       *error_tf(char const *text, int init)
 {
     static t_sts *sts;
 

@@ -69,31 +69,6 @@ void        swap(t_stack **stack)
     push_stack(stack, overTop);
 }
 
-//void        rotate(t_stack **stack)
-//{
-//    t_dynamicArr    *temp;
-//    int             first;
-//    int             i;
-//
-//    temp = NULL;
-//    i = 0;
-//    initDArr(&temp);
-//    if (*stack AND (*stack)->previous)
-//    {
-//        first = popStack(stack);
-//        while (*stack)
-//            addDArr(&temp, popStack(stack));
-//        push_stack(stack, first);
-//        i = temp->len - 1;
-//        while (i >= 0)
-//            push_stack(stack, temp->array[i--]);
-//    }
-//    if (temp->array)
-//        free(temp->array);
-//    if (temp)
-//        free(temp);
-//}
-//
 void        reverseRotate(t_stack **stack)
 {
     t_dynamicArr    *temp;

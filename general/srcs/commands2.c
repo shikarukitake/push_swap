@@ -5,6 +5,10 @@
 
 void        ft_ra(t_stack **stackA, t_stack **stackB, int flag)
 {
+    t_stack **stack;
+
+    stack = stackB;
+    stack = NULL;
     if (flag)
         printf("ra:\n");
     rotate(stackA);
@@ -12,6 +16,10 @@ void        ft_ra(t_stack **stackA, t_stack **stackB, int flag)
 
 void        ft_rb(t_stack **stackA, t_stack **stackB, int flag)
 {
+    t_stack **stack;
+
+    stack = stackA;
+    stack = NULL;
     if (flag)
         printf("rb:\n");
     rotate(stackB);
@@ -27,6 +35,11 @@ void        ft_rr(t_stack **stackA, t_stack **stackB, int flag)
 
 void        ft_rra(t_stack **stackA, t_stack **stackB, int flag)
 {
+    t_stack **stack;
+
+    stack = stackB;
+    stack = NULL;
+
     if (flag)
         printf("rra:\n");
     reverseRotate(stackA);
@@ -34,7 +47,10 @@ void        ft_rra(t_stack **stackA, t_stack **stackB, int flag)
 
 void        ft_rrb(t_stack **stackA, t_stack **stackB, int flag)
 {
-    stackA = stackA;
+    t_stack **stack;
+
+    stack = stackA;
+    stack = NULL;
     if (flag)
         printf("rrb:\n");
     reverseRotate(stackB);

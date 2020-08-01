@@ -6,6 +6,10 @@
 
 void        ft_sa(t_stack **stackA, t_stack **stackB, int flag)
 {
+    t_stack **stack;
+
+    stack = stackB;
+    stack = NULL;
     if (flag)
         printf("sa:\n");
     swap(stackA);
@@ -13,6 +17,10 @@ void        ft_sa(t_stack **stackA, t_stack **stackB, int flag)
 
 void        ft_sb(t_stack **stackA, t_stack **stackB, int flag)
 {
+    t_stack **stack;
+
+    stack = stackA;
+    stack = NULL;
     if (flag)
         printf("sb:\n");
     swap(stackB);

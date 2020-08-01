@@ -13,7 +13,8 @@ SRCS = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_strnstr.c ft_strrchr.c ft_strsplit.c ft_strstr.c ft_strsub.c \
 	ft_strtrim.c ft_tolower.c ft_toupper.c ft_strtrimn.c ft_lst_pb.c \
 	ft_lst_pb.c ft_lstsize.c ft_strrev.c ft_swap.c ft_pow.c ft_bubblesort.c \
-	ft_strjoin_free.c ft_strchrn.c ft_lstfind.c get_next_line.c
+	ft_strjoin_free.c ft_strchrn.c ft_lstfind.c ft_get_next_line.c ft_error.c \
+	ft_quicksort.c ft_strsub_free.c
 
 OBJECTS = ft_atoi.o ft_bzero.o ft_isalnum.o ft_isalpha.o ft_isascii.o \
 	ft_isdigit.o ft_isprint.o ft_itoa.o ft_lstadd.o ft_lstdel.o \
@@ -28,14 +29,16 @@ OBJECTS = ft_atoi.o ft_bzero.o ft_isalnum.o ft_isalpha.o ft_isascii.o \
 	ft_strnstr.o ft_strrchr.o ft_strsplit.o ft_strstr.o ft_strsub.o \
 	ft_strtrim.o ft_tolower.o ft_toupper.o ft_strtrimn.o ft_lst_pb.o \
 	ft_lst_pb.o ft_lstsize.o ft_strrev.o ft_swap.o ft_pow.o ft_bubblesort.o \
-	ft_strjoin_free.o ft_strchrn.o ft_lstfind.o get_next_line.o
+	ft_strjoin_free.o ft_strchrn.o ft_lstfind.o ft_get_next_line.o ft_error.o \
+	ft_quicksort.o ft_strsub_free.o
 
-INCLUDES=./
-
+INCLUDES=./includes
+SRC_DIR=./srcs/
+SRC = $(addprefix $(SRC_DIR), $(SRCS))
 all: $(NAME)
 
-$(NAME): $(SRCS) libft.h
-	@gcc -I$(INCLUDES) -c $(SRCS)
+$(NAME): $(SRC) $(INCLUDES)/libft.h
+	@gcc -I$(INCLUDES) -c $(SRC)
 	@ar rc $(NAME) $(OBJECTS)
 	@ranlib $(NAME)
 

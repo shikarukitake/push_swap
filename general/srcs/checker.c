@@ -27,26 +27,6 @@ int *arr_from_stack(t_stack *stack, int sortOrNot)
     return (array);
 }
 
-int check_dublicates(t_stack *stack)
-{
-    int *array;
-    int i;
-    int previous;
-
-    i = 1;
-    array = arr_from_stack(stack, TRUE);
-    previous = array[0];
-    while (i != stack->len)
-    {
-        if (array[i] == previous)
-            return (TRUE);
-        previous = array[i];
-        i++;
-    }
-    free(array);
-    return (FALSE);
-}
-
 int         main(int argc, char **argv)
 {
     t_stack         *stackA;
