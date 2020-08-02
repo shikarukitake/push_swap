@@ -22,10 +22,10 @@ OBJ_LI_2 = $(addprefix $(OBJECT_DIR_2), $(OBJ_LIST_LI_2))
 HEADER_DIR = ./general/includes/
 
 # ft_printf
-OBJECT_PF = ./ft_printf/objects
-
-LIB_PF = ft_printf/libftprintf.a
-LIBS_PF = -L./ft_printf -lftprintf
+#OBJECT_PF = ./ft_printf/objects
+#
+#LIB_PF = ft_printf/libftprintf.a
+#LIBS_PF = -L./ft_printf -lftprintf
 # --------
 
 COMPILER := gcc
@@ -72,12 +72,12 @@ clean:
 	@rm -rf $(OBJECT_DIR_1)
 	@rm -rf $(OBJECT_DIR_2)
 	@make -C ./general/libft clean
-	@make -C ./ft_printf clean
+#	@make -C ./ft_printf clean
 	@rm -rf $(OBJECT_PF)
 
 fclean: clean
 	@make -C ./general/libft fclean
-	@make -C ./ft_printf fclean
+#	@make -C ./ft_printf fclean
 	@/bin/rm -f $(NAME_1)
 	@/bin/rm -f $(NAME_2)
 
