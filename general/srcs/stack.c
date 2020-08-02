@@ -149,8 +149,8 @@ void        printTwoStacks(t_stack *stackA, t_stack *stackB)
         else
             printf("\n");
     }
-    printf("%-5s%5s\n","_", "_");
-    printf("%-5s%5s\n\n","a", "b");
+    ft_printf("%-5s%5s\n","_", "_");
+    ft_printf("%-5s%5s\n\n","a", "b");
 }
 
 void        free_stack(t_stack *stack)
