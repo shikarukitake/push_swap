@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/01 19:10:32 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/01 19:31:28 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/02 16:26:45 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,12 @@ void	sort_stack(t_sts *sts)
 		commands = sort_all(11, sts);
 	else
 		commands = sort_all(30, sts);
-	printf("%s", commands);
+	ft_printf("%s", commands);
 }
 
-/*
-** filling stack_a from program arguments
-*/
 
-void	read_args(int argc, char **argv, t_sts *sts)
-{
-	int i;
 
-	i = argc == 2 ? (int)ft_w_count(argv[1], ' ') - 1 : argc - 1;
-	argv = argc == 2 ? ft_strsplit(argv[1], ' ') : argv;
-	argc = argc == 2 ? -1 : 0;
-	sts->flag = FALSE;
-	while (i != argc)
-	{
-		if (!ft_strcmp(argv[i], "-v"))
-			sts->flag = TRUE;
-		else if (isOnlyDigits(argv[i]) == FALSE)
-			error_tf("There is non numeric param!", FALSE);
-		else
-			push_stack(sts->stackA, ft_atoi(argv[i]));
-		i--;
-	}
-}
+
 
 int		main(int argc, char **argv)
 {
@@ -67,6 +47,7 @@ int		main(int argc, char **argv)
 		return (0);
 	else
 		read_args(argc, argv, sts);
+	sts->flag = 0;
 	if (check_dublicates(*(sts->stackA)))
 		error_tf("There are dublicates\n", FALSE);
 	if (!stack_is_sorted(*(sts->stackA)))

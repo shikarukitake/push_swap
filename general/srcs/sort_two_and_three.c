@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/01 19:34:14 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/01 19:34:44 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/02 15:27:50 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*sort_three(t_sts *sts, int flag)
 		error_tf("sort_three_elements strdup malloc", FALSE);
 	if (!(sts->dArr = get_darr_commands(sts->commands)))
 		error_tf("sort_three_elements darr error", FALSE);
-	exec_commands(sts->dArr, sts->stackA, NULL, 0);
+	exec_commands(sts);
 	if (flag == 0)
 		change_chr(sts->commands, ' ', '\n');
 	return (sts->commands);
@@ -54,7 +54,7 @@ char	*sort_three(t_sts *sts, int flag)
 
 void	*sort_two(t_sts *sts)
 {
-	printf("sa\n");
+	ft_printf("sa\n");
 	free_sts(sts);
 	exit(0);
 }

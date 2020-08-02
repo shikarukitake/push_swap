@@ -8,7 +8,15 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "libft.h"
-
+#define COLOR_RED     "\x1b[31m"
+#define COLOR_GREEN   "\x1b[32m"
+#define COLOR_YELLOW  "\x1b[33m"
+#define COLOR_BLUE    "\x1b[34m"
+#define COLOR_MAGENTA "\x1b[35m"
+#define COLOR_CYAN    "\x1b[36m"
+#define COLOR_RESET   "\x1b[0m"
+# define FALSE 0
+# define TRUE 1
 
 typedef struct  s_stack
 {
@@ -70,7 +78,7 @@ int             popStack(t_stack **stack);
 void            swap(t_stack **stack);
 void            rotate(t_stack **stack);
 void            reverseRotate(t_stack **stack);
-void            printTwoStacks(t_stack *stackA, t_stack *stackB);
+void            print_stacks(t_stack *stackA, t_stack *stackB);
 void            printStack(t_stack *stack);
 t_stack         *init_stack(t_stack *previous, int value);
 void            free_stack(t_stack *stack);
@@ -105,26 +113,29 @@ int				ft_printf(const char *fmt, ...);
  * Reading
  */
 
+void			read_args(int argc, char **argv, t_sts *sts);
 int             checkCommand(char *command);
-void            readingFromSTDIN(t_dynamicArr    **dArr);
+void            reading_from_stdin(t_dynamicArr    **dArr);
 int             check_dublicates(t_stack *stack);
 
 /*
  * Push Swap commands
  */
 
-void            ft_sa(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_sb(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_ss(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_pa(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_pb(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_ra(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_rb(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_rr(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_rra(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_rrb(t_stack **stackA, t_stack **stackB, int flag);
-void            ft_rrr(t_stack **stackA, t_stack **stackB, int flag);
-void            initFTable(void **func_table);
-void            exec_commands(t_dynamicArr *dArr, t_stack **stackA, t_stack **stackB, int flag);
+void            ft_sa(t_sts *sts);
+void            ft_sb(t_sts *sts);
+void            ft_ss(t_sts *sts);
+void            ft_pa(t_sts *sts);
+void            ft_pb(t_sts *sts);
+void            ft_ra(t_sts *sts);
+void            ft_rb(t_sts *sts);
+void            ft_rr(t_sts *sts);
+void            ft_rra(t_sts *sts);
+void            ft_rrb(t_sts *sts);
+void            ft_rrr(t_sts *sts);
+void            init_ftable(void **func_table);
+void exec_commands(t_sts *sts);
+
+
 
 #endif //CHECKER_H

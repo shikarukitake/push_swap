@@ -1,6 +1,6 @@
 NAME_1 = checker
 NAME_2 = push_swap
-LIBFT_A = libft.a
+LIBFT_A = libftprintf.a
 
 SR_LI_1 = checker.c dynamic_array.c commands.c commands2.c commands3.c ft_strsplit.c reading.c service.c stack.c
 SR_LI_2 = push_swap.c dynamic_array.c commands.c commands2.c commands3.c ft_strsplit.c reading.c service.c stack.c \
@@ -33,10 +33,10 @@ HDRPATH := ./general/includes -I./general/libft/includes
 IFLAGS := -I$(HDRPATH)
 CFLAGS := -Wall -Wextra -Werror
 
-OBJECT_LIB = ./general/libft
+LIB_DIR = ./general/libftprintf
 
-LIBFT = ./general/libft/libft.a
-LIBS = -L./general/libft -l_ft
+LIBFT = ./general/libftprintf/libftprintf.a
+LIBS = -L./general/ft_libftprintf -l_ftprintf
 
 
 all: $(NAME_1) $(NAME_2)
@@ -60,23 +60,17 @@ $(OBJECT_DIR_2)%.o : $(SOURCES_DIR)%.c $(HEADERS)
 	@$(COMPILER) $(CFLAGS) -c $(IFLAGS) $< -o $@
 
 $(LIBFT):
-	@make -C ./general/libft
-
-$(LIB_PF):
-	@make -C ./ft_printf
-
-libft:
-	@make -C ./general/libft
+	@make -C $(LIB_DIR)
 
 clean:
 	@rm -rf $(OBJECT_DIR_1)
 	@rm -rf $(OBJECT_DIR_2)
-	@make -C ./general/libft clean
+	@make -C $(LIB_DIR) clean
 #	@make -C ./ft_printf clean
 	@rm -rf $(OBJECT_PF)
 
 fclean: clean
-	@make -C ./general/libft fclean
+	@make -C $(LIB_DIR) fclean
 #	@make -C ./ft_printf fclean
 	@/bin/rm -f $(NAME_1)
 	@/bin/rm -f $(NAME_2)

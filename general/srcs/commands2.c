@@ -3,55 +3,47 @@
 //
 #include "checker.h"
 
-void        ft_ra(t_stack **stackA, t_stack **stackB, int flag)
+void        ft_ra(t_sts *sts)
+{
+    if (sts->flag)
+        ft_printf("ra:\n");
+    rotate(sts->stackA);
+}
+
+void        ft_rb(t_sts *sts)
+{
+    if (sts->flag)
+        ft_printf("rb:\n");
+    rotate(sts->stackB);
+}
+
+void        ft_rr(t_sts *sts)
+{
+    if (sts->flag)
+        ft_printf("rr:\n");
+    rotate(sts->stackA);
+    rotate(sts->stackB);
+}
+
+void        ft_rra(t_sts *sts)
 {
     t_stack **stack;
 
-    stack = stackB;
+    stack = sts->stackB;
     stack = NULL;
-    if (flag)
-        printf("ra:\n");
-    rotate(stackA);
+
+    if (sts->flag)
+        ft_printf("rra:\n");
+    reverseRotate(sts->stackA);
 }
 
-void        ft_rb(t_stack **stackA, t_stack **stackB, int flag)
+void        ft_rrb(t_sts *sts)
 {
     t_stack **stack;
 
-    stack = stackA;
+    stack = sts->stackA;
     stack = NULL;
-    if (flag)
-        printf("rb:\n");
-    rotate(stackB);
-}
-
-void        ft_rr(t_stack **stackA, t_stack **stackB, int flag)
-{
-    if (flag)
-        printf("rr:\n");
-    rotate(stackA);
-    rotate(stackB);
-}
-
-void        ft_rra(t_stack **stackA, t_stack **stackB, int flag)
-{
-    t_stack **stack;
-
-    stack = stackB;
-    stack = NULL;
-
-    if (flag)
-        printf("rra:\n");
-    reverseRotate(stackA);
-}
-
-void        ft_rrb(t_stack **stackA, t_stack **stackB, int flag)
-{
-    t_stack **stack;
-
-    stack = stackA;
-    stack = NULL;
-    if (flag)
-        printf("rrb:\n");
-    reverseRotate(stackB);
+    if (sts->flag)
+        ft_printf("rrb:\n");
+    reverseRotate(sts->stackB);
 }

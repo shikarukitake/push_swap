@@ -4,15 +4,15 @@
 
 #include "checker.h"
 
-void        ft_rrr(t_stack **stackA, t_stack **stackB, int flag)
+void        ft_rrr(t_sts *sts)
 {
-    if (flag)
-        printf("rrr:\n");
-    reverseRotate(stackA);
-    reverseRotate(stackB);
+    if (sts->flag)
+        ft_printf("rrr:\n");
+    reverseRotate(sts->stackA);
+    reverseRotate(sts->stackB);
 }
 
-void        initFTable(void **func_table)
+void        init_ftable(void **func_table)
 {
     func_table[0] = ft_sa;
     func_table[1] = ft_sb;
@@ -27,21 +27,21 @@ void        initFTable(void **func_table)
     func_table[10] = ft_rrr;
 }
 
-void        exec_commands(t_dynamicArr *dArr, t_stack **stackA, t_stack **stackB, int flag)
+void exec_commands(t_sts *sts)
 {
-    static void     (*func_table[11])(t_stack **stackA, t_stack **stackB, int flag);
+    static void     (*func_table[11])(t_sts *sts);
     int             i;
 
     i = 0;
     if (!(*func_table))
-        initFTable((void**)func_table); //maybe need free
-    while (i != dArr->len)
+		init_ftable((void **) func_table); //maybe need free
+    while (i != sts->dArr->len)
     {
-        func_table[dArr->array[i]](stackA, stackB, flag);
-        if (flag)
-            printTwoStacks(*stackA, stackB ? *stackB : NULL);
+        func_table[sts->dArr->array[i]](sts);
+        if (sts->flag)
+			print_stacks(*(sts->stackA), *(sts->stackB) ? *(sts->stackB) : NULL);
         i++;
     }
-    free(dArr->array);
-    free(dArr);
+    free(sts->dArr->array);
+    free(sts->dArr);
 }

@@ -4,6 +4,8 @@
 
 #include "checker.h"
 
+
+
 t_stack     *init_stack(t_stack *previous, int value)
 {
     t_stack *new;
@@ -125,32 +127,33 @@ void        printStack(t_stack *stack)
     temp = stack;
     while (temp)
     {
-        printf("%d ", temp->value);
+        ft_printf("%d ", temp->value);
         temp = temp->previous;
     }
 }
 
-void        printTwoStacks(t_stack *stackA, t_stack *stackB)
+void        print_stacks(t_stack *stackA, t_stack *stackB)
 {
     while (stackA OR stackB)
     {
         if (stackA)
         {
-            printf("%-5d", stackA->value);
+            ft_printf("%-5d", stackA->value);
             stackA = stackA->previous;
         }
         else
-            printf("%-5s", "");
+            ft_printf("%-5s", "");
         if (stackB)
         {
-            printf("%5d\n", stackB->value);
+            ft_printf("%5d\n", stackB->value);
             stackB = stackB->previous;
         }
         else
-            printf("\n");
+            ft_printf("\n");
     }
     ft_printf("%-5s%5s\n","_", "_");
     ft_printf("%-5s%5s\n\n","a", "b");
+    ft_printf("----------\n\n");
 }
 
 void        free_stack(t_stack *stack)

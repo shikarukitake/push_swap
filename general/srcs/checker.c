@@ -29,49 +29,24 @@ int *arr_from_stack(t_stack *stack, int sortOrNot)
 
 int         main(int argc, char **argv)
 {
-    t_stack         *stackA;
-    t_stack         *stackB;
-    int             i;
-    t_dynamicArr    *dArr;
-    int             flag;
+	t_sts			*sts;
 
-    stackA = NULL;
-    stackB = NULL;
-    if (argc == 1)
-        return (0);
-    else
-    {
-        /*
-         *  Filling stackA from program arguments
-         */
-        i = argc == 2 ? (int)ft_w_count(argv[1], ' ') -1 : argc - 1;
-        argv = argc == 2 ? ft_strsplit(argv[1], ' ') : argv;
-        argc = argc == 2 ? -1 : 0;
-        flag = 0;
+	sts = error_tf(NULL, TRUE);
+	if (argc == 1)
+		return (0);
+	else
+		read_args(argc, argv, sts);
+	if (check_dublicates(*(sts->stackA)))
+		error_tf("There are dublicates\n", FALSE);
+	reading_from_stdin(&(sts->dArr));
 
-
-        while (i != argc)
-        {
-            if (!ft_strcmp(argv[i], "-v"))
-                flag = 1;
-            else if (isOnlyDigits(argv[i]) == FALSE)
-                ft_error_t("There is non numeric parametr\n");
-            else
-                push_stack(&stackA, ft_atoi(argv[i]));
-            i--;
-        }
-    }
-
-    IF_TRUE(check_dublicates(stackA), ft_error_t("There are dublicates"));
-    readingFromSTDIN(&dArr);
-
-    if (flag)
-        printTwoStacks(stackA, stackB);
+    if (sts->flag)
+		print_stacks(*(sts->stackA), *(sts->stackB));
     /*
      * dArr may be empty (NULL)
      */
-    if (dArr)
-        exec_commands(dArr, &stackA, &stackB, flag);
-    checkSorted(stackA, stackB);
+    if (sts->dArr)
+		exec_commands(sts);
+    checkSorted(*(sts->stackA), *(sts->stackB));
     return (0);
 }

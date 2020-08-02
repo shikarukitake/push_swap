@@ -132,7 +132,7 @@ void        do_r_or_rr(t_sts *sts, int value, char *paOrPb)
     free(comm);
     if (!(sts->dArr = get_darr_commands(commas)))
         error_tf("do_r_or_rr getdarrcommands error", FALSE);
-    exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
+	exec_commands(sts);
     if (!(sts->commands = ft_strjoin_free(sts->commands, commas, 0)))
         error_tf("do_r_or_rr ft_strjoin free error", FALSE);
 }

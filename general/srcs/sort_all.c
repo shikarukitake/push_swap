@@ -18,7 +18,7 @@ void        sort_end_stackb(t_sts *sts)
 	commas = commands_from_tcomm(sts->comm, NULL);
 	if (!(sts->dArr = get_darr_commands(commas)))
 		error_tf("sort_end_stackb get_darr_commands malloc error", FALSE);
-	exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
+	exec_commands(sts);
 	if (!(sts->commands = ft_strjoin_free(sts->commands, commas, 0)))
 		error_tf("sort_end_stackb ft_strjoin_free malloc error", FALSE);
 }
@@ -32,8 +32,8 @@ void        push_to_stackb(t_sts *sts)
 	{
 		find_comm(sts, (*(sts->stackA))->len);
 		commas = commands_from_tcomm(sts->comm, NULL);
-		sts->dArr = get_darr_commands(commas);
-		exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
+		sts->dArr = get_darr_commands(commas);//protect
+		exec_commands(sts);
 		sts->commands = ft_strjoin_free(sts->commands, commas, 0);
 	}
 	do_r_or_rr(sts, (*(sts->stackA))->value, "pb ");
@@ -59,7 +59,7 @@ char        *sort_all(int how_many_chunks, t_sts *sts)
 	commas = commands_from_tcomm(sts->comm, NULL);
 	if (!(sts->dArr = get_darr_commands(commas)))
 		error_tf("sort_all get_darr_commands malloc error", FALSE);
-	exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
+	exec_commands(sts);
 	if (!(sts->commands = ft_strjoin_free(sts->commands, commas, 0)))
 		error_tf("sort_all ft_strjoin_free malloc error", FALSE);
 	change_chr(sts->commands, ' ', '\n');

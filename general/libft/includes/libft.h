@@ -18,8 +18,7 @@
 # include <unistd.h>
 # include "macro.h"
 # define BUFF_SIZE 64
-# define FALSE 0
-# define TRUE 1
+
 # define AND &&
 # define OR ||
 

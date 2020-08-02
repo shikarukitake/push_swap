@@ -33,7 +33,7 @@ void		sort_end(t_sts *sts)
 	sts->comm->count = i <= len_of_stacka - i ? i : len_of_stacka - i;
 	commas = commands_from_tcomm(sts->comm, NULL);
 	sts->dArr = get_darr_commands(commas);
-	exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
+	exec_commands(sts);
 	sts->commands = ft_strjoin_free(sts->commands, commas, 0);
 }
 
@@ -46,7 +46,7 @@ char		*sort_five(t_sts *sts)
 		error_tf("sort_five ft_strdup malloc error", FALSE);
 	if (!(sts->dArr = get_darr_commands(sts->commands)))
 		error_tf("sort_five darr error", FALSE);
-	exec_commands(sts->dArr, sts->stackA, sts->stackB, 0);
+	exec_commands(sts);
 	if (stack_is_sorted(*(sts->stackA)) == FALSE)
 		if (!(sts->commands = ft_strjoin_free(sts->commands,
 				sort_three(sts, 1), 0)))

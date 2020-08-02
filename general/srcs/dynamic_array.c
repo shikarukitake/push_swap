@@ -89,6 +89,6 @@ void        printDArr(t_dynamicArr *arr)
 
     i = 0;
     while (i != arr->len)
-        printf("%d ", arr->array[i++]);
-    printf("\n");
+        ft_printf("%d ", arr->array[i++]);
+    ft_printf("\n");
 }

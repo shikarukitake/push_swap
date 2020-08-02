@@ -32,29 +32,32 @@ int         checkCommand(char *command)
         return (-1);
 }
 
+/*
+** filling stack_a from program arguments
+*/
 
-
-void        readingFromSTDIN(t_dynamicArr    **dArr)
+void	read_args(int argc, char **argv, t_sts *sts)
 {
-//    char			buff[BUFF_SIZE + 1];
-//    char            *all;
-//    int             ret;
-//    int             command;
-//
-//    all = ft_strnew(1);
-//    while ((ret = read(0, buff, BUFF_SIZE)) > 0)
-//    {
-//        buff[ret] = 0;
-//        //Needing to be freed!
-//        command = checkCommand(ft_strsub(buff, 0, ft_strchrn(buff, '\n')));
-//        if (command == -1)
-//            ft_error();
-//        else
-//            addDArr(dArr, command);
-//        if (!(all = ft_strjoin_free(all, buff, 1)))
-//            exit(1);
-//        printf("%d", ret);
-//    }
+	int i;
+
+	i = argc == 2 ? (int)ft_w_count(argv[1], ' ') - 1 : argc - 1;
+	argv = argc == 2 ? ft_strsplit(argv[1], ' ') : argv;
+	argc = argc == 2 ? -1 : 0;
+	sts->flag = FALSE;
+	while (i != argc)
+	{
+		if (!ft_strcmp(argv[i], "-v"))
+			sts->flag = TRUE;
+		else if (isOnlyDigits(argv[i]) == FALSE)
+			error_tf("There is non numeric param!", FALSE);
+		else
+			push_stack(sts->stackA, ft_atoi(argv[i]));
+		i--;
+	}
+}
+
+void        reading_from_stdin(t_dynamicArr    **dArr)
+{
     char *line;
     int size;
     int command;
@@ -62,6 +65,8 @@ void        readingFromSTDIN(t_dynamicArr    **dArr)
     *dArr = NULL;
     while ((size = ft_get_next_line(0, &line)) > 0)
     {
+    	if (!line)
+    		error_tf("reading_from_stdin gnl malloc error", FALSE);
         command = checkCommand(line);
         if (command == -1)
             ft_error();

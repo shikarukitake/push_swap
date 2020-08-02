@@ -4,48 +4,40 @@
 
 #include "checker.h"
 
-void        ft_sa(t_stack **stackA, t_stack **stackB, int flag)
+void        ft_sa(t_sts *sts)
 {
-    t_stack **stack;
-
-    stack = stackB;
-    stack = NULL;
-    if (flag)
-        printf("sa:\n");
-    swap(stackA);
+    if (sts->flag)
+        ft_printf("sa:\n");
+    swap(sts->stackA);
 }
 
-void        ft_sb(t_stack **stackA, t_stack **stackB, int flag)
+void        ft_sb(t_sts *sts)
 {
-    t_stack **stack;
-
-    stack = stackA;
-    stack = NULL;
-    if (flag)
-        printf("sb:\n");
-    swap(stackB);
+    if (sts->flag)
+        ft_printf("sb:\n");
+    swap(sts->stackB);
 }
 
-void        ft_ss(t_stack **stackA, t_stack **stackB, int flag)
+void        ft_ss(t_sts *sts)
 {
-    if (flag)
-        printf("ss:\n");
-    swap(stackA);
-    swap(stackB);
+    if (sts->flag)
+        ft_printf("ss:\n");
+    swap(sts->stackA);
+    swap(sts->stackB);
 }
 
-void        ft_pa(t_stack **stackA, t_stack **stackB, int flag)
+void        ft_pa(t_sts *sts)
 {
-    if (flag)
-        printf("pa:\n");
-    if (*stackB)
-        push_stack(stackA, popStack(stackB));
+    if (sts->flag)
+        ft_printf("pa:\n");
+    if (*(sts->stackB))
+        push_stack(sts->stackA, popStack(sts->stackB));
 }
 
-void        ft_pb(t_stack **stackA, t_stack **stackB, int flag)
+void        ft_pb(t_sts *sts)
 {
-    if (flag)
-        printf("pb:\n");
-    if (*stackA)
-        push_stack(stackB, popStack(stackA));
+    if (sts->flag)
+        ft_printf("pb:\n");
+    if (*(sts->stackA))
+        push_stack(sts->stackB, popStack(sts->stackA));
 }
