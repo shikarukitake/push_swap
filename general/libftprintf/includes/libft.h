@@ -17,6 +17,12 @@
 # include <string.h>
 # include <unistd.h>
 
+# ifdef __linux__
+#   include <sys/types.h>
+#   define LONG_LONG_MIN LLONG_MIN
+#   define OPEN_MAX 1024
+# endif
+
 # define BUFF_SIZE 64
 # define AND &&
 # define OR ||
@@ -68,7 +74,7 @@ typedef struct	s_ulldiv
 
 
 
-
+long            ft_atoi_l(const char *str);
 int				ft_atoi(const char *str);
 char			*ft_strncpy(char *dest, const char *src, size_t n);
 char			*ft_strdup(const char *src);
@@ -151,7 +157,7 @@ char			*ft_strjoin_free(char const *s1, char const *s2, int n);
 int				ft_strchrn(const char *s, int c);
 t_list			*ft_lstfind(t_list *lst,
 				int (*finder)(void *, void *), void *to_find);
-int				ft_get_next_line(const int fd, char **line);
+int				ft_get_next_line(int fd, char **line);
 char	        *ft_strsub_free(char const *s,
                    unsigned int start, size_t len, short freeOrNot);
 void            ft_quicksort(int *arr, int low, int high);

@@ -39,6 +39,7 @@ int         checkCommand(char *command)
 void	read_args(int argc, char **argv, t_sts *sts)
 {
 	int i;
+	long number;
 
 	i = argc == 2 ? (int)ft_w_count(argv[1], ' ') - 1 : argc - 1;
 	argv = argc == 2 ? ft_strsplit(argv[1], ' ') : argv;

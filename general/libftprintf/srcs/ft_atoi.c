@@ -54,3 +54,24 @@ int					ft_atoi(const char *str)
 		q = make_int(str, q, i, 1);
 	return (q);
 }
+
+long				ft_atoi_l(const char *str)
+{
+    long long	q;
+    int			i;
+    int			neg;
+
+    q = 0;
+    i = 0;
+    while (check_tab(str[i]))
+        i++;
+    if (str[i] == '-' || str[i] == '+')
+    {
+        neg = str[i] == '-' ? -1 : 1;
+        i++;
+        q = make_int(str, q, i, neg);
+    }
+    else
+        q = make_int(str, q, i, 1);
+    return (q);
+}
