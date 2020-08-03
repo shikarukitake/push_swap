@@ -9,9 +9,19 @@ make
 Or you can open project with CLion and load CMake Project
 
 # Marks
+```
 4/5 - 100 numbers
 3/5 - 500 numbers
+```
 
 # Bonus
+```
 -v -- vizualization flag
 -c -- vizualization with colors
+```
+
+
+# Resources
+```
+https://medium.com/@jamierobertdawson/push-swap-the-least-amount-of-moves-with-two-stacks-d1e76a71789a
+```
