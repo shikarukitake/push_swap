@@ -1,29 +1,37 @@
-//
-// Created by positivedespair on 2/11/20.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/03 17:17:00 by sdagger           #+#    #+#             */
+/*   Updated: 2020/08/03 17:19:17 by sdagger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef CHECKER_H
-#define CHECKER_H
+# define CHECKER_H
 # include "libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include "libft.h"
-#define COLOR_RED		"\x1b[31m"
-#define COLOR_GREEN		"\x1b[32m"
-#define COLOR_YELLOW	"\x1b[33m"
-#define COLOR_PINK		"\x1b[1;35m"
-#define COLOR_BLUE		"\x1b[34m"
-#define COLOR_MAGENTA	"\x1b[35m"
-#define COLOR_CYAN		"\x1b[36m"
-#define COLOR_RESET		"\x1b[0m"
+# define COLOR_RED		"\x1b[31m"
+# define COLOR_GREEN		"\x1b[32m"
+# define COLOR_YELLOW	"\x1b[33m"
+# define COLOR_PINK		"\x1b[1;35m"
+# define COLOR_BLUE		"\x1b[34m"
+# define COLOR_MAGENTA	"\x1b[35m"
+# define COLOR_CYAN		"\x1b[36m"
+# define COLOR_RESET		"\x1b[0m"
 # define FALSE	0
 # define TRUE	1
 
 typedef struct	s_stack
 {
-	struct	s_stack *previous;
-	int		value;
-	int		len;
+	struct s_stack	*previous;
+	int				value;
+	int				len;
 }				t_stack;
 
 typedef struct	s_dynamicarr
@@ -59,11 +67,11 @@ typedef struct	s_sts
 {
 	t_command		*comm;
 	t_chunks		*chunks;
-	t_stack			**stackA;
-	t_stack			**stackB;
-	t_dynamicarr	*dArr;
-	int				firstHoldI;
-	int				secondHoldI;
+	t_stack			**stacka;
+	t_stack			**stackb;
+	t_dynamicarr	*darr;
+	int				firstholdi;
+	int				secondholdi;
 	char			*commands;
 	int				vflag;
 	int				cflag;
@@ -83,8 +91,8 @@ t_stack			*init_stack(t_stack *previous, int value);
 void			free_stack(t_stack *stack);
 
 /*
- * Dynamic Array
- */
+** Dynamic Array
+*/
 
 int				init_darr(t_dynamicarr **arr);
 void			cpy_intarray(int *dest, int *src, int freeornot, int len);
@@ -92,8 +100,8 @@ int				add_darr(t_dynamicarr **arr, int value);
 t_dynamicarr	*init_darrfromint(int *array, int len);
 
 /*
- * Service
- */
+** Service
+*/
 
 void			ft_error(void);
 void			ft_error_t(char const *text);
@@ -106,6 +114,7 @@ size_t			ft_w_count(char const *s, char c);
 int				*arr_from_stack(t_stack *stack, int sort_or_not);
 void			free_sts(t_sts *sts);
 int				ft_printf(const char *fmt, ...);
+t_sts			*get_sts(void);
 
 /*
 ** Reading
@@ -113,7 +122,7 @@ int				ft_printf(const char *fmt, ...);
 
 void			read_args(int ac, char **av, t_sts *sts);
 int				check_command(char *command);
-void			reading_from_stdin(t_dynamicarr    **darr);
+void			reading_from_stdin(t_dynamicarr **darr);
 int				check_dublicates(t_stack *stack);
 
 /*
@@ -134,4 +143,4 @@ void			ft_rrr(t_sts *sts);
 void			init_ftable(void **func_table);
 void			exec_commands(t_sts *sts);
 
-#endif //CHECKER_H
+#endif

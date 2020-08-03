@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/01 19:34:14 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/02 15:27:50 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 17:18:19 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ char	*get_string(t_stack *stack_swap)
 
 char	*sort_three(t_sts *sts, int flag)
 {
-	sts->commands = get_string(*(sts->stackA));
+	sts->commands = get_string(*(sts->stacka));
 	if (!sts->commands)
 		error_tf("sort_three_elements strdup malloc", FALSE);
-	if (!(sts->dArr = get_darr_commands(sts->commands)))
+	if (!(sts->darr = get_darr_commands(sts->commands)))
 		error_tf("sort_three_elements darr error", FALSE);
 	exec_commands(sts);
 	if (flag == 0)

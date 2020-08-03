@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   service.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/03 16:57:12 by sdagger           #+#    #+#             */
+/*   Updated: 2020/08/03 17:01:19 by sdagger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "checker.h"
 
@@ -19,7 +30,7 @@ int			stack_is_sorted(t_stack *stacka)
 
 void		check_sorted(t_sts *sts)
 {
-	if (stack_is_sorted(*(sts->stackA)) && !*(sts->stackB))
+	if (stack_is_sorted(*(sts->stacka)) && !*(sts->stackb))
 	{
 		if (sts->cflag)
 			ft_printf(COLOR_GREEN);
@@ -55,74 +66,6 @@ int			is_only_digits(char *s)
 		i++;
 	}
 	return (TRUE);
-}
-
-void		free_sts_stacks(const t_sts *sts)
-{
-	if (sts->stackA)
-		if (*(sts->stackA))
-			free_stack(*(sts->stackA));
-	if (sts->stackB)
-		if (*(sts->stackB))
-			free_stack(*(sts->stackB));
-}
-
-void		free_sts(t_sts *sts)
-{
-	if (sts->chunks)
-	{
-		if (sts->chunks->array)
-			free(sts->chunks->array);
-		if (sts->chunks->chunk)
-			free(sts->chunks->chunk);
-		free(sts->chunks);
-	}
-	if (sts->comm)
-		free(sts->comm);
-	if (sts->commands)
-		free(sts->commands);
-	free_sts_stacks(sts);
-	free(sts);
-}
-
-t_sts		*get_sts(void)
-{
-	t_sts			*sts;
-	static t_stack	*stacka;
-	static t_stack	*stackb;
-
-	sts = malloc(sizeof(t_sts));
-	if (!sts)
-		ft_error_t("init_sts_new malloc error");
-	stacka = NULL;
-	stackb = NULL;
-	sts->stackA = &stacka;
-	sts->stackB = &stackb;
-	sts->dArr = NULL;
-	sts->commands = NULL;
-	sts->comm = NULL;
-	sts->chunks = NULL;
-	return (sts);
-}
-
-int			check_dublicates(t_stack *stack)
-{
-	int *array;
-	int i;
-	int previous;
-
-	i = 1;
-	array = arr_from_stack(stack, TRUE);
-	previous = array[0];
-	while (i != stack->len)
-	{
-		if (array[i] == previous)
-			return (TRUE);
-		previous = array[i];
-		i++;
-	}
-	free(array);
-	return (FALSE);
 }
 
 t_sts		*error_tf(char const *text, int init)

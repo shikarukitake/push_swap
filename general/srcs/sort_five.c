@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/01 19:36:18 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/01 19:37:36 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 17:18:19 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		sort_end(t_sts *sts)
 	char	*commas;
 	int		len_of_stacka;
 
-	stack = *(sts->stackA);
+	stack = *(sts->stacka);
 	i = 0;
 	len_of_stacka = sts->chunks->len;
 	while (stack)
@@ -32,7 +32,7 @@ void		sort_end(t_sts *sts)
 	sts->comm->command = i <= len_of_stacka - i ? "ra " : "rra ";
 	sts->comm->count = i <= len_of_stacka - i ? i : len_of_stacka - i;
 	commas = commands_from_tcomm(sts->comm, NULL);
-	sts->dArr = get_darr_commands(commas);
+	sts->darr = get_darr_commands(commas);
 	exec_commands(sts);
 	sts->commands = ft_strjoin_free(sts->commands, commas, 0);
 }
@@ -40,20 +40,20 @@ void		sort_end(t_sts *sts)
 char		*sort_five(t_sts *sts)
 {
 	init_chunks_comm(sts, 1);
-	sts->commands = (*(sts->stackA))->len == 4 ?
+	sts->commands = (*(sts->stacka))->len == 4 ?
 					ft_strdup("pb ") : ft_strdup("pb pb ");
 	if (!sts->commands)
 		error_tf("sort_five ft_strdup malloc error", FALSE);
-	if (!(sts->dArr = get_darr_commands(sts->commands)))
+	if (!(sts->darr = get_darr_commands(sts->commands)))
 		error_tf("sort_five darr error", FALSE);
 	exec_commands(sts);
-	if (stack_is_sorted(*(sts->stackA)) == FALSE)
+	if (stack_is_sorted(*(sts->stacka)) == FALSE)
 		if (!(sts->commands = ft_strjoin_free(sts->commands,
 				sort_three(sts, 1), 0)))
 			error_tf("sort_five ft_strjoin_free error", FALSE);
-	while (*(sts->stackB))
-		do_r_or_rr(sts, (*(sts->stackB))->value, "pa ");
-	if (stack_is_sorted(*(sts->stackA)) == FALSE)
+	while (*(sts->stackb))
+		do_r_or_rr(sts, (*(sts->stackb))->value, "pa ");
+	if (stack_is_sorted(*(sts->stacka)) == FALSE)
 		sort_end(sts);
 	change_chr(sts->commands, ' ', '\n');
 	return (sts->commands);

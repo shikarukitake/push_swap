@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   reading.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/03 16:57:19 by sdagger           #+#    #+#             */
+/*   Updated: 2020/08/03 16:57:20 by sdagger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "checker.h"
 
@@ -68,7 +79,7 @@ void			read_args(int ac, char **av, t_sts *sts)
 		{
 			number = ft_atoi_l(av[i]);
 			check_atoi(number, av[i]);
-			push_stack(sts->stackA, number);
+			push_stack(sts->stacka, number);
 		}
 		i--;
 	}

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_commands.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/03 16:58:17 by sdagger           #+#    #+#             */
+/*   Updated: 2020/08/03 16:58:19 by sdagger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "push_swap.h"
 
@@ -21,7 +32,7 @@ char			*get_str_commands3(int *min_mean_max, int *swap)
 }
 
 /*
-** Transform str commands into dArr where command have int value
+** Transform str commands into darr where command have int value
 */
 
 t_dynamicarr	*get_darr_commands(char *commandz)

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/03 16:57:47 by sdagger           #+#    #+#             */
+/*   Updated: 2020/08/03 16:57:49 by sdagger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "push_swap.h"
 
@@ -18,7 +29,7 @@ t_chunks	*init_chunks(int len)
 void		init_chunks_comm(t_sts *sts, int how_many_chunks)
 {
 	if (how_many_chunks != FALSE)
-		sts->chunks = fill_chunks(*(sts->stackA), how_many_chunks);
+		sts->chunks = fill_chunks(*(sts->stacka), how_many_chunks);
 	if (!(sts->comm = (t_command*)malloc(sizeof(t_command))))
 		error_tf("initSts malloc ft_error", FALSE);
 }

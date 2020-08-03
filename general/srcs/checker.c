@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/03 17:15:04 by sdagger           #+#    #+#             */
+/*   Updated: 2020/08/03 17:18:19 by sdagger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "checker.h"
 
@@ -30,18 +40,18 @@ int	main(int ac, char **av)
 		return (0);
 	else
 		read_args(ac, av, sts);
-	if (check_dublicates(*(sts->stackA)))
+	if (check_dublicates(*(sts->stacka)))
 		error_tf("There are dublicates!", FALSE);
-	reading_from_stdin(&(sts->dArr));
+	reading_from_stdin(&(sts->darr));
 	if (sts->vflag)
 	{
 		if (sts->cflag)
 			ft_printf(COLOR_YELLOW);
-		print_stacks(*(sts->stackA), *(sts->stackB));
+		print_stacks(*(sts->stacka), *(sts->stackb));
 		if (sts->cflag)
 			ft_printf(COLOR_RESET);
 	}
-	if (sts->dArr)
+	if (sts->darr)
 		exec_commands(sts);
 	check_sorted(sts);
 	free_sts(sts);

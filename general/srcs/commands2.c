@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   commands2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/03 16:59:19 by sdagger           #+#    #+#             */
+/*   Updated: 2020/08/03 17:42:21 by sdagger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "checker.h"
 
@@ -11,7 +22,8 @@ void	ft_ra(t_sts *sts)
 		if (sts->cflag)
 			ft_printf(COLOR_RESET);
 	}
-	rotate(sts->stackA);
+	if (*(sts->stacka))
+		rotate(sts->stacka);
 }
 
 void	ft_rb(t_sts *sts)
@@ -24,7 +36,8 @@ void	ft_rb(t_sts *sts)
 		if (sts->cflag)
 			ft_printf(COLOR_RESET);
 	}
-	rotate(sts->stackB);
+	if (*(sts->stackb))
+		rotate(sts->stackb);
 }
 
 void	ft_rr(t_sts *sts)
@@ -37,8 +50,10 @@ void	ft_rr(t_sts *sts)
 		if (sts->cflag)
 			ft_printf(COLOR_RESET);
 	}
-	rotate(sts->stackA);
-	rotate(sts->stackB);
+	if (*(sts->stacka))
+		rotate(sts->stacka);
+	if (*(sts->stackb))
+		rotate(sts->stackb);
 }
 
 void	ft_rra(t_sts *sts)
@@ -51,7 +66,8 @@ void	ft_rra(t_sts *sts)
 		if (sts->cflag)
 			ft_printf(COLOR_RESET);
 	}
-	reverse_rotate(sts->stackA);
+	if (*(sts->stacka))
+		reverse_rotate(sts->stacka);
 }
 
 void	ft_rrb(t_sts *sts)
@@ -64,5 +80,6 @@ void	ft_rrb(t_sts *sts)
 		if (sts->cflag)
 			ft_printf(COLOR_RESET);
 	}
-	reverse_rotate(sts->stackB);
+	if (*(sts->stackb))
+		reverse_rotate(sts->stackb);
 }

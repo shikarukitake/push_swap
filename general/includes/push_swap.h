@@ -6,14 +6,14 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:42:56 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 16:44:31 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 17:16:29 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
-#define PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-#include "checker.h"
+# include "checker.h"
 
 void			change_chr(char *string, char f, char c);
 char			*get_str_commands3(int *min_mean_max, int *swap);
@@ -48,4 +48,4 @@ void			sort_stack(t_sts *sts);
 int				*arr_from_stack(t_stack *stack, int sort_or_not);
 int				check_dublicates(t_stack *stack);
 
-#endif //PUSH_SWAP_H
+#endif

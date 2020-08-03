@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/01 19:40:26 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/01 19:45:55 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 17:18:19 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ void	first_hold(t_sts *sts)
 	int		j;
 
 	j = 0;
-	stack = *(sts->stackA);
-	sts->firstHoldI = -1;
+	stack = *(sts->stacka);
+	sts->firstholdi = -1;
 	while (stack)
 	{
 		if (value_in_chunk(sts->chunks, stack->value) != -1)
 		{
-			sts->firstHoldI = j;
+			sts->firstholdi = j;
 			break ;
 		}
 		stack = stack->previous;
@@ -77,12 +77,12 @@ void	find_holds(t_sts *sts)
 	first_hold(sts);
 	j = 0;
 	i = -1;
-	stack = *(sts->stackA);
-	sts->secondHoldI = -1;
+	stack = *(sts->stacka);
+	sts->secondholdi = -1;
 	while (stack)
 	{
 		if ((i = value_in_chunk(sts->chunks, stack->value)) != -1)
-			sts->secondHoldI = j;
+			sts->secondholdi = j;
 		stack = stack->previous;
 		j++;
 	}
@@ -94,21 +94,21 @@ void	find_comm(t_sts *sts, int len_of_stack)
 	int i;
 	int j;
 
-	ind = sts->secondHoldI;
+	ind = sts->secondholdi;
 	j = ind <= len_of_stack - ind ? ind : len_of_stack - ind;
-	ind = sts->firstHoldI;
+	ind = sts->firstholdi;
 	i = ind <= len_of_stack - ind ? ind : len_of_stack - ind;
-	if (sts->firstHoldI == sts->secondHoldI)
+	if (sts->firstholdi == sts->secondholdi)
 	{
 		sts->comm->command = ind <= len_of_stack - ind ? "ra " : "rra ";
 		sts->comm->count = ind <= len_of_stack - ind ? ind : len_of_stack - ind;
 		return ;
 	}
 	else if (i <= j)
-		sts->comm->command = sts->firstHoldI <=
-							len_of_stack - sts->firstHoldI ? "ra " : "rra ";
+		sts->comm->command = sts->firstholdi <=
+							len_of_stack - sts->firstholdi ? "ra " : "rra ";
 	else if (i > j)
-		sts->comm->command = sts->secondHoldI <=
-							len_of_stack - sts->secondHoldI ? "ra " : "rra ";
+		sts->comm->command = sts->secondholdi <=
+							len_of_stack - sts->secondholdi ? "ra " : "rra ";
 	sts->comm->count = i <= j ? i : j;
 }
