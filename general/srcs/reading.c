@@ -36,23 +36,41 @@ int         checkCommand(char *command)
 ** filling stack_a from program arguments
 */
 
-void	read_args(int argc, char **argv, t_sts *sts)
+static void         check_atoi(long long q, const char *str)
+{
+    int maxLen;
+
+    if (q > 2147483647 OR q < -2147483648)
+        error_tf("ft_atoi(int) overflow", FALSE);
+    while (*str == '\n' || *str == '\t' || *str == ' ' ||
+            *str == '\v' || *str == '\f' || *str == '\r')
+        str++;
+    maxLen = *str == '-' ? 11 : 10;
+    if (ft_strlen(str) > maxLen)
+        error_tf("ft_atoi(int) overflow", FALSE);
+}
+
+void	read_args(int ac, char **av, t_sts *sts)
 {
 	int i;
 	long number;
 
-	i = argc == 2 ? (int)ft_w_count(argv[1], ' ') - 1 : argc - 1;
-	argv = argc == 2 ? ft_strsplit(argv[1], ' ') : argv;
-	argc = argc == 2 ? -1 : 0;
+	i = ac == 2 ? (int)ft_w_count(av[1], ' ') - 1 : ac - 1;
+    av = ac == 2 ? ft_strsplit(av[1], ' ') : av;
+    ac = ac == 2 ? -1 : 0;
 	sts->flag = FALSE;
-	while (i != argc)
+	while (i != ac)
 	{
-		if (!ft_strcmp(argv[i], "-v"))
+		if (!ft_strcmp(av[i], "-v"))
 			sts->flag = TRUE;
-		else if (isOnlyDigits(argv[i]) == FALSE)
+		else if (isOnlyDigits(av[i]) == FALSE)
 			error_tf("There is non numeric param!", FALSE);
 		else
-			push_stack(sts->stackA, ft_atoi(argv[i]));
+        {
+		    number = ft_atoi(av[i]);
+            check_atoi(number, av[i]);
+            push_stack(sts->stackA, number);
+        }
 		i--;
 	}
 }

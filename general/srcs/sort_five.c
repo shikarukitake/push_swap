@@ -41,7 +41,7 @@ char		*sort_five(t_sts *sts)
 {
 	init_chunks_comm(sts, 1);
 	sts->commands = (*(sts->stackA))->len == 4 ?
-			ft_strdup("pb ") : ft_strdup("pb pb ");
+					ft_strdup("pb ") : ft_strdup("pb pb ");
 	if (!sts->commands)
 		error_tf("sort_five ft_strdup malloc error", FALSE);
 	if (!(sts->dArr = get_darr_commands(sts->commands)))

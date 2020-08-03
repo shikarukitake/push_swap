@@ -34,7 +34,7 @@ void        ft_rra(t_sts *sts)
 
     if (sts->flag)
         ft_printf("rra:\n");
-    reverseRotate(sts->stackA);
+	reverse_rotate(sts->stackA);
 }
 
 void        ft_rrb(t_sts *sts)
@@ -45,5 +45,5 @@ void        ft_rrb(t_sts *sts)
     stack = NULL;
     if (sts->flag)
         ft_printf("rrb:\n");
-    reverseRotate(sts->stackB);
+	reverse_rotate(sts->stackB);
 }

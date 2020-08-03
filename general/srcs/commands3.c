@@ -8,8 +8,8 @@ void        ft_rrr(t_sts *sts)
 {
     if (sts->flag)
         ft_printf("rrr:\n");
-    reverseRotate(sts->stackA);
-    reverseRotate(sts->stackB);
+	reverse_rotate(sts->stackA);
+	reverse_rotate(sts->stackB);
 }
 
 void        init_ftable(void **func_table)

@@ -4,16 +4,16 @@
 
 #include "push_swap.h"
 
-int         exists_in_chunk(t_stack *stack, t_chunks *chunks, int current_c)
+int exists_in_chunk(t_stack *stack, t_chunks *chunks)
 {
     int i;
 
     while (stack)
     {
         i = 0;
-        while (chunks->chunk[i] != current_c)
+        while (chunks->chunk[i] != chunks->current_c)
             i++;
-        while (chunks->chunk[i] == current_c)
+        while (chunks->chunk[i] == chunks->current_c)
         {
             if (stack->value == chunks->array[i])
                 return (TRUE);

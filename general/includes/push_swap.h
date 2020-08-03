@@ -28,7 +28,7 @@ char            *sort_five(t_sts *sts);
 t_chunks        *init_chunks(int len);
 void            create_chunks_arr(t_chunks *chunks, int howManyChunks);
 t_chunks        *fill_chunks(t_stack *stack, int howManyChunks);
-int             exists_in_chunk(t_stack *stack, t_chunks *chunks, int current_c);
+int exists_in_chunk(t_stack *stack, t_chunks *chunks);
 void            init_chunks_comm(t_sts *sts, int how_many_chunks);
 int             binary_search(int *array, int len, int value);
 int             value_in_chunk(t_chunks *chunks, int value);
@@ -37,7 +37,7 @@ void            find_comm(t_sts *sts, int len_of_stack);
 void            push_to_stackb(t_sts *sts);
 char            *sort_all(int how_many_chunks, t_sts *sts);
 void            sort_stack(t_sts *sts);
-int             *arr_from_stack(t_stack *stack, int sortOrNot);
+int             *arr_from_stack(t_stack *stack, int sort_or_not);
 int             check_dublicates(t_stack *stack);
 
 #endif //PUSH_SWAP_H

@@ -74,11 +74,11 @@ typedef struct  s_sts
  */
 
 void            push_stack(t_stack **stack, int value);
-int             popStack(t_stack **stack);
+int             pop_stack(t_stack **stack);
 void            swap(t_stack **stack);
 void            rotate(t_stack **stack);
-void            reverseRotate(t_stack **stack);
-void            print_stacks(t_stack *stackA, t_stack *stackB);
+void            reverse_rotate(t_stack **stack);
+void            print_stacks(t_stack *stack_a, t_stack *stack_b);
 void            printStack(t_stack *stack);
 t_stack         *init_stack(t_stack *previous, int value);
 void            free_stack(t_stack *stack);
@@ -105,7 +105,7 @@ void            checkSorted(t_stack *stackA, t_stack *stackB);
 int             isOnlyDigits(char *s);
 char            **ft_strsplit(char const *s, char c);
 size_t          ft_w_count(char const *s, char c);
-int             *arr_from_stack(t_stack *stack, int sortOrNot);
+int             *arr_from_stack(t_stack *stack, int sort_or_not);
 void            free_sts(t_sts *sts);
 int				ft_printf(const char *fmt, ...);
 
@@ -113,7 +113,7 @@ int				ft_printf(const char *fmt, ...);
  * Reading
  */
 
-void			read_args(int argc, char **argv, t_sts *sts);
+void			read_args(int ac, char **av, t_sts *sts);
 int             checkCommand(char *command);
 void            reading_from_stdin(t_dynamicArr    **dArr);
 int             check_dublicates(t_stack *stack);
