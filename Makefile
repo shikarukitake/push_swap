@@ -11,9 +11,10 @@ SR_LI_1 = checker.c \
           reading.c \
           service.c \
           stack.c \
+
 SR_LI_2 = push_swap.c dynamic_array.c commands.c commands2.c commands3.c ft_strsplit.c reading.c service.c stack.c \
 			get_commands.c service_ps.c sort_two_and_three.c init.c how_rotate.c chunks.c sort_all.c sort_five.c \
-			service_ps2.c
+			service_ps2.c \
 
 SOURCES_DIR = ./general/srcs/
 
@@ -37,7 +38,7 @@ HEADER_DIR = ./general/includes/
 # --------
 
 COMPILER := gcc
-HDRPATH := ./general/includes -I./general/libft/includes
+HDRPATH := ./general/includes -I./general/libftprintf/includes
 IFLAGS := -I$(HDRPATH)
 CFLAGS := -Wall -Wextra -Werror
 

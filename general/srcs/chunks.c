@@ -1,87 +1,89 @@
-//
-// Created by Sole Dagger on 8/1/20.
-//
 
 #include "push_swap.h"
 
-int exists_in_chunk(t_stack *stack, t_chunks *chunks)
+int			exists_in_chunk(t_stack *stack, t_chunks *chunks)
 {
-    int i;
+	int	i;
 
-    while (stack)
-    {
-        i = 0;
-        while (chunks->chunk[i] != chunks->current_c)
-            i++;
-        while (chunks->chunk[i] == chunks->current_c)
-        {
-            if (stack->value == chunks->array[i])
-                return (TRUE);
-            i++;
-        }
-        stack = stack->previous;
-    }
-    return FALSE;
+	while (stack)
+	{
+		i = 0;
+		while (chunks->chunk[i] != chunks->current_c)
+			i++;
+		while (chunks->chunk[i] == chunks->current_c)
+		{
+			if (stack->value == chunks->array[i])
+				return (TRUE);
+			i++;
+		}
+		stack = stack->previous;
+	}
+	return (FALSE);
 }
 
-int         value_in_chunk(t_chunks *chunks, int value)
+int			value_in_chunk(t_chunks *chunks, int value)
 {
-    int index;
+	int	index;
 
-    index = binary_search(chunks->array, chunks->len, value);
-    if (chunks->chunk[index] == chunks->current_c)
-        return (index);
-    else
-        return (-1);
+	index = binary_search(chunks->array, chunks->len, value);
+	if (chunks->chunk[index] == chunks->current_c)
+		return (index);
+	else
+		return (-1);
 }
 
-void        create_chunks_arr(t_chunks *chunks, int howManyChunks)
+static void	fill_first(const t_chunks *chunks,
+		int first, int *i, int *chunk_number)
 {
-    int first;
-    int other;
-    int i;
-    int chunkNumber;
-
-    first = chunks->len % howManyChunks + chunks->len / howManyChunks;
-    other = chunks->len / howManyChunks;
-    i = 0;
-    while (first)
-    {
-        chunks->chunk[i++] = 0;
-        first--;
-    }
-    chunkNumber = 1;
-    howManyChunks--;
-    while (howManyChunks)
-    {
-        first = 0;
-        while (first != other)
-        {
-            chunks->chunk[i] = chunkNumber;
-            first++;
-            i++;
-        }
-        chunkNumber++;
-        howManyChunks--;
-    }
+	(*i) = 0;
+	while (first)
+	{
+		chunks->chunk[(*i)++] = 0;
+		first--;
+	}
+	(*chunk_number) = 1;
 }
 
-t_chunks    *fill_chunks(t_stack *stack, int howManyChunks)
+void		create_chunks_arr(t_chunks *chunks, int how_many_chunks)
 {
-    t_chunks *chunks;
-    int i;
+	int	first;
+	int	other;
+	int	i;
+	int	chunk_number;
 
-    chunks = init_chunks(stack->len);
+	first = chunks->len % how_many_chunks + chunks->len / how_many_chunks;
+	other = chunks->len / how_many_chunks;
+	fill_first(chunks, first, &i, &chunk_number);
+	how_many_chunks--;
+	while (how_many_chunks)
+	{
+		first = 0;
+		while (first != other)
+		{
+			chunks->chunk[i] = chunk_number;
+			first++;
+			i++;
+		}
+		chunk_number++;
+		how_many_chunks--;
+	}
+}
 
-    i = 0;
-    chunks->len = stack->len;
-    while (i != chunks->len)
-    {
-        chunks->array[i] = stack->value;
-        stack = stack->previous;
-        i++;
-    }
-    ft_quicksort(chunks->array, 0, chunks->len - 1);
-    create_chunks_arr(chunks, howManyChunks);
-    return (chunks);
+t_chunks	*fill_chunks(t_stack *stack, int how_many_chunks)
+{
+	t_chunks	*chunks;
+	int			i;
+
+	chunks = init_chunks(stack->len);
+	i = 0;
+	chunks->len = stack->len;
+	while (i != chunks->len)
+	{
+		chunks->array[i] = stack->value;
+		stack = stack->previous;
+		i++;
+	}
+	ft_quicksort(chunks->array, 0, chunks->len - 1);
+	create_chunks_arr(chunks, how_many_chunks);
+	return (chunks);
 }

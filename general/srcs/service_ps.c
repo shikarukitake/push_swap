@@ -63,31 +63,30 @@ int		exist_in_stack(t_stack *stack, int value)
 	while (stack)
 	{
 		if (stack->value == value)
-			return TRUE;
+			return (TRUE);
 		stack = stack->previous;
 	}
-	return FALSE;
+	return (FALSE);
 }
 
 int		find_id_max_in_stack(t_stack *stack)
 {
 	int i;
 	int max;
-	int maxId;
+	int max_id;
 
 	i = 0;
 	max = stack->value;
-	maxId = 0;
+	max_id = 0;
 	while (stack)
 	{
 		if (stack->value > max)
 		{
 			max = stack->value;
-			maxId = i;
+			max_id = i;
 		}
 		i++;
 		stack = stack->previous;
 	}
-
-	return (maxId);
+	return (max_id);
 }

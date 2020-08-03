@@ -1,50 +1,36 @@
-//
-// Created by positivedespair on 7/25/20.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strsub_free.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/03 16:50:13 by sdagger           #+#    #+#             */
+/*   Updated: 2020/08/03 16:50:18 by sdagger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-//char	*ft_strsub_free(char const *s,
-//                   unsigned int start, size_t len, short freeOrNot)
-//{
-//    char			*dest;
-//    unsigned int	i;
-//
-//    if (!s)
-//        return (NULL);
-//    if (!(dest = (char*)malloc(sizeof(char) * (len + 1))))
-//        return (NULL);
-//    dest[len] = '\0';
-//    i = 0;
-//    while (len-- > 0)
-//    {
-//        dest[i] = s[start];
-//        i++;
-//        start++;
-//    }
-//    if (freeOrNot)
-//        free((void*)s);
-//    return (dest);
-//}
-
 char	*ft_strsub_free(char const *s,
-                        unsigned int start, size_t len, short freeOrNot)
+						unsigned int start, size_t len, short free_or_not)
 {
-    char	*result;
-    size_t	i;
+	char	*result;
+	size_t	i;
 
-    i = 0;
-    if (!s || start + len > ft_strlen(s))
-        return (NULL);
-    if ((result = ft_strnew(len)))
-    {
-        while (len)
-        {
-            result[i++] = s[start++];
-            len--;
-        }
-        result[i] = '\0';
-    }
-    if (freeOrNot)
-        free((void*)s);
-    return (result);
+	i = 0;
+	if (!s || start + len > ft_strlen(s))
+		return (NULL);
+	if ((result = ft_strnew(len)))
+	{
+		while (len)
+		{
+			result[i++] = s[start++];
+			len--;
+		}
+		result[i] = '\0';
+	}
+	if (free_or_not)
+		free((void*)s);
+	return (result);
 }

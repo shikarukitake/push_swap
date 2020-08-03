@@ -52,17 +52,17 @@ void		swap(t_stack **stack)
 
 void		reverse_rotate(t_stack **stack)
 {
-	t_dynamicArr	*temp;
+	t_dynamicarr	*temp;
 	int				first;
 	int				i;
 
 	temp = NULL;
 	i = 0;
-	initDArr(&temp);
+	init_darr(&temp);
 	if (*stack && (*stack)->previous)
 	{
 		while (*stack)
-			addDArr(&temp, pop_stack(stack));
+			add_darr(&temp, pop_stack(stack));
 		first = temp->array[temp->len - 1];
 		temp->len -= 1;
 		i = temp->len - 1;

@@ -1,44 +1,47 @@
-//
-// Created by positivedespair on 7/25/20.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_quicksort.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/08/03 16:51:10 by sdagger           #+#    #+#             */
+/*   Updated: 2020/08/03 16:52:24 by sdagger          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
-static int     ft_partition (int *arr, int low, int high)
+static int		ft_partition(int *arr, int low, int high)
 {
-    int pivot;
-    int i;
-    int j;
+	int	pivot;
+	int	i;
+	int	j;
 
-    pivot = arr[high];
-    i = (low - 1);
-    j = low;
-    while (j <= high - 1)
-    {
-        // If current element is smaller than the pivot
-        if (arr[j] < pivot)
-        {
-            i++;    // increment index of smaller element
-            ft_swap(&arr[i], &arr[j]);
-        }
-        j++;
-    }
-    ft_swap(&arr[i + 1], &arr[high]);
-    return (i + 1);
+	pivot = arr[high];
+	i = (low - 1);
+	j = low;
+	while (j <= high - 1)
+	{
+		if (arr[j] < pivot)
+		{
+			i++;
+			ft_swap(&arr[i], &arr[j]);
+		}
+		j++;
+	}
+	ft_swap(&arr[i + 1], &arr[high]);
+	return (i + 1);
 }
 
-void            ft_quicksort(int *arr, int low, int high)
+void			ft_quicksort(int *arr, int low, int high)
 {
-    int pi;
-    if (low < high)
-    {
-        /* pi is partitioning index, arr[p] is now
-           at right place */
-        pi = ft_partition(arr, low, high);
+	int	pi;
 
-        // Separately sort elements before
-        // partition and after partition
-        ft_quicksort(arr, low, pi - 1);
-        ft_quicksort(arr, pi + 1, high);
-    }
+	if (low < high)
+	{
+		pi = ft_partition(arr, low, high);
+		ft_quicksort(arr, low, pi - 1);
+		ft_quicksort(arr, pi + 1, high);
+	}
 }

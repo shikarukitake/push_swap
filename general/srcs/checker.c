@@ -1,7 +1,8 @@
 
+
 #include "checker.h"
 
-int		*arr_from_stack(t_stack *stack, int sort_or_not)
+int	*arr_from_stack(t_stack *stack, int sort_or_not)
 {
 	int	*array;
 	int	i;
@@ -20,7 +21,7 @@ int		*arr_from_stack(t_stack *stack, int sort_or_not)
 	return (array);
 }
 
-int		main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_sts	*sts;
 
@@ -32,11 +33,17 @@ int		main(int ac, char **av)
 	if (check_dublicates(*(sts->stackA)))
 		error_tf("There are dublicates!", FALSE);
 	reading_from_stdin(&(sts->dArr));
-	if (sts->flag)
+	if (sts->vflag)
+	{
+		if (sts->cflag)
+			ft_printf(COLOR_YELLOW);
 		print_stacks(*(sts->stackA), *(sts->stackB));
+		if (sts->cflag)
+			ft_printf(COLOR_RESET);
+	}
 	if (sts->dArr)
 		exec_commands(sts);
-	checkSorted(*(sts->stackA), *(sts->stackB));
+	check_sorted(sts);
 	free_sts(sts);
 	return (0);
 }

@@ -47,7 +47,7 @@ int		main(int argc, char **argv)
 		return (0);
 	else
 		read_args(argc, argv, sts);
-	sts->flag = 0;
+	sts->vflag = 0;
 	if (check_dublicates(*(sts->stackA)))
 		error_tf("There are dublicates\n", FALSE);
 	if (!stack_is_sorted(*(sts->stackA)))

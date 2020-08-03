@@ -29,7 +29,7 @@ char	*get_string(t_stack *stack_swap)
 		stack_swap = stack_swap->previous;
 		i++;
 	}
-	cpyIntArray(swap, min_mean_max, 0, 3);
+	cpy_intarray(swap, min_mean_max, 0, 3);
 	if (min_mean_max[0] > min_mean_max[2])
 		ft_swap(&min_mean_max[0], &min_mean_max[2]);
 	if (min_mean_max[0] > min_mean_max[1])

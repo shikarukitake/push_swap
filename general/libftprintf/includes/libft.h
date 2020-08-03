@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 22:16:04 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/02 13:52:52 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 16:54:50 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <unistd.h>
 
 # ifdef __linux__
-#   include <sys/types.h>
-#   define LONG_LONG_MIN LLONG_MIN
-#   define OPEN_MAX 1024
+#  include <sys/types.h>
+#  define LONG_LONG_MIN LLONG_MIN
+#  define OPEN_MAX 1024
 # endif
 
 # define BUFF_SIZE 64
@@ -50,7 +50,8 @@ typedef	unsigned long long	t_ull;
 ssize_t			ft_strchri(const char *s, char c);
 char			*ft_itoa_base(int value, char *buffer, int base, char a);
 ssize_t			ft_str_find(const char *s, int (*f)(char ch));
-char			*ft_uitoa_base(unsigned int value, char *buffer, int base, char a);
+char			*ft_uitoa_base(unsigned int value,
+				char *buffer, int base, char a);
 char			*ft_ulltoa_base(t_ull ull, char *str, int base, char a);
 char			*ft_lltoa_base(long long ll, char *str, int base, char a);
 ssize_t			ft_str_func_not_find(const char *s, int (*f)(char ch));
@@ -60,21 +61,17 @@ ssize_t			ft_strcspn(const char *s, const char *charset);
 
 typedef struct	s_lldiv
 {
-	long long qout;
-	long long rem;
-
+	long long	qout;
+	long long	rem;
 }				t_lldiv;
 
 typedef struct	s_ulldiv
 {
-	t_ull qout;
-	t_ull rem;
-
+	t_ull	qout;
+	t_ull	rem;
 }				t_ulldiv;
 
-
-
-long            ft_atoi_l(const char *str);
+long			ft_atoi_l(const char *str);
 int				ft_atoi(const char *str);
 char			*ft_strncpy(char *dest, const char *src, size_t n);
 char			*ft_strdup(const char *src);
@@ -158,10 +155,10 @@ int				ft_strchrn(const char *s, int c);
 t_list			*ft_lstfind(t_list *lst,
 				int (*finder)(void *, void *), void *to_find);
 int				ft_get_next_line(int fd, char **line);
-char	        *ft_strsub_free(char const *s,
-                   unsigned int start, size_t len, short freeOrNot);
-void            ft_quicksort(int *arr, int low, int high);
-void            ft_error(void);
-void            ft_error_t(char const *text);
+char			*ft_strsub_free(char const *s,
+				unsigned int start, size_t len, short free_or_not);
+void			ft_quicksort(int *arr, int low, int high);
+void			ft_error(void);
+void			ft_error_t(char const *text);
 
 #endif

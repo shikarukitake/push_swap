@@ -1,94 +1,90 @@
-//
-// Created by Sole Dagger on 12/02/2020.
-//
-
 
 #include "checker.h"
 
-void        cpyIntArray(int *dest, int *src, int freeOrNot, int len)
+void			cpy_intarray(int *dest, int *src, int freeornot, int len)
 {
-    int i;
+	int i;
 
-    i = 0;
-    if (dest )
-        while (i != len)
-        {
-            dest[i] = src[i];
-            i++;
-        }
-    if (freeOrNot)
-        free(src);
+	i = 0;
+	if (dest)
+		while (i != len)
+		{
+			dest[i] = src[i];
+			i++;
+		}
+	if (freeornot)
+		free(src);
 }
 
-t_dynamicArr *initDArrFromInt(int *array, int len)
+t_dynamicarr	*init_darrfromint(int *array, int len)
 {
-    t_dynamicArr    *new;
-    int             i;
+	t_dynamicarr	*new;
+	int				i;
 
-    new = NULL;
-    if (len > 0)
-    {
-        i = 0;
-        while (i != len)
-        {
-            addDArr(&new, array[i]);
-            i++;
-        }
-    }
-    return (new);
+	new = NULL;
+	if (len > 0)
+	{
+		i = 0;
+		while (i != len)
+		{
+			add_darr(&new, array[i]);
+			i++;
+		}
+	}
+	return (new);
 }
 
-int        initDArr(t_dynamicArr **arr)
+int				init_darr(t_dynamicarr **arr)
 {
-    int *swap;
+	int *swap;
 
-    if (arr)
-    {
-        if (*arr)
-        {
-            swap = (*arr)->array;
-            if (!((*arr)->array = (int*)malloc(sizeof(int) * (((*arr)->len * 2) + 2))))
-                return (0);//protect
-            cpyIntArray((*arr)->array, swap, 1, (*arr)->len);
-            (*arr)->freeSpace = (*arr)->len;
-
-        }
-        else
-        {
-            (*arr) = (t_dynamicArr*)malloc(sizeof(t_dynamicArr));
-            (*arr)->array = (int*)malloc(sizeof(int)*102); //protect
-            if (!(*arr)->array)
-                return (0);
-            (*arr)->len = 0;
-            (*arr)->freeSpace = 100;
-        }
-    }
-    return (1);
+	if (arr)
+	{
+		if (*arr)
+		{
+			swap = (*arr)->array;
+			if (!((*arr)->array = (int*)malloc(sizeof(int) *
+					(((*arr)->len * 2) + 2))))
+				return (0);
+			cpy_intarray((*arr)->array, swap, 1, (*arr)->len);
+			(*arr)->freespace = (*arr)->len;
+		}
+		else
+		{
+			(*arr) = (t_dynamicarr*)malloc(sizeof(t_dynamicarr));
+			(*arr)->array = (int*)malloc(sizeof(int) * 102);
+			if (!(*arr)->array)
+				return (0);
+			(*arr)->len = 0;
+			(*arr)->freespace = 100;
+		}
+	}
+	return (1);
 }
 
-int        addDArr(t_dynamicArr **arr, int value)
+int				add_darr(t_dynamicarr **arr, int value)
 {
-    if (arr)
-    {
-        if (!(*arr))
-            if (!initDArr(arr))
-                return (0);
-        if (!(*arr)->freeSpace)
-            if (!initDArr(arr))
-                return (0);
-        (*arr)->array[(*arr)->len] = value;
-        (*arr)->len += 1;
-        (*arr)->freeSpace -= 1;
-    }
-    return (1);
+	if (arr)
+	{
+		if (!(*arr))
+			if (!init_darr(arr))
+				return (0);
+		if (!(*arr)->freespace)
+			if (!init_darr(arr))
+				return (0);
+		(*arr)->array[(*arr)->len] = value;
+		(*arr)->len += 1;
+		(*arr)->freespace -= 1;
+	}
+	return (1);
 }
 
-void        printDArr(t_dynamicArr *arr)
+void			print_darr(t_dynamicarr *arr)
 {
-    int i;
+	int i;
 
-    i = 0;
-    while (i != arr->len)
-        ft_printf("%d ", arr->array[i++]);
-    ft_printf("\n");
+	i = 0;
+	while (i != arr->len)
+		ft_printf("%d ", arr->array[i++]);
+	ft_printf("\n");
 }
