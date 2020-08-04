@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:57:12 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 17:01:19 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 17:54:24 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int			stack_is_sorted(t_stack *stacka)
 {
 	int previous;
 
+	if (!stacka)
+		return (FALSE);
 	previous = stacka->value;
 	stacka = stacka->previous;
 	while (stacka)
@@ -53,6 +55,8 @@ int			is_only_digits(char *s)
 	int i;
 
 	i = 0;
+	if (ft_strlen(s) == 0)
+		return (FALSE);
 	if (s[0] == '-')
 	{
 		if (ft_strlen(s) == 1)

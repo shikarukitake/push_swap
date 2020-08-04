@@ -75,5 +75,7 @@ void	exec_commands(t_sts *sts)
 		i++;
 	}
 	free(sts->darr->array);
+	sts->darr->array = NULL;
 	free(sts->darr);
+	sts->darr = NULL;
 }

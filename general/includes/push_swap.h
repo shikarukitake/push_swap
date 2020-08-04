@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:42:56 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 17:16:29 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 15:11:04 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void			change_chr(char *string, char f, char c);
 char			*get_str_commands3(int *min_mean_max, int *swap);
-t_dynamicarr	*get_darr_commands(char *commandz);
+t_dynamicarr 	*get_darr_commands(t_sts *sts);
 char			*sort_three(t_sts *sts, int flag);
 char			*get_string(t_stack *stack_swap);
 void			*sort_two(t_sts *sts);

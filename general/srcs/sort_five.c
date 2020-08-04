@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/01 19:36:18 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 17:18:19 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 14:56:19 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void		sort_end(t_sts *sts)
 {
 	int		i;
 	t_stack	*stack;
-	char	*commas;
 	int		len_of_stacka;
 
 	stack = *(sts->stacka);
@@ -31,26 +30,25 @@ void		sort_end(t_sts *sts)
 	}
 	sts->comm->command = i <= len_of_stacka - i ? "ra " : "rra ";
 	sts->comm->count = i <= len_of_stacka - i ? i : len_of_stacka - i;
-	commas = commands_from_tcomm(sts->comm, NULL);
-	sts->darr = get_darr_commands(commas);
+	sts->curcomm = commands_from_tcomm(sts->comm, NULL);
+	get_darr_commands(sts);
 	exec_commands(sts);
-	sts->commands = ft_strjoin_free(sts->commands, commas, 0);
+	sts->curcomm = NULL;
 }
 
 char		*sort_five(t_sts *sts)
 {
+	if (!(sts->commands = ft_strdup("")))
+		error_tf("sort_five", FALSE);
 	init_chunks_comm(sts, 1);
-	sts->commands = (*(sts->stacka))->len == 4 ?
-					ft_strdup("pb ") : ft_strdup("pb pb ");
-	if (!sts->commands)
+	sts->curcomm = (*(sts->stacka))->len == 4 ?
+					ft_strdup("pb ") : ft_strdup("pb pb ");//free
+	if (!sts->curcomm)
 		error_tf("sort_five ft_strdup malloc error", FALSE);
-	if (!(sts->darr = get_darr_commands(sts->commands)))
-		error_tf("sort_five darr error", FALSE);
+	get_darr_commands(sts);
 	exec_commands(sts);
 	if (stack_is_sorted(*(sts->stacka)) == FALSE)
-		if (!(sts->commands = ft_strjoin_free(sts->commands,
-				sort_three(sts, 1), 0)))
-			error_tf("sort_five ft_strjoin_free error", FALSE);
+		sort_three(sts, 1);
 	while (*(sts->stackb))
 		do_r_or_rr(sts, (*(sts->stackb))->value, "pa ");
 	if (stack_is_sorted(*(sts->stacka)) == FALSE)
