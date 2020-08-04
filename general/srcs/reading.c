@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:57:19 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 16:57:20 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 16:09:55 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,31 +58,44 @@ static void		check_atoi(long long q, const char *str)
 		error_tf("ft_atoi(int) overflow", FALSE);
 }
 
+static void		check_arg(char *const *av, t_sts *sts, int i)
+{
+	long number;
+
+	if (!ft_strcmp(av[i], "-v"))
+		sts->vflag = TRUE;
+	else if (!ft_strcmp(av[i], "-c"))
+		sts->cflag = TRUE;
+	else if (is_only_digits(av[i]) == FALSE)
+		error_tf("There is non numeric param!", FALSE);
+	else
+	{
+		number = ft_atoi_l(av[i]);
+		check_atoi(number, av[i]);
+		push_stack(sts->stacka, number);
+	}
+}
+
 void			read_args(int ac, char **av, t_sts *sts)
 {
 	int		i;
-	long	number;
 
-	i = ac == 2 ? (int)ft_w_count(av[1], ' ') - 1 : ac - 1;
+	if (ac == 2 && ft_strlen(av[1]) == 0)
+		error_tf("Empty arg!", FALSE);
+	i = ac == 2 ? (int)word_counter(av[1], ' ') - 1 : ac - 1;
 	av = ac == 2 ? ft_strsplit(av[1], ' ') : av;
+	if (!av)
+		error_tf("read_args malloc ft_strsplit", FALSE);
 	ac = ac == 2 ? -1 : 0;
 	sts->vflag = FALSE;
+	sts->cflag = FALSE;
 	while (i != ac)
 	{
-		if (!ft_strcmp(av[i], "-v"))
-			sts->vflag = TRUE;
-		else if (!ft_strcmp(av[i], "-c"))
-			sts->cflag = TRUE;
-		else if (is_only_digits(av[i]) == FALSE)
-			error_tf("There is non numeric param!", FALSE);
-		else
-		{
-			number = ft_atoi_l(av[i]);
-			check_atoi(number, av[i]);
-			push_stack(sts->stacka, number);
-		}
+		check_arg(av, sts, i);
 		i--;
 	}
+	if (ac == -1)
+		to_free_dstr(av);
 }
 
 void			reading_from_stdin(t_dynamicarr **darr)

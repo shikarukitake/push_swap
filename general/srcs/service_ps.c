@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:57:39 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 16:57:40 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 17:54:24 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		*arr_from_stack(t_stack *stack, int sort_or_not)
 
 	i = 0;
 	if (!(array = malloc(sizeof(int) * stack->len)))
-		error_tf("malloc arr_from_stack err!\n", FALSE);
+		error_tf("malloc arr_from_stack err!", FALSE);
 	while (stack)
 	{
 		array[i] = stack->value;

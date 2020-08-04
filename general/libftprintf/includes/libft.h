@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/04 22:16:04 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 16:54:50 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 17:54:24 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,5 +160,7 @@ char			*ft_strsub_free(char const *s,
 void			ft_quicksort(int *arr, int low, int high);
 void			ft_error(void);
 void			ft_error_t(char const *text);
+void			to_free_dstr(char **s);
+int				word_counter(char const *str, char c);
 
 #endif

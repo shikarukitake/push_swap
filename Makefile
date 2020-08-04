@@ -1,4 +1,5 @@
 NAME_1 = checker
+
 NAME_2 = push_swap
 LIBFT_A = libftprintf.a
 
@@ -7,19 +8,18 @@ SR_LI_1 = checker.c \
           commands.c \
           commands2.c \
           commands3.c \
-          ft_strsplit.c \
           reading.c \
           service.c \
           service2.c \
           stack.c \
           stack2.c \
+          service_ps.c \
 
 SR_LI_2 = push_swap.c \
 			dynamic_array.c \
 			commands.c \
 			commands2.c \
 			commands3.c \
-			ft_strsplit.c \
 			reading.c \
 			service.c \
 			service2.c \

@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:57:02 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 17:06:12 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 17:54:24 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_stack		*init_stack(t_stack *previous, int value)
 
 	new = (t_stack*)malloc(sizeof(t_stack));
 	if (new == NULL)
-		error_tf("init stack malloc err||", FALSE);
+		error_tf("init stack malloc error", FALSE);
 	new->value = value;
 	new->previous = previous;
 	if (new->previous != NULL)

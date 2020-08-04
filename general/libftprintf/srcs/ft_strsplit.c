@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/13 18:04:46 by sdagger           #+#    #+#             */
-/*   Updated: 2019/09/15 17:56:47 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/03 17:54:24 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	check_tab(char c, char q)
 	return (c == q);
 }
 
-static int	word_counter(char const *str, char c)
+int			word_counter(char const *str, char c)
 {
 	size_t	i;
 	int		q;
@@ -49,7 +49,7 @@ static int	w(char const *c, int j, char q)
 	return (j);
 }
 
-static void	to_free(char **s)
+void		to_free_dstr(char **s)
 {
 	int i;
 
@@ -79,7 +79,7 @@ char		**ft_strsplit(char const *str, char c)
 			j++;
 		if (!(spl[i] = (char*)malloc(sizeof(char*) * (w(str, j, c) - j + 1))))
 		{
-			to_free(spl);
+			to_free_dstr(spl);
 			return (NULL);
 		}
 		k = 0;

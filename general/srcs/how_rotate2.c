@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 17:04:04 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 17:04:07 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 15:10:23 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,17 +52,13 @@ t_command	*rb_or_rrb(t_sts *sts, int value)
 void		do_r_or_rr(t_sts *sts, int value, char *pa_or_pb)
 {
 	t_command	*comm;
-	char		*commas;
 
 	if (!ft_strcmp(pa_or_pb, "pa "))
 		comm = ra_or_rra(sts, value);
 	else
 		comm = rb_or_rrb(sts, value);
-	commas = commands_from_tcomm(comm, pa_or_pb);
+	sts->curcomm = commands_from_tcomm(comm, pa_or_pb);
 	free(comm);
-	if (!(sts->darr = get_darr_commands(commas)))
-		error_tf("do_r_or_rr getdarrcommands error", FALSE);
+	get_darr_commands(sts);
 	exec_commands(sts);
-	if (!(sts->commands = ft_strjoin_free(sts->commands, commas, 0)))
-		error_tf("do_r_or_rr ft_strjoin free error", FALSE);
 }

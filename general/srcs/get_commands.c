@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:58:17 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 16:58:19 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 16:48:32 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,30 +35,33 @@ char			*get_str_commands3(int *min_mean_max, int *swap)
 ** Transform str commands into darr where command have int value
 */
 
-t_dynamicarr	*get_darr_commands(char *commandz)
+t_dynamicarr	*get_darr_commands(t_sts *sts)
 {
-	int				n;
-	char			*commands;
-	t_dynamicarr	*darr;
-	char			*command;
+	int		i;
+	int		j;
+	char	comm[5];
 
-	darr = NULL;
-	if (!(commands = ft_strdup(commandz)))
-		return (NULL);
-	while (commands && ft_strcmp(commands, ""))
+	i = 0;
+	j = 0;
+	while (sts->curcomm[i])
 	{
-		n = ft_strchrn(commands, ' ');
-		if (!(command = ft_strsub_free(commands, 0, n, 0)))
-			return (NULL);
-		if (!add_darr(&darr, check_command(command)))
-			return (NULL);
-		if (!(commands = ft_strsub_free(commands,
-				n + 1, ft_strlen(commands) - (n + 1), 1)))
-			return (NULL);
-		free(command);
+		if (sts->curcomm[i] == ' ')
+		{
+			comm[j] = '\0';
+			if (!add_darr(&sts->darr, check_command(comm)))
+				error_tf("get_darr_commands add_darr", FALSE);
+			j = 0;
+			i++;
+			continue ;
+		}
+		comm[j] = sts->curcomm[i];
+		i++;
+		j++;
 	}
-	free(commands);
-	return (darr);
+	if (!(sts->commands = ft_strjoin_free(sts->commands, sts->curcomm, 0)))
+		error_tf("get_darr_commands", FALSE);
+	sts->curcomm = NULL;
+	return (sts->darr);
 }
 
 char			*commands_from_tcomm(t_command *comm, char const *pa_or_pb)
@@ -67,7 +70,8 @@ char			*commands_from_tcomm(t_command *comm, char const *pa_or_pb)
 	int		count;
 
 	count = comm->count;
-	commands = ft_strnew(1);
+	if (!(commands = ft_strnew(1)))
+		error_tf("commands_from_tcomm ft_strnew", FALSE);
 	while (count)
 	{
 		if (!(commands = ft_strjoin_free(commands, comm->command, 1)))

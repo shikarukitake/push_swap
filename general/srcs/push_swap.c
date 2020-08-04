@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/01 19:10:32 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 17:09:00 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 13:30:42 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,14 @@ int		main(int ac, char **av)
 		return (0);
 	else
 		read_args(ac, av, sts);
-	sts->vflag = 0;
-	if (check_dublicates(*(sts->stacka)))
-		error_tf("There are dublicates\n", FALSE);
-	if (!stack_is_sorted(*(sts->stacka)))
-		sort_stack(sts);
-	free_sts(sts);
+	if ((*sts->stacka))
+	{
+		sts->vflag = 0;
+		if (check_dublicates(*(sts->stacka)))
+			error_tf("There are dublicates", FALSE);
+		if (!stack_is_sorted(*(sts->stacka)))
+			sort_stack(sts);
+		free_sts(sts);
+	}
 	return (0);
 }

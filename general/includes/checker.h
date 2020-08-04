@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 17:17:00 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 17:19:17 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 14:17:14 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct	s_sts
 	char			*commands;
 	int				vflag;
 	int				cflag;
+	char			*curcomm;
 }				t_sts;
 
 /*
