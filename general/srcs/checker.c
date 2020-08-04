@@ -6,13 +6,25 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 17:15:04 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/04 16:02:22 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 16:44:54 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
 
-int	main(int ac, char **av)
+void	print_stacks_vc(const t_sts *sts)
+{
+	if (sts->vflag)
+	{
+		if (sts->cflag)
+			ft_printf(COLOR_YELLOW);
+		print_stacks(*(sts->stacka), *(sts->stackb));
+		if (sts->cflag)
+			ft_printf(COLOR_RESET);
+	}
+}
+
+int		main(int ac, char **av)
 {
 	t_sts	*sts;
 
@@ -26,14 +38,7 @@ int	main(int ac, char **av)
 		if (check_dublicates(*(sts->stacka)))
 			error_tf("There are dublicates!", FALSE);
 		reading_from_stdin(&(sts->darr));
-		if (sts->vflag)
-		{
-			if (sts->cflag)
-				ft_printf(COLOR_YELLOW);
-			print_stacks(*(sts->stacka), *(sts->stackb));
-			if (sts->cflag)
-				ft_printf(COLOR_RESET);
-		}
+		print_stacks_vc(sts);
 		if (sts->darr)
 			exec_commands(sts);
 		check_sorted(sts);

@@ -42,7 +42,7 @@ char		*sort_five(t_sts *sts)
 		error_tf("sort_five", FALSE);
 	init_chunks_comm(sts, 1);
 	sts->curcomm = (*(sts->stacka))->len == 4 ?
-					ft_strdup("pb ") : ft_strdup("pb pb ");//free
+					ft_strdup("pb ") : ft_strdup("pb pb ");
 	if (!sts->curcomm)
 		error_tf("sort_five ft_strdup malloc error", FALSE);
 	get_darr_commands(sts);

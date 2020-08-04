@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 21:19:37 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/03 17:54:24 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 16:18:34 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void		free_str(char const *s1, char const *s2, int n)
 	}
 	else if (n == 2)
 	{
-		free((void *) s2);
+		free((void*)s2);
 		s2 = NULL;
 	}
 }

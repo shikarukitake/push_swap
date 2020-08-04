@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:58:17 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/04 16:22:56 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 16:48:32 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,10 @@ char			*get_str_commands3(int *min_mean_max, int *swap)
 
 t_dynamicarr	*get_darr_commands(t_sts *sts)
 {
-	int i;
-	int j;
-	char comm[5];
+	int		i;
+	int		j;
+	char	comm[5];
 
-	sts->darr = NULL;
 	i = 0;
 	j = 0;
 	while (sts->curcomm[i])
@@ -59,7 +58,7 @@ t_dynamicarr	*get_darr_commands(t_sts *sts)
 		i++;
 		j++;
 	}
-	if (!(sts->commands = ft_strjoin_free(sts->commands, sts->curcomm, 0)))//leaks
+	if (!(sts->commands = ft_strjoin_free(sts->commands, sts->curcomm, 0)))
 		error_tf("get_darr_commands", FALSE);
 	sts->curcomm = NULL;
 	return (sts->darr);

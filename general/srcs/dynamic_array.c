@@ -6,7 +6,7 @@
 /*   By: sdagger <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/03 16:57:53 by sdagger           #+#    #+#             */
-/*   Updated: 2020/08/04 16:26:10 by sdagger          ###   ########.fr       */
+/*   Updated: 2020/08/04 16:27:12 by sdagger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ int				init_darr(t_dynamicarr **arr)
 		}
 		else
 		{
-			(*arr) = (t_dynamicarr*)malloc(sizeof(t_dynamicarr));
-			if (!(*arr))
+			if (!((*arr) = (t_dynamicarr*)malloc(sizeof(t_dynamicarr))))
 				return (0);
 			(*arr)->array = (int*)malloc(sizeof(int) * 102);
 			if (!(*arr)->array)

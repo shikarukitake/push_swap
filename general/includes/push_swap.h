@@ -17,7 +17,7 @@
 
 void			change_chr(char *string, char f, char c);
 char			*get_str_commands3(int *min_mean_max, int *swap);
-t_dynamicarr 	*get_darr_commands(t_sts *sts);
+t_dynamicarr	*get_darr_commands(t_sts *sts);
 char			*sort_three(t_sts *sts, int flag);
 char			*get_string(t_stack *stack_swap);
 void			*sort_two(t_sts *sts);
