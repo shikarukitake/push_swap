@@ -80,7 +80,10 @@ int			check_dublicates(t_stack *stack)
 	while (i != stack->len)
 	{
 		if (array[i] == previous)
+		{
+			free(array);
 			return (TRUE);
+		}
 		previous = array[i];
 		i++;
 	}
