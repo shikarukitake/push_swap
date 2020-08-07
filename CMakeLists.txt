@@ -13,7 +13,6 @@ file(GLOB_RECURSE LIBFT_FILES "${PROJECT_SOURCE_DIR}/general/libftprintf/srcs/*.
 set(LIBFT_FILES ${LIBFT_FILES} ${LIBFT_ADD_FILES})
 add_library(ft STATIC ${LIBFT_FILES})
 
-
 # Checker
 add_executable(checker general/srcs/checker.c general/includes/checker.h general/srcs/stack.c general/srcs/stack2.c general/srcs/dynamic_array.c general/srcs/service.c general/srcs/service2.c general/srcs/reading.c general/srcs/commands.c general/srcs/commands2.c general/srcs/commands3.c general/srcs/service_ps.c)
 target_link_libraries(checker ${PROJECT_BINARY_DIR}/libft.a)
