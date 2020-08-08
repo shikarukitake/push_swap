@@ -7,7 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug",
+            "name": "checker",
+            "program": "${workspaceFolder}/checker",
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "push_swap",
             "program": "${workspaceFolder}/push_swap",
             "args": [],
             "cwd": "${workspaceFolder}"
