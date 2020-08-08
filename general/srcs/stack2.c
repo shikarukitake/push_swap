@@ -19,7 +19,7 @@ void		reverse_rotate(t_stack **stack)
 	int				i;
 
 	if ((*stack)->len != 1)
-	{	
+	{
 		temp = NULL;
 		i = 0;
 		init_darr(&temp);
@@ -47,7 +47,7 @@ void		rotate(t_stack **stackbig)
 	int		len;
 
 	if ((*stackbig)->len != 1)
-	{	
+	{
 		stack = *stackbig;
 		len = stack->len;
 		swap = stack;

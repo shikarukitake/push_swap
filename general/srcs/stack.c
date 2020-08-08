@@ -51,7 +51,7 @@ void		swap(t_stack **stack)
 	int over_top;
 
 	if ((*stack)->len != 1)
-	{	
+	{
 		if (*stack && (*stack)->previous)
 		{
 			top = pop_stack(stack);
