@@ -68,11 +68,11 @@ all: $(LIB_RULE) $(NAME_1) $(NAME_2)
 
 $(NAME_1): $(OBJECT_DIR_1) $(OBJ_LI_1) $(LIBFT)
 	@$(COMPILER) $(CFLAGS) $(IFLAGS) $(LIBFT) $(OBJ_LI_1) -o $(NAME_1)
-	@echo "compiled"
+	@echo "checker compiled"
 
 $(NAME_2): $(OBJECT_DIR_2) $(OBJ_LI_2) $(LIBFT)
 	@$(COMPILER) $(CFLAGS) $(IFLAGS) $(LIBFT) $(OBJ_LI_2) -o $(NAME_2)
-	@echo "compiled"
+	@echo "push_swap compiled"
 
 $(OBJECT_DIR_1):
 	@mkdir -p $(OBJECT_DIR_1)
