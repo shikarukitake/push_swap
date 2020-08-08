@@ -10,8 +10,8 @@ Or you can open project with CLion and load CMake Project
 
 # Marks
 ```
-4/5 - 100 numbers
-3/5 - 500 numbers
+4/5 (less than 750 operations) - 100 numbers 
+3/5 (less than 7500 operations) - 500 numbers
 ```
 
 # Bonus
@@ -19,6 +19,20 @@ Or you can open project with CLion and load CMake Project
 -v -- vizualization flag
 -c -- vizualization with colors
 ```
+
+# Python generator
+Tester generates sequence of numbers and run push_swap and checker
+How to use:
+
+```./test.py start_number end_number count_of_tests [flags of your checker]```
+
+or
+
+```python3 test.py start_number end_number count_of_tests [flags of your checker]```
+
+**Example:**
+
+![Image of Yaktocat](https://github.com/shikarukitake/push_swap/blob/master/images/example.png)
 
 
 # Resources
