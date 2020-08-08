@@ -50,31 +50,29 @@ OBJ_LI_2 = $(addprefix $(OBJECT_DIR_2), $(OBJ_LIST_LI_2))
 
 HEADER_DIR = ./general/includes/
 
-# ft_printf
-#OBJECT_PF = ./ft_printf/objects
-#
-#LIB_PF = ft_printf/libftprintf.a
-#LIBS_PF = -L./ft_printf -lftprintf
-# --------
-
 COMPILER := gcc
 HDRPATH := ./general/includes -I./general/libftprintf/includes
 IFLAGS := -I$(HDRPATH)
 CFLAGS := -Wall -Wextra -Werror
 
 LIB_DIR = ./general/libftprintf
+LIB_RULE = $(addsuffix .lib, $(LIB_DIR))
 
 LIBFT = ./general/libftprintf/libftprintf.a
 LIBS = -L./general/ft_libftprintf -l_ftprintf
 
+all: $(LIB_RULE) $(NAME_1) $(NAME_2)
 
-all: $(NAME_1) $(NAME_2)
+%.lib:
+	@$(MAKE) -sC $(LIB_DIR)
 
-$(NAME_1): $(LIBFT) $(LIB_PF) $(OBJECT_DIR_1) $(OBJ_LI_1)
-	@$(COMPILER) $(CFLAGS) $(IFLAGS) $(LIBFT) $(LIBS_PF) $(OBJ_LI_1) -o $(NAME_1)
+$(NAME_1): $(OBJECT_DIR_1) $(OBJ_LI_1) $(LIBFT)
+	@$(COMPILER) $(CFLAGS) $(IFLAGS) $(LIBFT) $(OBJ_LI_1) -o $(NAME_1)
+	@echo "compiled"
 
-$(NAME_2): $(LIBFT) $(LIB_PF) $(OBJECT_DIR_2) $(OBJ_LI_2)
-	@$(COMPILER) $(CFLAGS) $(IFLAGS) $(LIBFT) $(LIBS_PF) $(OBJ_LI_2) -o $(NAME_2)
+$(NAME_2): $(OBJECT_DIR_2) $(OBJ_LI_2) $(LIBFT)
+	@$(COMPILER) $(CFLAGS) $(IFLAGS) $(LIBFT) $(OBJ_LI_2) -o $(NAME_2)
+	@echo "compiled"
 
 $(OBJECT_DIR_1):
 	@mkdir -p $(OBJECT_DIR_1)
@@ -95,12 +93,10 @@ clean:
 	@rm -rf $(OBJECT_DIR_1)
 	@rm -rf $(OBJECT_DIR_2)
 	@make -C $(LIB_DIR) clean
-#	@make -C ./ft_printf clean
 	@rm -rf $(OBJECT_PF)
 
 fclean: clean
 	@make -C $(LIB_DIR) fclean
-#	@make -C ./ft_printf fclean
 	@/bin/rm -f $(NAME_1)
 	@/bin/rm -f $(NAME_2)
 
