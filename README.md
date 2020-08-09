@@ -32,6 +32,7 @@ python random numerical sequence generator
 
 # Python generator
 Tester generates sequence of numbers and run push_swap and checker
+
 How to use:
 
 ```./test.py start_number end_number count_of_tests [flags of your checker]```
@@ -42,7 +43,7 @@ or
 
 **Example:**
 
-![Image of Yaktocat](https://github.com/shikarukitake/push_swap/blob/master/images/example.png)
+![EXAMPLE](https://github.com/shikarukitake/push_swap/blob/master/images/example.png)
 
 
 # Resources
